@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="phonemes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="consonants" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="phoneme" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="symbol" type="xs:string"/>
+                                        <xs:element name="features" maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="place">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:enumeration value="bilabial"/>
+                                                                <xs:enumeration value="labiodental"/>
+                                                                <xs:enumeration value="dental"/>
+                                                                <xs:enumeration value="alveolar"/>
+                                                                <xs:enumeration value="postalveolar"/>
+                                                                <xs:enumeration value="retroflex"/>
+                                                                <xs:enumeration value="palatal"/>
+                                                                <xs:enumeration value="velar"/>
+                                                                <xs:enumeration value="uvular"/>
+                                                                <xs:enumeration value="pharyngeal"/>
+                                                                <xs:enumeration value="glottal"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="voice">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:enumeration value="v"/>
+                                                                <xs:enumeration value="vl"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="manner">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:enumeration value="plosive"/>
+                                                                <xs:enumeration value="nasal"/>
+                                                                <xs:enumeration value="trill"/>
+                                                                <xs:enumeration value="tap"/>
+                                                                <xs:enumeration value="fricative"/>
+                                                                <xs:enumeration value="latfric"/>
+                                                                <xs:enumeration value="approximant"/>
+                                                                <xs:enumeration value="latapprox"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>  
+                        </xs:sequence>
+                    </xs:complexType>                            
+                </xs:element>
+                <xs:element name="vowels" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="phoneme" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="symbol" type="xs:string"/>
+                                        <xs:element name="features" maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="height">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:enumeration value="close"/>
+                                                                <xs:enumeration value="nearclose"/>
+                                                                <xs:enumeration value="closemid"/>
+                                                                <xs:enumeration value="mid"/>
+                                                                <xs:enumeration value="openmid"/>
+                                                                <xs:enumeration value="nearopen"/>
+                                                                <xs:enumeration value="open"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="backness">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:enumeration value="front"/>
+                                                                <xs:enumeration value="nearfront"/>
+                                                                <xs:enumeration value="central"/>
+                                                                <xs:enumeration value="nearback"/>
+                                                                <xs:enumeration value="back"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="round">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:enumeration value="r"/>
+                                                                <xs:enumeration value="ur"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+        </xs:sequence>
+     </xs:complexType>
+</xs:element>
+        
+</xs:schema>

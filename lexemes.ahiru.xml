@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<lexemes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="lexemes.xsd">
+
+	<lexeme>
+		<lang>aaa</lang>
+		<form>asiʁu</form>
+	</lexeme>
+
+	<lexeme>
+		<lang>bbb</lang>
+		<form>aʔiʁu</form>
+	</lexeme>
+
+	<!-- <lexeme>
+		<lang>aaa</lang>
+		<form>?ðɪʁu?</form>
+	</lexeme>
+
+	<lexeme>
+		<lang>bbb</lang>
+		<form>azɪʁu?</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>ccc</lang>
+		<form>ʊɾiɣo?</form>
+	</lexeme>
+
+	<lexeme>
+		<lang>ddd</lang>
+		<form>əɾiko?</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>eee</lang>
+		<form>?ʃ?xu?</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>fff</lang>
+		<form>əʂ??u?</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>ggg</lang>
+		<form>iz?ʁuh</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>hhh</lang>
+		<form>iz?ʁuk</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>iii</lang>
+		<form>æ??ku?</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>jjj</lang>
+		<form>ɛ??gu?</form>
+	</lexeme>
+	
+	<lexeme>
+		<lang>kkk</lang>
+		<form>ajɪʁ??</form>
+	</lexeme>
+	<lexeme>
+		<lang>lll</lang>
+		<form>aj?ʁʊ?</form>
+	</lexeme>
+	<lexeme>
+		<lang>mmm</lang>
+		<form>?kiʁu?</form>
+	</lexeme>
+	<lexeme>
+		<lang>nnn</lang>
+		<form>ɛt͡siʁu?</form>
+	</lexeme>
+	<lexeme>
+		<lang>ooo</lang>
+		<form>ii?ʁo?</form>
+	</lexeme>
+	<lexeme>
+		<lang>ppp</lang>
+		<form>i??ʁu?</form>
+	</lexeme> -->
+</lexemes>

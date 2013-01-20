@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phonemes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="phonemes.xsd">
+    <consonants>
+        <phoneme>
+            <symbol>b</symbol>
+            <features>
+                <place>bilabial</place>
+                <voice>v</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>p</symbol>
+            <features>
+                <place>bilabial</place>
+                <voice>vl</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>m</symbol>
+            <features>
+                <place>bilabial</place>
+                <voice>v</voice>
+                <manner>nasal</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ɸ</symbol>
+            <features>
+                <place>bilabial</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>β</symbol>
+            <features>
+                <place>bilabial</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>v</symbol>
+            <features>
+                <place>labiodental</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>f</symbol>
+            <features>
+                <place>labiodental</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ð</symbol>
+            <features>
+                <place>dental</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>θ</symbol>
+            <features>
+                <place>dental</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>n</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>nasal</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>d</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>t</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>vl</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>s</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>z</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>r</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>trill</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ɹ</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>approximant</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ʁ</symbol>
+            <features>
+                <place>uvular</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ɾ</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>tap</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>l</symbol>
+            <features>
+                <place>alveolar</place>
+                <voice>v</voice>
+                <manner>latapprox</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ʃ</symbol>
+            <features>
+                <place>postalveolar</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ʒ</symbol>
+            <features>
+                <place>postalveolar</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ʂ</symbol>
+            <features>
+                <place>retroflex</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ŋ</symbol>
+            <features>
+                <place>velar</place>
+                <voice>v</voice>
+                <manner>nasal</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>k</symbol>
+            <features>
+                <place>velar</place>
+                <voice>v</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>g</symbol>
+            <features>
+                <place>velar</place>
+                <voice>v</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>x</symbol>
+            <features>
+                <place>velar</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ɣ</symbol>
+            <features>
+                <place>velar</place>
+                <voice>v</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>w</symbol>
+            <features>
+                <place>velar</place>
+                <voice>v</voice>
+                <manner>approximant</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>j</symbol>
+            <features>
+                <place>palatal</place>
+                <voice>vl</voice>
+                <manner>approximant</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>h</symbol>
+            <features>
+                <place>glottal</place>
+                <voice>vl</voice>
+                <manner>fricative</manner>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ʔ</symbol>
+            <features>
+                <place>glottal</place>
+                <voice>vl</voice>
+                <manner>plosive</manner>
+            </features>
+        </phoneme>
+        
+    </consonants>
+    
+    <vowels>
+        
+        <phoneme>
+            <symbol>i</symbol>
+            <features>
+                <height>close</height>
+                <backness>front</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ɪ</symbol>
+            <features>
+                <height>nearclose</height>
+                <backness>nearfront</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>e</symbol>
+            <features>
+                <height>mid</height>
+                <backness>front</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ə</symbol>
+            <features>
+                <height>mid</height>
+                <backness>central</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>æ</symbol>
+            <features>
+                <height>nearopen</height>
+                <backness>front</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ɛ</symbol>
+            <features>
+                <height>openmid</height>
+                <backness>front</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>ʊ</symbol>
+            <features>
+                <height>nearclose</height>
+                <backness>nearback</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>a</symbol>
+            <features>
+                <height>close</height>
+                <backness>central</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>u</symbol>
+            <features>
+                <height>close</height>
+                <backness>back</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+        <phoneme>
+            <symbol>o</symbol>
+            <features>
+                <height>mid</height>
+                <backness>back</backness>
+                <round>ur</round>
+            </features>
+        </phoneme>
+        
+    </vowels>
+    
+    
+</phonemes>
