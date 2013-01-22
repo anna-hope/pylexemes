@@ -3,7 +3,7 @@
             "symbol": "b",
             "features": {
                 "place": "bilabial",
-                "voice": "v",
+                "voice": true,
                 "manner": "plosive"
             }
         },
@@ -11,7 +11,7 @@
             "symbol": "p",
             "features": {
                 "place": "bilabial",
-                "voice": "vl",
+                "voice": false,
                 "manner": "plosive"
             }
         },
@@ -19,7 +19,7 @@
             "symbol": "m",
             "features": {
                 "place": "bilabial",
-                "voice": "v",
+                "voice": true,
                 "manner": "nasal"
             }
         },
@@ -27,7 +27,7 @@
             "symbol": "ɸ",
             "features": {
                 "place": "bilabial",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -35,15 +35,15 @@
             "symbol": "β",
             "features": {
                 "place": "bilabial",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
         {
-            "symbol": "v",
+            "symbol": true,
             "features": {
                 "place": "labiodental",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -51,7 +51,7 @@
             "symbol": "f",
             "features": {
                 "place": "labiodental",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -59,7 +59,7 @@
             "symbol": "ð",
             "features": {
                 "place": "dental",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -67,7 +67,7 @@
             "symbol": "θ",
             "features": {
                 "place": "dental",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -75,7 +75,7 @@
             "symbol": "n",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "nasal"
             }
         },
@@ -83,7 +83,7 @@
             "symbol": "ɲ",
             "features": {
                 "place": "palatal",
-                "voice": "v",
+                "voice": true,
                 "manner": "nasal"
             }
         },
@@ -91,7 +91,7 @@
             "symbol": "ɴ",
             "features": {
                 "place": "uvular",
-                "voice": "v",
+                "voice": true,
                 "manner": "nasal"
             }
         },
@@ -99,7 +99,7 @@
             "symbol": "d",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "plosive"
             }
         },
@@ -107,7 +107,7 @@
             "symbol": "t",
             "features": {
                 "place": "alveolar",
-                "voice": "vl",
+                "voice": false,
                 "manner": "plosive"
             }
         },
@@ -115,7 +115,7 @@
             "symbol": "s",
             "features": {
                 "place": "alveolar",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -123,7 +123,7 @@
             "symbol": "z",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -131,7 +131,7 @@
             "symbol": "r",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "trill"
             }
         },
@@ -139,7 +139,7 @@
             "symbol": "ɹ",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "approximant"
             }
         },
@@ -147,7 +147,7 @@
             "symbol": "c",
             "features": {
                 "place": "palatal",
-                "voice": "vl",
+                "voice": false,
                 "manner": "plosive"
             }
         },
@@ -155,7 +155,7 @@
             "symbol": "ɟ",
             "features": {
                 "place": "palatal",
-                "voice": "v",
+                "voice": true,
                 "manner": "plosive"
             }
         },
@@ -163,7 +163,7 @@
             "symbol": "ʝ",
             "features": {
                 "place": "palatal",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -171,7 +171,7 @@
             "symbol": "ʁ",
             "features": {
                 "place": "uvular",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -179,7 +179,7 @@
             "symbol": "ɾ",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "tap"
             }
         },
@@ -187,7 +187,7 @@
             "symbol": "l",
             "features": {
                 "place": "alveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "latapprox"
             }
         },
@@ -195,7 +195,7 @@
             "symbol": "ʃ",
             "features": {
                 "place": "postalveolar",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -203,7 +203,7 @@
             "symbol": "ʒ",
             "features": {
                 "place": "postalveolar",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -211,7 +211,7 @@
             "symbol": "ʂ",
             "features": {
                 "place": "retroflex",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -219,7 +219,7 @@
             "symbol": "ŋ",
             "features": {
                 "place": "velar",
-                "voice": "v",
+                "voice": true,
                 "manner": "nasal"
             }
         },
@@ -227,7 +227,7 @@
             "symbol": "k",
             "features": {
                 "place": "velar",
-                "voice": "v",
+                "voice": true,
                 "manner": "plosive"
             }
         },
@@ -235,7 +235,7 @@
             "symbol": "g",
             "features": {
                 "place": "velar",
-                "voice": "v",
+                "voice": true,
                 "manner": "plosive"
             }
         },
@@ -243,7 +243,7 @@
             "symbol": "x",
             "features": {
                 "place": "velar",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -251,7 +251,7 @@
             "symbol": "ɣ",
             "features": {
                 "place": "velar",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -259,7 +259,7 @@
             "symbol": "w",
             "features": {
                 "place": "velar",
-                "voice": "v",
+                "voice": true,
                 "manner": "approximant"
             }
         },
@@ -267,7 +267,7 @@
             "symbol": "j",
             "features": {
                 "place": "palatal",
-                "voice": "vl",
+                "voice": false,
                 "manner": "approximant"
             }
         },
@@ -275,7 +275,7 @@
             "symbol": "h",
             "features": {
                 "place": "glottal",
-                "voice": "vl",
+                "voice": false,
                 "manner": "fricative"
             }
         },
@@ -283,7 +283,7 @@
             "symbol": "ʔ",
             "features": {
                 "place": "glottal",
-                "voice": "vl",
+                "voice": false,
                 "manner": "plosive"
             }
         },
@@ -291,7 +291,7 @@
             "symbol": "ʜ",
             "features": {
                 "place": "epiglottal",
-                "voice": "v",
+                "voice": true,
                 "manner": "fricative"
             }
         },
@@ -300,8 +300,8 @@
             "features": {
                 "height": "close",
                 "backness": "front",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -309,8 +309,8 @@
             "features": {
                 "height": "close",
                 "backness": "front",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -318,8 +318,8 @@
             "features": {
                 "height": "nearclose",
                 "backness": "nearfront",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -327,8 +327,8 @@
             "features": {
                 "height": "mid",
                 "backness": "front",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -336,8 +336,8 @@
             "features": {
                 "height": "mid",
                 "backness": "central",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -345,8 +345,8 @@
             "features": {
                 "height": "nearopen",
                 "backness": "front",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -354,8 +354,8 @@
             "features": {
                 "height": "openmid",
                 "backness": "front",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -363,8 +363,8 @@
             "features": {
                 "height": "nearclose",
                 "backness": "nearback",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -372,8 +372,8 @@
             "features": {
                 "height": "close",
                 "backness": "central",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -381,8 +381,8 @@
             "features": {
                 "height": "close",
                 "backness": "back",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -390,8 +390,8 @@
             "features": {
                 "height": "mid",
                 "backness": "back",
-                "round": "False",
-                "nasal": "False"
+                "round": false,
+                "nasal": false
             }
         },
         {
@@ -399,8 +399,8 @@
             "features": {
                 "height": "closemid",
                 "backness": "front",
-                "round": "True",
-                "nasal": "False"
+                "round": true,
+                "nasal": false
             }
         },
         {
@@ -408,8 +408,8 @@
             "features": {
                 "height": "open",
                 "backness": "front",
-                "round": "True",
-                "nasal": "True"
+                "round": true,
+                "nasal": true
             }
         },
         {
@@ -417,8 +417,8 @@
             "features": {
                 "height": "closemid",
                 "backness": "back",
-                "round": "True",
-                "nasal": "True"
+                "round": true,
+                "nasal": true
             }
         }
 ]
