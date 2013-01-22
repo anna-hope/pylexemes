@@ -81,6 +81,14 @@
                 }
             },
             {
+                "symbol": "ɲ",
+                "features": {
+                    "place": "palatal",
+                    "voice": "v",
+                    "manner": "nasal"
+                }
+            },
+            {
                 "symbol": "d",
                 "features": {
                     "place": "alveolar",
@@ -126,6 +134,30 @@
                     "place": "alveolar",
                     "voice": "v",
                     "manner": "approximant"
+                }
+            },
+            {
+                "symbol": "c",
+                "features": {
+                    "place": "palatal",
+                    "voice": "vl",
+                    "manner": "plosive"
+                }
+            },
+            {
+                "symbol": "ɟ",
+                "features": {
+                    "place": "palatal",
+                    "voice": "v",
+                    "manner": "plosive"
+                }
+            },
+            {
+                "symbol": "ʝ",
+                "features": {
+                    "place": "palatal",
+                    "voice": "v",
+                    "manner": "fricative"
                 }
             },
             {
@@ -256,7 +288,8 @@
             "features": {
                 "height": "close",
                 "backness": "front",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -264,7 +297,8 @@
             "features": {
                 "height": "nearclose",
                 "backness": "nearfront",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -272,7 +306,8 @@
             "features": {
                 "height": "mid",
                 "backness": "front",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -280,7 +315,8 @@
             "features": {
                 "height": "mid",
                 "backness": "central",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -288,7 +324,8 @@
             "features": {
                 "height": "nearopen",
                 "backness": "front",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -296,7 +333,8 @@
             "features": {
                 "height": "openmid",
                 "backness": "front",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -304,7 +342,8 @@
             "features": {
                 "height": "nearclose",
                 "backness": "nearback",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -312,7 +351,8 @@
             "features": {
                 "height": "close",
                 "backness": "central",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -320,7 +360,8 @@
             "features": {
                 "height": "close",
                 "backness": "back",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
             }
         },
         {
@@ -328,7 +369,35 @@
             "features": {
                 "height": "mid",
                 "backness": "back",
-                "round": "ur"
+                "round": 0,
+                "nasal": 0
+            }
+        },
+        {
+            "symbol": "ø",
+            "features": {
+                "height": "closemid",
+                "backness": "front",
+                "round": 1,
+                "nasal": 0
+            }
+        },
+        {
+            "symbol": "ã",
+            "features": {
+                "height": "open",
+                "backness": "front",
+                "round": 1,
+                "nasal": 0
+            }
+        },
+        {
+            "symbol": "õ",
+            "features": {
+                "height": "closemid",
+                "backness": "back",
+                "round": 1,
+                "nasal": 0
             }
         }
     ]

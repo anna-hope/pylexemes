@@ -95,7 +95,10 @@ def most_prom_feat(features):
 				# (i.e. just manner, or just voice)
 				for n, x in enumerate(groups):
 					# append the property at that place to the list of properties at that place
-					cur_prop.append(groups[n][prop_n])
+					try:
+						cur_prop.append(groups[n][prop_n])
+					except:
+						cur_prop.append(' ')
 				# append the most common property at that place to list of features for current phoneme
 				cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
 			# append the current theoretical phoneme to the list of phonemes as features
