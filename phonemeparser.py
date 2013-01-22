@@ -1,55 +1,90 @@
 #!/bin/sh
-import xml.etree.ElementTree as ET
+# Anton Osten
+# http://ostensible.me
+
+import json
 
 class PhonemeParser():
 
 	def __init__(self):
-		self.phonemes = ET.parse("phonemes.xml")
-		self.root = self.phonemes.getroot()
+		phonemes = json.load(open("phonemes.json"))
+		self._consonants = phonemes['consonants']
+		self._vowels = phonemes['vowels']
+		self._cons_symbols = []
+		self._cons_features = []
+		self._vwl_symbols = []
+		self._vwl_features = []
 
-		self.all_consonants = self.root[0]
-		self.all_vowels = self.root[1]
+		for n in self._consonants:
+			self._cons_symbols.append(n['symbol'])
+			self._cons_features.append(list(n['features'].values()))
 
-		self.numconsonants = len(self.all_consonants)
-		self.numvowels = len(self.all_vowels)
+		for n in self._vowels:
+			self._vwl_symbols.append(n['symbol'])
+			self._vwl_features.append(list(n['features'].values()))
 
-	def get_cons_symbols(self, numconsonants):
+	def consonants():
+	    doc = "Consonants."
+	    def fget(self):
+	        return self._consonants
+	    def fset(self, value):
+	        self._consonants = value
+	    def fdel(self):
+	        del self._consonants
+	    return locals()
+	consonants = property(**consonants())
 
-		cons_symbols = []
+	def vowels():
+	    doc = "Vowels."
+	    def fget(self):
+	        return self._vowels
+	    def fset(self, value):
+	        self._vowels = value
+	    def fdel(self):
+	        del self._vowels
+	    return locals()
+	vowels = property(**vowels())
 
-		for n in range (numconsonants):
-			cons_symbols.append(self.all_consonants[n][0].text)
+	def cons_symbols():
+	    doc = "Symbols for consonants."
+	    def fget(self):
+	        return self._cons_symbols
+	    def fset(self, value):
+	        self._cons_symbols = value
+	    def fdel(self):
+	        del self._cons_symbols
+	    return locals()
+	cons_symbols = property(**cons_symbols())
 
-		return cons_symbols
+	def cons_features():
+	    doc = "Consonant features."
+	    def fget(self):
+	        return self._cons_features
+	    def fset(self, value):
+	        self._cons_features = value
+	    def fdel(self):
+	        del self._cons_features
+	    return locals()
+	cons_features = property(**cons_features())
 
-	def get_vwl_symbols(self, numvowels):
+	def vwl_symbols():
+	    doc = "Symbols for vowels."
+	    def fget(self):
+	        return self._vwl_symbols
+	    def fset(self, value):
+	        self._vwl_symbols = value
+	    def fdel(self):
+	        del self._vwl_symbols
+	    return locals()
+	vwl_symbols = property(**vwl_symbols())
 
-		vwl_symbols = []
-
-		for n in range (numvowels):
-			vwl_symbols.append(self.all_vowels[n][0].text)
-
-		return vwl_symbols
-
-	def get_cons_features(self, numconsonants):
-
-		cons_features = []
-
-		for n in range (numconsonants):
-			current_phoneme = []
-			for fn in range (len(self.all_consonants[n][1])):
-				current_phoneme.append(self.all_consonants[n][1][fn].text)
-			cons_features.append(current_phoneme)
-
-		return cons_features
-
-	def get_vwl_features(self, numvowels):
-		vwl_features = []
-
-		for n in range (numvowels):
-			current_phoneme = []
-			for fn in range (len(self.all_vowels[n][1])):
-				current_phoneme.append(self.all_vowels[n][1][fn].text)
-			vwl_features.append(current_phoneme)
-
-		return vwl_features
+	def vwl_features():
+	    doc = "Vowel features."
+	    def fget(self):
+	        return self._vwl_features
+	    def fset(self, value):
+	        self._vwl_features = value
+	    def fdel(self):
+	        del self._vwl_features
+	    return locals()
+	vwl_features = property(**vwl_features())
