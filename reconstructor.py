@@ -36,6 +36,7 @@ def main():
 	# print('Most prominent featurs: %s' % most_prom_f)
 	matched_symbols = match_f_symbols(most_prom_f, cons_symbols, cons_features, vwl_symbols, vwl_features)
 	print ('The reconstructed form is most possibly: *%s' % matched_symbols[0])
+	# print(matched_symbols[1])
 
 # get the length of the longest form
 def max_length(forms):

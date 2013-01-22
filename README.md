@@ -1,6 +1,9 @@
 ##pylexemes by Anton Osten
 anton@ostensible.me
 ---------------------------------------------
+#v 0.2.1.1 notes (21 Jan 2013):
+- better error handling in lexemeparser and phonemeparser
+
 #v 0.2.1 notes (21 Jan 2013):
 - modified lexemeparser.py to create a dummy lexemes.json file if one isn't there for whatever reason
 

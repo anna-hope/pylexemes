@@ -9,8 +9,8 @@ class PhonemeParser():
 	def __init__(self):
 		try:
 			phonemes = json.load(open("phonemes.json"))
-		except ValueError:
-			quit("It seems that there is something wrong in the json file for lexemes. Check it over and run me again.")
+		except Exception as e:
+			self.somethingwrong(e)
 		self._consonants = phonemes['consonants']
 		self._vowels = phonemes['vowels']
 		self._cons_symbols = []
@@ -18,13 +18,16 @@ class PhonemeParser():
 		self._vwl_symbols = []
 		self._vwl_features = []
 
-		for n in self._consonants:
-			self._cons_symbols.append(n['symbol'])
-			self._cons_features.append(list(n['features'].values()))
+		try:
+			for n in self._consonants:
+				self._cons_symbols.append(n['symbol'])
+				self._cons_features.append(list(n['features'].values()))
 
-		for n in self._vowels:
-			self._vwl_symbols.append(n['symbol'])
-			self._vwl_features.append(list(n['features'].values()))
+			for n in self._vowels:
+				self._vwl_symbols.append(n['symbol'])
+				self._vwl_features.append(list(n['features'].values()))
+		except Exception as e:
+			self.somethingwrong(e)
 
 	def consonants():
 	    doc = "Consonants."
@@ -91,3 +94,8 @@ class PhonemeParser():
 	        del self._vwl_features
 	    return locals()
 	vwl_features = property(**vwl_features())
+
+	def somethingwrong(self, e):
+		doc = "Invoked when something goes wrong with the phonemes.json file."
+		print(e)
+		quit('It seems that there is something wrong with the json file for lexemes. Check it over and run me again.')
