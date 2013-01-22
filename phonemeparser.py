@@ -7,7 +7,10 @@ import json
 class PhonemeParser():
 
 	def __init__(self):
-		phonemes = json.load(open("phonemes.json"))
+		try:
+			phonemes = json.load(open("phonemes.json"))
+		except ValueError:
+			quit("It seems that there is something wrong in the json file for lexemes. Check it over and run me again.")
 		self._consonants = phonemes['consonants']
 		self._vowels = phonemes['vowels']
 		self._cons_symbols = []

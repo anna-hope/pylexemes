@@ -10,7 +10,12 @@ class LexemeParser():
 		try:
 			self._lexemes = json.load(open("lexemes.json"))
 		except ValueError:
-			quit("It seems that there is something wrong in the json file for lexemes. Check it over and run me again.")
+			quit("It seems that there is something wrong in the JSON file for lexemes. Check it over and run me again.")
+		except FileNotFoundError:
+			print("JSON file for lexemes was not found. Creating a dummy.")
+			self.create_dummy()
+			self._lexemes = json.load(open("lexemes.json"))
+
 		self._langs = []
 		self._forms = []
 
@@ -50,5 +55,12 @@ class LexemeParser():
 	        del self._forms
 	    return locals()
 	forms = property(**forms())
+
+	def create_dummy(self):
+		doc = "Creates a dummy lexemes.json file if one isn't found."
+		dummydata = [{"lang": "aaa", "form": "druvantes"}, {"lang": "bbb", "form": "txuvantes"}, {"lang": "ccc", "form": "---vande-"}]
+		json.dump(dummydata, open('lexemes.json', 'w'))
+
+
 
 		
