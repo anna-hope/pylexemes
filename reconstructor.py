@@ -3,8 +3,12 @@
 # http://ostensible.me
 
 import collections
+import itertools
 from phonemeparser import PhonemeParser
 from lexemeparser import LexemeParser
+
+i = itertools
+c = collections
 
 def main():
 	# call the parsers
@@ -12,31 +16,26 @@ def main():
 	lp = LexemeParser()
 
 	# consonants
-	cons = pp.consonants
-	cons_symbols = pp.cons_symbols
-	cons_features = pp.cons_features
-
-	# vowels
-	vwls = pp.vowels
-	vwl_symbols = pp.vwl_symbols
-	vwl_features = pp.vwl_features
+	symbols = pp.symbols
+	features = pp.features
+	# print('Features: %s\n' % features)
 
 	# forms and languages
 	forms = lp.forms
 	langs = lp.langs
 
-	print("The forms are: %s" % forms)
+	# print("The forms are: %s" % forms)
 
 	maxlength = max_length(forms)
 	groups = assemble_groups(forms, maxlength)
 	# print(groups)
-	matched_features = match_p_f(groups, cons_symbols, cons_features, vwl_symbols, vwl_features)
+	matched_features = match_p_f(groups, symbols, features)
 	# print("Features per phoneme per group: %s" % matched_features)
 	most_prom_f = most_prom_feat(matched_features)
 	# print('Most prominent featurs: %s' % most_prom_f)
-	matched_symbols = match_f_symbols(most_prom_f, cons_symbols, cons_features, vwl_symbols, vwl_features)
+	matched_symbols = match_f_symbols(most_prom_f, matched_features, symbols, features)
 	print ('The reconstructed form is most possibly: *%s' % matched_symbols[0])
-	# print(matched_symbols[1])
+	print('Unmatched theoretical phonemes: %s' % matched_symbols[1])
 
 # get the length of the longest form
 def max_length(forms):
@@ -59,27 +58,24 @@ def assemble_groups(forms, maxlength):
 	return p_groups
 
 # match phonemes to their features
-def match_p_f(p_groups, cons_symbols, cons_features, vwl_symbols, vwl_features):
-	features = []
+def match_p_f(p_groups, symbols, features):
+	matched_features = []
 	# iterate over phoneme groups
 	for n in p_groups:
 		# current phoneme feature group
 		cur_feat_g = []
 		# iterate over phonemes in each group
 		for pn in n:
-			if pn in cons_symbols:
-				cur_feat_g.append(cons_features[cons_symbols.index(pn)])
-			elif pn in vwl_symbols:
-				cur_feat_g.append(vwl_features[vwl_symbols.index(pn)])
+			if pn in symbols:
+				cur_feat_g.append(features[symbols.index(pn)])
 			else:
-				cur_feat_g.append([' ', ' ', ' '])
-		features.append(cur_feat_g)
-	return features
+				cur_feat_g.append(['', '', ''])
+		matched_features.append(cur_feat_g)
+	return matched_features
 
 # select most prominent features
 def most_prom_feat(features):
 	# collections module to get the most common property (see below)
-	c = collections
 	p_features = []
 	
 	# iterate over groups of phonemic features
@@ -98,7 +94,7 @@ def most_prom_feat(features):
 					try:
 						cur_prop.append(groups[n][prop_n])
 					except:
-						cur_prop.append(' ')
+						cur_prop.append('')
 				# append the most common property at that place to list of features for current phoneme
 				cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
 			# append the current theoretical phoneme to the list of phonemes as features
@@ -108,18 +104,19 @@ def most_prom_feat(features):
 	return p_features
 
 # match theoretical phonemes as features to IPA symbols in the database
-def match_f_symbols(features, cons_symbols, cons_features, vwl_symbols, vwl_features):
-	symbols = []
+def match_f_symbols(mcf, matched_features, symbols, features):
+	matched_symbols = []
 	unmatched_features = []
-	for n in features:
-		if n in cons_features:
-			symbols.append(cons_symbols[cons_features.index(n)])
-		elif n in vwl_features:
-			symbols.append(vwl_symbols[vwl_features.index(n)])
+	for n, feature in enumerate(mcf):
+		feature = list(filter(None, feature))
+		if feature in features:
+			matched_symbols.append(symbols[features.index(feature)])
 		else:
-			symbols.append('-')
-			unmatched_features.append(n)
-	return (''.join(symbols), unmatched_features)
+			# this should be temporary
+			matched_symbols.append('-')
+			unmatched_features.append(feature)
+	unmatched_features = list(filter(None, unmatched_features))
+	return (''.join(matched_symbols), unmatched_features)
 
 if __name__ == "__main__":
 	main()

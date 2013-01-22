@@ -1,1 +1,67 @@
-[{"lang": "aaa", "form": "druvantes"}, {"lang": "bbb", "form": "txuvantes"}, {"lang": "ccc", "form": "---vande-"}]
+[
+	{
+		"lang": "aa1",
+		"form": "laɲcør"
+	},
+	{
+		"lang": "aa2",
+		"form": "lãɲʝør"
+	},
+	{
+		"lang": "bb1",
+		"form": "la-ɟør"
+	},
+	{
+		"lang": "bb2",
+		"form": "la-ʝør"
+	},
+	{
+		"lang": "cc1",
+		"form":	"la-gor"
+	},
+	{
+		"lang": "cc2",
+		"form": "la-ko-"
+	},
+	{
+		"lang": "dd1",
+		"form": "dã-kod"
+	},
+	{
+		"lang": "dd2",
+		"form": "lõ-kod"
+	},
+	{
+		"lang": "ee1",
+		"form": "rajnkø-"
+	},
+	{
+		"lang": "ee2",
+		"form": "ranjkø-"
+	},
+	{
+		"lang": "ff1",
+		"form": "ræniky-"
+	},
+	{
+		"lang": "ff2",
+		"form": "rænjkø-"
+	},
+	{
+		"lang": "gg1",
+		"form": "-ənkø-"
+	},
+	{
+		"lang": "gg2",
+		"form": "ʜəɴ-øʜ"
+	},
+	{
+		"lang": "hh1",
+		"form": "-anəkøʁ"
+	},
+	{
+		"lang": "hh2",
+		"form": "-ã-køʁ"
+	}
+
+]
