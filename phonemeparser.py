@@ -1,4 +1,3 @@
-#!/bin/sh
 # Anton Osten
 # http://ostensible.me
 

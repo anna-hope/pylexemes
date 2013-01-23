@@ -2,13 +2,10 @@
 # Anton Osten
 # http://ostensible.me
 
-import collections
-import itertools
+import collections as c
+import itertools as i
 from phonemeparser import PhonemeParser
 from lexemeparser import LexemeParser
-
-i = itertools
-c = collections
 
 def main():
 	# call the parsers
