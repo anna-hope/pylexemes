@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env python3.3
 # Anton Osten
 # http://ostensible.me
 
@@ -92,12 +92,15 @@ def most_prom_feat(features):
 				for n, x in enumerate(groups):
 					# append the property at that place to the list of properties at that place
 					try:
+						#print("Current property: %s" % groups[n][prop_n])
 						cur_prop.append(groups[n][prop_n])
-					except:
+					except Exception as e:
+						print(e)
 						cur_prop.append('')
 				# append the most common property at that place to list of features for current phoneme
 				cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
 			# append the current theoretical phoneme to the list of phonemes as features
+			print('Current phoneme: %s' % cur_phon)
 			cur_group.append(cur_phon)
 		p_features.append(cur_group[0])
 

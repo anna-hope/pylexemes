@@ -4,7 +4,8 @@
             "features": {
                 "place": "bilabial",
                 "voice": true,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -12,7 +13,8 @@
             "features": {
                 "place": "bilabial",
                 "voice": false,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -20,7 +22,8 @@
             "features": {
                 "place": "bilabial",
                 "voice": true,
-                "manner": "nasal"
+                "manner": "nasal",
+                "pulmonic": true
             }
         },
         {
@@ -28,7 +31,8 @@
             "features": {
                 "place": "bilabial",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -36,7 +40,8 @@
             "features": {
                 "place": "bilabial",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -52,7 +57,8 @@
             "features": {
                 "place": "labiodental",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -60,7 +66,8 @@
             "features": {
                 "place": "dental",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -68,7 +75,8 @@
             "features": {
                 "place": "dental",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -76,7 +84,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "nasal"
+                "manner": "nasal",
+                "pulmonic": true
             }
         },
         {
@@ -84,7 +93,8 @@
             "features": {
                 "place": "palatal",
                 "voice": true,
-                "manner": "nasal"
+                "manner": "nasal",
+                "pulmonic": true
             }
         },
         {
@@ -92,7 +102,8 @@
             "features": {
                 "place": "uvular",
                 "voice": true,
-                "manner": "nasal"
+                "manner": "nasal",
+                "pulmonic": true
             }
         },
         {
@@ -100,7 +111,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -108,7 +120,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": false,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -116,7 +129,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -124,7 +138,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -132,7 +147,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "trill"
+                "manner": "trill",
+                "pulmonic": true
             }
         },
         {
@@ -140,7 +156,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "approximant"
+                "manner": "approximant",
+                "pulmonic": true
             }
         },
         {
@@ -148,7 +165,8 @@
             "features": {
                 "place": "palatal",
                 "voice": false,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -156,7 +174,8 @@
             "features": {
                 "place": "palatal",
                 "voice": true,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -164,7 +183,8 @@
             "features": {
                 "place": "palatal",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -172,7 +192,8 @@
             "features": {
                 "place": "uvular",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -180,7 +201,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "tap"
+                "manner": "tap",
+                "pulmonic": true
             }
         },
         {
@@ -188,7 +210,8 @@
             "features": {
                 "place": "alveolar",
                 "voice": true,
-                "manner": "latapprox"
+                "manner": "latapprox",
+                "pulmonic": true
             }
         },
         {
@@ -196,7 +219,8 @@
             "features": {
                 "place": "postalveolar",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -204,7 +228,8 @@
             "features": {
                 "place": "postalveolar",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -212,7 +237,8 @@
             "features": {
                 "place": "retroflex",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -220,7 +246,8 @@
             "features": {
                 "place": "velar",
                 "voice": true,
-                "manner": "nasal"
+                "manner": "nasal",
+                "pulmonic": true
             }
         },
         {
@@ -228,7 +255,8 @@
             "features": {
                 "place": "velar",
                 "voice": true,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -236,7 +264,8 @@
             "features": {
                 "place": "velar",
                 "voice": true,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -244,7 +273,8 @@
             "features": {
                 "place": "velar",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -252,7 +282,8 @@
             "features": {
                 "place": "velar",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -260,7 +291,8 @@
             "features": {
                 "place": "velar",
                 "voice": true,
-                "manner": "approximant"
+                "manner": "approximant",
+                "pulmonic": true
             }
         },
         {
@@ -268,7 +300,8 @@
             "features": {
                 "place": "palatal",
                 "voice": false,
-                "manner": "approximant"
+                "manner": "approximant",
+                "pulmonic": true
             }
         },
         {
@@ -276,7 +309,8 @@
             "features": {
                 "place": "glottal",
                 "voice": false,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
@@ -284,7 +318,8 @@
             "features": {
                 "place": "glottal",
                 "voice": false,
-                "manner": "plosive"
+                "manner": "plosive",
+                "pulmonic": true
             }
         },
         {
@@ -292,7 +327,8 @@
             "features": {
                 "place": "epiglottal",
                 "voice": true,
-                "manner": "fricative"
+                "manner": "fricative",
+                "pulmonic": true
             }
         },
         {
