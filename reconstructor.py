@@ -17,6 +17,14 @@ def main():
 	features = pp.features
 	# print('Features: %s\n' % features)
 
+	# print(symbols)
+
+	# get multisymbol phonemes
+	multisymbols = []
+	for n in symbols:
+		if len(n) > 1:
+			multisymbols.append(n)
+
 	# forms and languages
 	forms = lp.forms
 	langs = lp.langs
@@ -34,6 +42,44 @@ def main():
 	print ('The reconstructed form is most possibly: *%s' % matched_symbols[0])
 	print('Unmatched theoretical phonemes: %s' % matched_symbols[1])
 
+# find multisymbols
+def split_forms(forms, multisymbols):
+	new_forms = []
+	# iterate over the forms
+	for form in forms:
+		new_forms.append(split_affr(form, multisymbols))
+	return new_forms
+
+def split_multisymbols(form, multisymbols):
+	splitform = []
+	for affr in multisymbols:
+		if affr in form:
+			splitform = form.split(affr)
+			n_affr = form.count(affr)
+			if '' in splitform:
+				ins_ind = splitform.index('')
+				splitform = list(filter(None, splitform))
+				for n in range(n_affr):
+					splitform.insert(ins_ind, affr)
+					ins_ind = ins_ind + 2
+			else:
+				ins_ind = 1
+				for n in range(n_affr):
+					splitform.insert(ins_ind, affr)
+					ins_ind = ins_ind + 2
+			# let's reinsert the non-affricate chunks as separate letters
+			for n, chunk in enumerate(splitform):
+				if chunk in multisymbols:
+					del splitform[ind_chunk]
+					chunklist = list(chunk)
+					for no, l in enumerate(chunklist):
+						splitform.insert((no + n), l)
+				else:
+					multisymbols.remove(affr)
+					new_splitform = split_affr(chunk, multisymbols)
+					splitform.insert(new_splitform, n)
+		return splitform
+
 # get the length of the longest form
 def max_length(forms):
 	forms.sort(key=len, reverse=True)
@@ -41,18 +87,19 @@ def max_length(forms):
 
 # assembles phoneme groups, still only works for 1:1 matches
 def assemble_groups(forms, maxlength):
-	p_groups = []
+	s_groups = []
 	p_count = 0
 	while p_count < maxlength:
 		cur_group = []
 		for n in forms:
-			try:
-				cur_group.append(n[p_count])
-			except IndexError:
-				cur_group.append('-')
-		p_groups.append(cur_group)
+			if n not in cur_group:
+				try:
+					cur_group.append(n[p_count])
+				except IndexError:
+					cur_group.append('-')
+		s_groups.append(cur_group)
 		p_count += 1
-	return p_groups
+	return s_groups
 
 # match phonemes to their features
 def match_p_f(p_groups, symbols, features):
@@ -92,12 +139,12 @@ def most_prom_feat(features):
 						#print("Current property: %s" % groups[n][prop_n])
 						cur_prop.append(groups[n][prop_n])
 					except Exception as e:
-						print(e)
+						#print(e)
 						cur_prop.append('')
 				# append the most common property at that place to list of features for current phoneme
 				cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
 			# append the current theoretical phoneme to the list of phonemes as features
-			print('Current phoneme: %s' % cur_phon)
+			# print('Current phoneme: %s' % cur_phon)
 			cur_group.append(cur_phon)
 		p_features.append(cur_group[0])
 

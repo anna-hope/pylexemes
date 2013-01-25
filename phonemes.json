@@ -45,14 +45,6 @@
             }
         },
         {
-            "symbol": true,
-            "features": {
-                "place": "labiodental",
-                "voice": true,
-                "manner": "fricative"
-            }
-        },
-        {
             "symbol": "f",
             "features": {
                 "place": "labiodental",
