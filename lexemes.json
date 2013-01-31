@@ -1,67 +1,47 @@
 [
 	{
-		"lang": "anatolian",
-		"form": "panta"
+		"lang_name": "alalalian",
+		"lang_code": "aaa",
+		"form": "txovant"
 	},
 	{
-		"lang": "ta",
-		"form": "pən"
+		"lang_name": "boblabian",
+		"lang_code": "bbb",
+		"form": "dɣovantə"
 	},
 	{
-		"lang": "tb",
-		"form": "piʃ"
+		"lang_name": "cyclochian",
+		"lang_code": "ccc",
+		"form": "dʀovantə"
 	},
 	{
-		"lang": "Lat",
-		"form": "kwinkwe"
+		"lang_name": "dedodese",
+		"lang_code": "ddd",
+		"form": "dvronts"
 	},
 	{
-		"lang": "osc",
-		"form":	"pompe"
+		"lang_name": "elese",
+		"lang_code": "eee",
+		"form": "drevənts"
 	},
 	{
-		"lang": "umb",
-		"form": "pumpe"
+		"lang_name": "fuflaffian",
+		"lang_code": "fff",
+		"form": "wadeʃ"
 	},
 	{
-		"lang": "PC",
-		"form": "kwinkwe"
+		"lang_name": "gogloghian",
+		"lang_code": "lwa",
+		"form": "vontis"
 	},
 	{
-		"lang": "pg",
-		"form": "ɸimɸ"
+		"lang_name": "hayhahee",
+		"lang_code": "hhh",
+		"form": "drovandzi"
 	},
 	{
-		"lang": "lith",
-		"form": "pɛnkɪ"
-	},
-	{
-		"lang": "opr",
-		"form": "penkjai"
-	},
-	{
-		"lang": "slav",
-		"form": "peti"
-	},
-	{
-		"lang": "agk",
-		"form": "pente"
-	},
-	{
-		"lang": "arm",
-		"form": "hing"
-	},
-	{
-		"lang": "phr",
-		"form": "pinke"
-	},
-	{
-		"lang": "av",
-		"form": "paɲtʃa"
-	},
-	{
-		"lang": "skt",
-		"form": "pɐɲcçɐn"
+		"lang_name": "ilyiali",
+		"lang_code": "iii",
+		"form": "drovandi"
 	}
-
 ]

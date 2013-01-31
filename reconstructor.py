@@ -30,9 +30,8 @@ def main():
 		if len(n) > 1:
 			polysymbols.append(n)
 
-	# forms and languages
+	# forms
 	forms = lp.forms
-	langs = lp.langs
 
 	splitforms = split_forms(forms, polysymbols)
 
@@ -190,9 +189,12 @@ def most_prom_feat(features):
 				# append the most common feature at that place to list of features for current phoneme
 				cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
 			# append the current theoretical phoneme to the list of phonemes as features
-			# print('Current phoneme: %s' % cur_phon)
 			cur_group.append(cur_phon)
-		p_features.append(cur_group[0])
+		try:
+			p_features.append(cur_group[0])
+		# hack in case the group is a singleton
+		except:
+			p_features.append(cur_group)
 
 	return p_features
 

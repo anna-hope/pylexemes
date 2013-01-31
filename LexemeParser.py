@@ -13,12 +13,14 @@ class LexemeParser():
 		except FileNotFoundError:
 			self.create_dummy()
 			
-		self._langs = []
+		self._lang_names = []
+		self._lang_codes = []
 		self._forms = []
 
 		for n in self._lexemes:
 			try:
-				self._langs.append(n['lang'])
+				self._lang_names.append(n['lang_name'])
+				self._lang_codes.append(n['lang_code'])
 				self._forms.append(n['form'])
 			except KeyError as ke:
 				self.somethingwrong(ke)
@@ -34,16 +36,27 @@ class LexemeParser():
 	    return locals()
 	lexemes = property(**lexemes())
 
-	def langs():
-	    doc = "Languages."
+	def lang_names():
+	    doc = "Language names."
 	    def fget(self):
-	        return self._langs
+	        return self._lang_names
 	    def fset(self, value):
-	        self._langs = value
+	        self._lang_names = value
 	    def fdel(self):
-	        del self._langs
+	        del self._lang_names
 	    return locals()
-	langs = property(**langs())
+	lang_names = property(**lang_names())
+
+	def lang_codes():
+	    doc = "ISO codes for languages"
+	    def fget(self):
+	        return self._lang_codes
+	    def fset(self, value):
+	        self._lang_codes = value
+	    def fdel(self):
+	        del self._lang_codes
+	    return locals()
+	lang_codes = property(**lang_codes())
 
 	def forms():
 	    doc = "Forms."
@@ -59,7 +72,9 @@ class LexemeParser():
 	def create_dummy(self):
 		doc = "Creates a dummy lexemes.json file if one isn't found."
 		print("JSON file for lexemes was not found. Creating a dummy.")
-		dummydata = [{"lang": "aaa", "form": "druvantes"}, {"lang": "bbb", "form": "txuvantes"}, {"lang": "ccc", "form": "---vande-"}]
+		dummydata = [{"lang_name": "alalalian", "lang_code": "aaa", "form": "dvronts"},
+		 {"lang_name": "boblabian", "lang_code": "bbb", "form": "txovant"}, 
+		 {"lang_name": "cycoclian", "lang_code": "ccc", "form": "-l-wa----"}]
 		json.dump(dummydata, open('lexemes.json', 'w'))
 		self._lexemes = json.load(open('lexemes.json', 'r'))
 
