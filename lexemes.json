@@ -1,67 +1,67 @@
 [
 	{
-		"lang": "aa1",
-		"form": "laɲcør"
+		"lang": "anatolian",
+		"form": "panta"
 	},
 	{
-		"lang": "aa2",
-		"form": "lãɲʝør"
+		"lang": "ta",
+		"form": "pən"
 	},
 	{
-		"lang": "bb1",
-		"form": "la-ɟør"
+		"lang": "tb",
+		"form": "piʃ"
 	},
 	{
-		"lang": "bb2",
-		"form": "la-ʝør"
+		"lang": "Lat",
+		"form": "kwinkwe"
 	},
 	{
-		"lang": "cc1",
-		"form":	"la-gor"
+		"lang": "osc",
+		"form":	"pompe"
 	},
 	{
-		"lang": "cc2",
-		"form": "la-ko-"
+		"lang": "umb",
+		"form": "pumpe"
 	},
 	{
-		"lang": "dd1",
-		"form": "dã-kod"
+		"lang": "PC",
+		"form": "kwinkwe"
 	},
 	{
-		"lang": "dd2",
-		"form": "lõ-kod"
+		"lang": "pg",
+		"form": "ɸimɸ"
 	},
 	{
-		"lang": "ee1",
-		"form": "rajnkø-"
+		"lang": "lith",
+		"form": "pɛnkɪ"
 	},
 	{
-		"lang": "ee2",
-		"form": "ranjkø-"
+		"lang": "opr",
+		"form": "penkjai"
 	},
 	{
-		"lang": "ff1",
-		"form": "ræniky-"
+		"lang": "slav",
+		"form": "peti"
 	},
 	{
-		"lang": "ff2",
-		"form": "rænjkø-"
+		"lang": "agk",
+		"form": "pente"
 	},
 	{
-		"lang": "gg1",
-		"form": "-ənkø-"
+		"lang": "arm",
+		"form": "hing"
 	},
 	{
-		"lang": "gg2",
-		"form": "ʜəɴ-øʜ"
+		"lang": "phr",
+		"form": "pinke"
 	},
 	{
-		"lang": "hh1",
-		"form": "-anəkøʁ"
+		"lang": "av",
+		"form": "paɲtʃa"
 	},
 	{
-		"lang": "hh2",
-		"form": "-ã-kxøʁ"
+		"lang": "skt",
+		"form": "pɐɲcçɐn"
 	}
 
 ]

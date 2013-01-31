@@ -4,10 +4,16 @@
 
 import collections as c
 import itertools as i
+import argparse, datetime
 from phonemeparser import PhonemeParser
 from lexemeparser import LexemeParser
 
 unmatched_symbols = []
+
+argparser = argparse.ArgumentParser()
+argparser.add_argument('-verbose', '-v', action='count', help='varying levels of output verbosity')
+argparser.add_argument('-log', '-l', action='store_true', help='create a log of reconstruction')
+args = argparser.parse_args()
 
 def main():
 	# call the parsers
@@ -17,9 +23,6 @@ def main():
 	# consonants
 	symbols = pp.symbols
 	features = pp.features
-	# print('Features: %s\n' % features)
-
-	# print(symbols)
 
 	# get polysymbol phonemes
 	polysymbols = []
@@ -35,17 +38,39 @@ def main():
 
 	maxlength = max_length(splitforms)
 	groups = assemble_groups(splitforms, maxlength)
-	# print(groups)
 	matched_features = match_p_f(groups, symbols, features)
-	# print("Features per phoneme per group: %s" % matched_features)
-	most_prom_f = most_prom_feat(matched_features)
-	# print('Most prominent featurs: %s' % most_prom_f)
-	matched_symbols = match_f_symbols(most_prom_f, matched_features, symbols, features)
-	print ('The reconstructed form is *{0}'.format(matched_symbols[0]))
 
-	if len(unmatched_symbols) != 0:
-		print('The following symbols were unable to be matched: {0}'.format(unmatched_symbols))
+	most_prom_f = most_prom_feat(matched_features)
+
+	matched_symbols = match_f_symbols(most_prom_f, matched_features, symbols, features)
+
+	output = ''
+
+	if args.verbose:
+		if args.verbose > 1:
+			if args.verbose > 2:
+				output += """Features: {0}
+				Groups: {1}
+				Features per phoneme per group: {2}
+				Most prominent featurs: {3}
+				-----------------\n
+				""".format(features, groups, matched_features, most_prom_f)
+			if matched_features[1] != []:
+				output += 'The following features had no match in the database: {0}\n'.format(matched_features[1])
+
+		if len(unmatched_symbols) != 0:
+			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
 	
+	output += 'The reconstructed form is *{0}'.format(matched_symbols[0])
+
+	if args.log:
+		logfile = open('reconstruction_log.txt', 'a')
+		dt = datetime.datetime
+		logfile.write('\n\n{0}\n-----------------\n'.format(dt.isoformat(dt.now())))
+		logfile.write(output)
+
+	print(output)
+
 def split_forms(forms, polysymbols):
 	doc = "Splits forms into separate phonemes using split_polysymbols"
 	new_forms = []
@@ -133,6 +158,8 @@ def match_p_f(p_groups, symbols, features):
 			if symbol in symbols:
 				cur_feat_g.append(features[symbols.index(symbol)])
 			else:
+				# append the unidentified symbol to the list of unmatched symbols
+				# (if it isn't already there)
 				if symbol not in unmatched_symbols:
 					unmatched_symbols.append(symbol)
 		matched_features.append(cur_feat_g)
@@ -148,20 +175,17 @@ def most_prom_feat(features):
 		cur_group = []
 		for phoneme_n, phonemes in enumerate(groups):
 			cur_phon = []
-			# iterate over each property (manner, height, etc.) in each phoneme
+			# iterate over each feature (cons, son, round, etc.) in each phoneme
 			for prop_n, props in enumerate(phonemes):
 				cur_prop = []
-				# iterate over phonemes in each group again to get the property at the same place
-				# (i.e. just manner, or just voice)
+				# iterate over phonemes in each group again to get the feature at the same place
 				for n, x in enumerate(groups):
-					# append the property at that place to the list of properties at that place
+					# append the feature at that place to the list of properties at that place
 					try:
-						#print("Current property: %s" % groups[n][prop_n])
 						cur_prop.append(groups[n][prop_n])
 					except Exception as e:
-						#print(e)
 						cur_prop.append('')
-				# append the most common property at that place to list of features for current phoneme
+				# append the most common feature at that place to list of features for current phoneme
 				cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
 			# append the current theoretical phoneme to the list of phonemes as features
 			# print('Current phoneme: %s' % cur_phon)

@@ -24,7 +24,7 @@ class PhonemeParser:
 			for n in phonemes:
 				self._symbols.append(n['symbol'])
 				self._names.append(n['name'])
-				self._features.append(list(n['features'].values()))
+				self._features.append(list(n['features'].items()))
 		except Exception as e:
 			self.somethingwrong(e)
 
