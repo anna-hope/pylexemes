@@ -68,6 +68,7 @@ def main():
 		dt = datetime.datetime
 		logfile.write('\n\n{0}\n-----------------\n'.format(dt.isoformat(dt.now())))
 		logfile.write(output)
+		logfile.close()
 
 	print(output)
 
