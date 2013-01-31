@@ -1,452 +1,1858 @@
 [
-        {
-            "symbol": "b",
-            "features": {
-                "place": "bilabial",
-                "voice": true,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "p",
-            "features": {
-                "place": "bilabial",
-                "voice": false,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "m",
-            "features": {
-                "place": "bilabial",
-                "voice": true,
-                "manner": "nasal",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɸ",
-            "features": {
-                "place": "bilabial",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "β",
-            "features": {
-                "place": "bilabial",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "f",
-            "features": {
-                "place": "labiodental",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ð",
-            "features": {
-                "place": "dental",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "θ",
-            "features": {
-                "place": "dental",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "n",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "nasal",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɲ",
-            "features": {
-                "place": "palatal",
-                "voice": true,
-                "manner": "nasal",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɴ",
-            "features": {
-                "place": "uvular",
-                "voice": true,
-                "manner": "nasal",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "d",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "t",
-            "features": {
-                "place": "alveolar",
-                "voice": false,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "s",
-            "features": {
-                "place": "alveolar",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "z",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "r",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "trill",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɹ",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "approximant",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "c",
-            "features": {
-                "place": "palatal",
-                "voice": false,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɟ",
-            "features": {
-                "place": "palatal",
-                "voice": true,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʝ",
-            "features": {
-                "place": "palatal",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʁ",
-            "features": {
-                "place": "uvular",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɾ",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "tap",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "l",
-            "features": {
-                "place": "alveolar",
-                "voice": true,
-                "manner": "latapprox",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʃ",
-            "features": {
-                "place": "postalveolar",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʒ",
-            "features": {
-                "place": "postalveolar",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʂ",
-            "features": {
-                "place": "retroflex",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ŋ",
-            "features": {
-                "place": "velar",
-                "voice": true,
-                "manner": "nasal",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "k",
-            "features": {
-                "place": "velar",
-                "voice": true,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "g",
-            "features": {
-                "place": "velar",
-                "voice": true,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "x",
-            "features": {
-                "place": "velar",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ɣ",
-            "features": {
-                "place": "velar",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "w",
-            "features": {
-                "place": "velar",
-                "voice": true,
-                "manner": "approximant",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "j",
-            "features": {
-                "place": "palatal",
-                "voice": false,
-                "manner": "approximant",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "h",
-            "features": {
-                "place": "glottal",
-                "voice": false,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʔ",
-            "features": {
-                "place": "glottal",
-                "voice": false,
-                "manner": "plosive",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "ʜ",
-            "features": {
-                "place": "epiglottal",
-                "voice": true,
-                "manner": "fricative",
-                "pulmonic": true
-            }
-        },
-        {
-            "symbol": "i",
-            "features": {
-                "height": "close",
-                "backness": "front",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "y",
-            "features": {
-                "height": "close",
-                "backness": "front",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "ɪ",
-            "features": {
-                "height": "nearclose",
-                "backness": "nearfront",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "e",
-            "features": {
-                "height": "mid",
-                "backness": "front",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "ə",
-            "features": {
-                "height": "mid",
-                "backness": "central",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "æ",
-            "features": {
-                "height": "nearopen",
-                "backness": "front",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "ɛ",
-            "features": {
-                "height": "openmid",
-                "backness": "front",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "ʊ",
-            "features": {
-                "height": "nearclose",
-                "backness": "nearback",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "a",
-            "features": {
-                "height": "close",
-                "backness": "central",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "u",
-            "features": {
-                "height": "close",
-                "backness": "back",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "o",
-            "features": {
-                "height": "mid",
-                "backness": "back",
-                "round": false,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "ø",
-            "features": {
-                "height": "closemid",
-                "backness": "front",
-                "round": true,
-                "nasal": false
-            }
-        },
-        {
-            "symbol": "ã",
-            "features": {
-                "height": "open",
-                "backness": "front",
-                "round": true,
-                "nasal": true
-            }
-        },
-        {
-            "symbol": "õ",
-            "features": {
-                "height": "closemid",
-                "backness": "back",
-                "round": true,
-                "nasal": true
-            }
-        }
+	{
+		"symbol": "t",
+		"name": "voiceless alveolar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "d",
+		"name": "voiced alveolar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "s",
+		"name": "voiceless alveolar sibilant",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": true,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "z",
+		"name": "voiced alveolar sibilant",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": true,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɬ",
+		"name": "voiceless alveolar lateral fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": true,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": true,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɮ",
+		"name": "voiced alveolar lateral fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": true,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "θ",
+		"name": "voiceless dental fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ð",
+		"name": "voiced dental fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʃ",
+		"name": "voiceless palato-alveolar sibilant",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʒ",
+		"name": "voiced palato-alveolar sibilant",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "c",
+		"name": "voiceless palatal stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": true,
+			"high": true,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɟ",
+		"name": "voiced palatal stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": true,
+			"high": true,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ç",
+		"name": "voiceless palatal fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": true,
+			"high": true,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʝ",
+		"name": "voiced palatal fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": true,
+			"high": true,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "p",
+		"name": "voiceless bilabial plosive",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": true,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "b",
+		"name": "voiced bilabial plosive",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": true,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "f",
+		"name": "voiceless labiodental fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": true,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": true,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "v",
+		"name": "voiced labiodental fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": true,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": true,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɸ",
+		"name": "voiceless bilabial fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": true,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "β",
+		"name": "voiced bilabial fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": true,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "k",
+		"name": "voiceless velar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "g",
+		"name": "voiced velar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "x",
+		"name": "voiceless velar fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɣ",
+		"name": "voiced velar fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "q",
+		"name": "voiceless uvular stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɢ",
+		"name": "voiced uvular stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "χ",
+		"name": "voiceless uvular fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʁ",
+		"name": "voiced uvular fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ħ",
+		"name": "voiceless pharyngeal fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʕ",
+		"name": "voiced pharyngeal fricative",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "h",
+		"name": "voiceless glottal fricative",
+		"features": {
+			"cons": false,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": true,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɦ",
+		"name": "voiced glottal fricative",
+		"features": {
+			"cons": false,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": true,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʔ",
+		"name": "glottal stop",
+		"features": {
+			"cons": false,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": true,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "tʃ",
+		"name": "voiceless palato-alveolar affricate",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": "both",
+			"strident": true,
+			"lateral": false,
+			"del rel": true,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "dʒ",
+		"name": "voiced palato-alveolar affricate",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": true,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": "both",
+			"strident": true,
+			"lateral": false,
+			"del rel": true,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ts",
+		"name": "voiceless alveolar affricate",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": "both",
+			"strident": true,
+			"lateral": false,
+			"del rel": true,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "dz",
+		"name": "voiced alveolar affricate",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": "both",
+			"strident": true,
+			"lateral": false,
+			"del rel": true,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "kx",
+		"name": "voiceless velar affricate",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": "both",
+			"strident": true,
+			"lateral": false,
+			"del rel": true,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "pf",
+		"name": "voiceless labiodental affricate",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": "both",
+			"strident": true,
+			"lateral": false,
+			"del rel": true,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "m",
+		"name": "bilabial nasal",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": true
+		}
+	},
+	{
+		"symbol": "n",
+		"name": "alveolar nasal",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": 0,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": true
+		}
+	},
+	{
+		"symbol": "ŋ",
+		"name": "velar nasal",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": true
+		}
+	},
+	{
+		"symbol": "ɳ",
+		"name": "retroflex nasal",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": false,
+			"dist": false,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": true
+		}
+	},
+	{
+		"symbol": "ɲ",
+		"name": "palatal nasal",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": true
+		}
+	},
+	{
+		"symbol": "ɴ",
+		"name": "uvular nasal",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": true
+		}
+	},
+	{
+		"symbol": "l",
+		"name": "alveolar lateral approximant",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": true,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʎ",
+		"name": "palatal lateral approximant",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": true,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "r",
+		"name": "alveolar trill",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": false,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "i",
+		"name": "high front unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɪ",
+		"name": "near-high near-front unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "u",
+		"name": "high back rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʊ",
+		"name": "near-high near-back rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "e",
+		"name": "high-mid front unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": false,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "e",
+		"name": "low-mid front unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "o",
+		"name": "high-mid back rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɔ",
+		"name": "low-mid back rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "a",
+		"name": "low front unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": true,
+			"back": false,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "æ",
+		"name": "near-low front unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": true,
+			"back": false,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "y",
+		"name": "high front rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ʏ",
+		"name": "near-high near-front rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ø",
+		"name": "high-mid front rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": false,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": true,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "œ",
+		"name": "low-mid front rounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": false,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": false,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ə",
+		"name": "mid-central unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": false,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "ɯ",
+		"name": "high back unrounded vowel",
+		"features": {
+			"cons": false,
+			"son": true,
+			"syl": true,
+			"labial": true,
+			"round": true,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": true,
+			"pharyngeal": true,
+			"ATR": false,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	}		
 ]

@@ -1,6 +1,10 @@
 ##pylexemes by Anton Osten
 anton@ostensible.me
 ---------------------------------------------
+#v 0.3a notes (30 Jan 2013):
+- reconstructor.py can now correctly behave if it is fed forms containing phonemes which are represented by more than one symbol (affricates, labialised, palatilised, etc. consonants).
+- Most of the phonemes database has been fully rewritten so that each phoneme is represented by binary features, up to 22 features for each phoneme. This is a big step forward, as it enables much greater accuracy, as well as consistency in the phoneme database.
+
 #v 0.2.5 notes (22 Jan 2013):
 - removed the division into consonants and vowels in phonemes.json. That was stupid and made my life more complicated than it had to be. I have no idea why my brain decided it would be a good idea in the first place. Everything should be a bit simpler and more elegant now.
 - reconstructor.py can do minimal (read: practically no) guessing of theoretical phonemes that are unmatched. I'll work on it more later.

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.3
+#!/usr/bin/env python3
 # Anton Osten
 # http://ostensible.me
 
@@ -6,6 +6,8 @@ import collections as c
 import itertools as i
 from phonemeparser import PhonemeParser
 from lexemeparser import LexemeParser
+
+unmatched_symbols = []
 
 def main():
 	# call the parsers
@@ -19,65 +21,83 @@ def main():
 
 	# print(symbols)
 
-	# get multisymbol phonemes
-	multisymbols = []
+	# get polysymbol phonemes
+	polysymbols = []
 	for n in symbols:
 		if len(n) > 1:
-			multisymbols.append(n)
+			polysymbols.append(n)
 
 	# forms and languages
 	forms = lp.forms
 	langs = lp.langs
 
-	# print("The forms are: %s" % forms)
+	splitforms = split_forms(forms, polysymbols)
 
-	maxlength = max_length(forms)
-	groups = assemble_groups(forms, maxlength)
+	maxlength = max_length(splitforms)
+	groups = assemble_groups(splitforms, maxlength)
 	# print(groups)
 	matched_features = match_p_f(groups, symbols, features)
 	# print("Features per phoneme per group: %s" % matched_features)
 	most_prom_f = most_prom_feat(matched_features)
 	# print('Most prominent featurs: %s' % most_prom_f)
 	matched_symbols = match_f_symbols(most_prom_f, matched_features, symbols, features)
-	print ('The reconstructed form is most possibly: *%s' % matched_symbols[0])
-	print('Unmatched theoretical phonemes: %s' % matched_symbols[1])
+	print ('The reconstructed form is *{0}'.format(matched_symbols[0]))
 
-# find multisymbols
-def split_forms(forms, multisymbols):
+	if len(unmatched_symbols) != 0:
+		print('The following symbols were unable to be matched: {0}'.format(unmatched_symbols))
+	
+def split_forms(forms, polysymbols):
+	doc = "Splits forms into separate phonemes using split_polysymbols"
 	new_forms = []
 	# iterate over the forms
 	for form in forms:
-		new_forms.append(split_affr(form, multisymbols))
+		new_forms.append(split_polysymbols(form, polysymbols))
 	return new_forms
 
-def split_multisymbols(form, multisymbols):
+
+def split_polysymbols(form, polysymbols):
+	doc = "Splits a form into separate phonemes, detecting polysymbollic phonemes such as affricates."
 	splitform = []
-	for affr in multisymbols:
-		if affr in form:
-			splitform = form.split(affr)
-			n_affr = form.count(affr)
-			if '' in splitform:
-				ins_ind = splitform.index('')
-				splitform = list(filter(None, splitform))
-				for n in range(n_affr):
-					splitform.insert(ins_ind, affr)
-					ins_ind = ins_ind + 2
-			else:
-				ins_ind = 1
-				for n in range(n_affr):
-					splitform.insert(ins_ind, affr)
-					ins_ind = ins_ind + 2
-			# let's reinsert the non-affricate chunks as separate letters
-			for n, chunk in enumerate(splitform):
-				if chunk in multisymbols:
-					del splitform[ind_chunk]
-					chunklist = list(chunk)
-					for no, l in enumerate(chunklist):
-						splitform.insert((no + n), l)
-				else:
-					multisymbols.remove(affr)
-					new_splitform = split_affr(chunk, multisymbols)
-					splitform.insert(new_splitform, n)
+	# this list will contain the indexes of polysymbollic phonemes in the form
+	indexes = []
+
+	# iterate over the polysymbols to get the indexes
+	for polysymbol in polysymbols:
+		# temporary form variable to remove polysymbols already accounted for from it
+		t_form = form
+		count = 0
+		mc = form.count(polysymbol)
+		while count < mc:
+			# the start index in the temporary form
+			t_form_index = t_form.find(polysymbol)
+			# difference in lengths between the t_form and the real form
+			diff = (len(form) - len(t_form))
+			# actual start index
+			real_start_index = t_form_index + diff
+			endindex = real_start_index + len(polysymbol)
+
+			indexes.append((real_start_index, endindex))
+			# slice the t_form so that the part up to which the polysymbol is in is no longer there
+			t_form = t_form[(endindex - diff):]
+			count += 1
+
+	# if there are no polysymbollic phonemes in this form, then just split it as a list
+	if indexes == []:
+		return list(form)
+	# otherwise split it according to the indexes of polysymbols
+	else:
+		ls = list(form)
+
+		# the value by which we'll adjust the indexing calls
+		# because the length of the list is going to decrease as we go through
+		adjust = 0
+
+		for index in indexes:
+			del ls[(index[0] - adjust):(index[1] - adjust)]
+			ls.insert((index[0] - adjust), form[index[0]:index[1]])
+			adjust += 1
+
+		splitform = ls
 		return splitform
 
 # get the length of the longest form
@@ -105,15 +125,16 @@ def assemble_groups(forms, maxlength):
 def match_p_f(p_groups, symbols, features):
 	matched_features = []
 	# iterate over phoneme groups
-	for n in p_groups:
+	for group in p_groups:
 		# current phoneme feature group
 		cur_feat_g = []
 		# iterate over phonemes in each group
-		for pn in n:
-			if pn in symbols:
-				cur_feat_g.append(features[symbols.index(pn)])
+		for symbol in group:
+			if symbol in symbols:
+				cur_feat_g.append(features[symbols.index(symbol)])
 			else:
-				cur_feat_g.append(['', '', ''])
+				if symbol not in unmatched_symbols:
+					unmatched_symbols.append(symbol)
 		matched_features.append(cur_feat_g)
 	return matched_features
 
@@ -121,7 +142,6 @@ def match_p_f(p_groups, symbols, features):
 def most_prom_feat(features):
 	# collections module to get the most common property (see below)
 	p_features = []
-	
 	# iterate over groups of phonemic features
 	for group_n, groups in enumerate(features):
 		# iterate over phonemes in each group
@@ -155,7 +175,6 @@ def match_f_symbols(mcf, matched_features, symbols, features):
 	matched_symbols = []
 	unmatched_features = []
 	for n, feature in enumerate(mcf):
-		feature = list(filter(None, feature))
 		if feature in features:
 			matched_symbols.append(symbols[features.index(feature)])
 		else:
