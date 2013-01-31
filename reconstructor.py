@@ -49,6 +49,7 @@ def main():
 	if args.verbose:
 		if args.verbose > 1:
 			if args.verbose > 2:
+				# you probably don't want this much verbosity, but who knows
 				output += """Features: {0}
 				Groups: {1}
 				Features per phoneme per group: {2}

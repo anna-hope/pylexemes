@@ -1,6 +1,12 @@
 ##pylexemes by Anton Osten
+
+Currently a reconstructor of proto-forms. More features may be coming in future.
+
 anton@ostensible.me
 ---------------------------------------------
+#v 0.3 notes (31 Jan 2013):
+- reconstructor.py now has variable levels of verbosity (maximum 3, by default 0) acessible through the -v or -verbose commands. It can also create an ongoing log (-l or -log) of reconstructions, as per the verbosity level specified.
+
 #v 0.3a notes (30 Jan 2013):
 - reconstructor.py can now correctly behave if it is fed forms containing phonemes which are represented by more than one symbol (affricates, labialised, palatilised, etc. consonants).
 - Most of the phonemes database has been fully rewritten so that each phoneme is represented by binary features, up to 22 features for each phoneme. This is a big step forward, as it enables much greater accuracy, as well as consistency in the phoneme database.
