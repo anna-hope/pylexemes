@@ -4,6 +4,9 @@ Currently a reconstructor of proto-forms. More features may be coming in future.
 
 anton@ostensible.me
 ---------------------------------------------
+#v 0.3.5 notes (3 Feb 2013):
+- added phonemelookup.py, which is basically an interface for the phoneme database. You can search for phoneme IPA symbols, names, or features. It's pretty cool.
+
 #v 0.3 notes (31 Jan 2013):
 - reconstructor.py now has variable levels of verbosity (maximum 3, by default 0) acessible through the -v or -verbose commands. It can also create an ongoing log (-l or -log) of reconstructions, as per the verbosity level specified.
 
