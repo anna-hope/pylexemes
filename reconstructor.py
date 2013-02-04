@@ -8,12 +8,13 @@ import argparse, datetime
 from phonemeparser import PhonemeParser
 from lexemeparser import LexemeParser
 
-unmatched_symbols = []
-
 argparser = argparse.ArgumentParser()
 argparser.add_argument('-verbose', '-v', action='count', help='varying levels of output verbosity')
 argparser.add_argument('-log', '-l', action='store_true', help='create a log of reconstruction')
 args = argparser.parse_args()
+
+unmatched_symbols = []
+repeated_symbols = []
 
 def main():
 	# call the parsers
@@ -55,11 +56,13 @@ def main():
 				Most prominent featurs: {3}
 				-----------------\n
 				""".format(features, groups, matched_features, most_prom_f)
-			if matched_features[1] != []:
-				output += 'The following features had no match in the database: {0}\n'.format(matched_features[1])
+			if matched_symbols[1] != []:
+				output += 'Same symbols: {}\n'.format(repeated_symbols)
+				output += 'The following features had no match in the database: {}\n'.format(matched_symbols[1])
 
 		if len(unmatched_symbols) != 0:
 			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
+			
 	
 	output += 'The reconstructed form is *{0}'.format(matched_symbols[0])
 
@@ -71,6 +74,8 @@ def main():
 		logfile.close()
 
 	print(output)
+
+# functions
 
 def split_forms(forms, polysymbols):
 	doc = "Splits forms into separate phonemes using split_polysymbols"
@@ -84,12 +89,12 @@ def split_forms(forms, polysymbols):
 def split_polysymbols(form, polysymbols):
 	doc = "Splits a form into separate phonemes, detecting polysymbollic phonemes such as affricates."
 	splitform = []
-	# this list will contain the indexes of polysymbollic phonemes in the form
+	# this list will contain the indexes of polysymbollic phonemes in our form
 	indexes = []
 
 	# iterate over the polysymbols to get the indexes
 	for polysymbol in polysymbols:
-		# temporary form variable to remove polysymbols already accounted for from it
+		# temporary form variable to remove polysymbols already accounted for
 		t_form = form
 		count = 0
 		mc = form.count(polysymbol)
@@ -121,7 +126,8 @@ def split_polysymbols(form, polysymbols):
 		for index in indexes:
 			del ls[(index[0] - adjust):(index[1] - adjust)]
 			ls.insert((index[0] - adjust), form[index[0]:index[1]])
-			adjust += 1
+			# adjust the next indexes according to the length of the polysymbol that we've just concatenated
+			adjust += ((index[1] - index[0]) -1)
 
 		splitform = ls
 		return splitform
@@ -131,19 +137,24 @@ def max_length(forms):
 	forms.sort(key=len, reverse=True)
 	return len(forms[0])
 
-# assembles phoneme groups, still only works for 1:1 matches
+# assembles phoneme groups
 def assemble_groups(forms, maxlength):
 	s_groups = []
 	p_count = 0
 	while p_count < maxlength:
 		cur_group = []
-		for n in forms:
-			if n not in cur_group:
-				try:
-					cur_group.append(n[p_count])
-				except IndexError:
-					cur_group.append('-')
+		# for symbols that have already occured
+		repeated_symbols_group = []
+		for f in forms:
+			try:
+				if f[p_count] in cur_group:
+					repeated_symbols_group.append(f[p_count])
+				cur_group.append(f[p_count])
+			except IndexError:
+				# cur_group.append('-')
+				pass
 		s_groups.append(cur_group)
+		repeated_symbols.append(repeated_symbols_group)
 		p_count += 1
 	return s_groups
 
@@ -206,9 +217,10 @@ def match_f_symbols(mcf, matched_features, symbols, features):
 		if feature in features:
 			matched_symbols.append(symbols[features.index(feature)])
 		else:
-			# this should be temporary
-			matched_symbols.append('-')
-			unmatched_features.append(feature)
+			# so, if there is no match for the theoretical phoneme that we've assembled, we're going to make an educated guess
+			# based on the most frequent repeated symbols for this position
+			matched_symbols.append('(' + c.Counter(repeated_symbols[n]).most_common(1)[0][0] + ')')
+			unmatched_features.append((n, feature))
 	unmatched_features = list(filter(None, unmatched_features))
 	return (''.join(matched_symbols), unmatched_features)
 

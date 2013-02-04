@@ -1,47 +1,52 @@
 [
 	{
-		"lang_name": "alalalian",
-		"lang_code": "aaa",
-		"form": "txovant"
+		"lang_name": "Albanian",
+		"lang_code": "alb",
+		"form": "dru"
 	},
 	{
-		"lang_name": "boblabian",
-		"lang_code": "bbb",
-		"form": "dɣovantə"
+		"lang_name": "Hittite",
+		"lang_code": "hit",
+		"form": "taru"
 	},
 	{
-		"lang_name": "cyclochian",
-		"lang_code": "ccc",
-		"form": "dʀovantə"
+		"lang_name": "Lithuanian",
+		"lang_code": "lit",
+		"form": "derva"
 	},
 	{
-		"lang_name": "dedodese",
-		"lang_code": "ddd",
-		"form": "dvronts"
+		"lang_name": "russian",
+		"lang_code": "rus",
+		"form": "drevo"
 	},
 	{
-		"lang_name": "elese",
-		"lang_code": "eee",
-		"form": "drevənts"
+		"lang_name": "Old Irish",
+		"lang_code": "sga",
+		"form": "daur"
 	},
 	{
-		"lang_name": "fuflaffian",
-		"lang_code": "fff",
-		"form": "wadeʃ"
+		"lang_name": "cornish",
+		"lang_code": "cor",
+		"form": "derow"
 	},
 	{
-		"lang_name": "gogloghian",
-		"lang_code": "lwa",
-		"form": "vontis"
+		"lang_name": "old english",
+		"lang_code": "ang",
+		"form": "treow"
 	},
 	{
-		"lang_name": "hayhahee",
-		"lang_code": "hhh",
-		"form": "drovandzi"
+		"lang_name": "old norse",
+		"lang_code": "non",
+		"form": "tʰrjɛ"
 	},
 	{
-		"lang_name": "ilyiali",
-		"lang_code": "iii",
-		"form": "drovandi"
+		"lang_name": "ancient greek",
+		"lang_code": "grc",
+		"form": "dory"
+	},
+	{
+		"lang_name": "sanskrit",
+		"lang_code": "san",
+		"form": "daru"
 	}
 ]

@@ -57,14 +57,14 @@ def lookup(query):
 		for phoneme in pp.features:
 			if all(f in phoneme for f in fs):
 				indexes.append(pp.features.index(phoneme))
+		if indexes == []:
+			return ('No match found')
 		output = ''
 		for i in indexes:
 			symbol = pp.symbols[i]
 			name = pp.names[i]
 			features = pp.features[i]
 			output += 'Symbol: {}\nName: {}\nFeatures: {}\n-----\n'.format(symbol, name, features)
-		if output == '':
-			output = 'No match found'
 		return output
 	else:
 		return ('No match found')

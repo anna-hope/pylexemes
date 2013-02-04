@@ -29,6 +29,64 @@
 		}
 	},
 	{
+		"symbol": "t'",
+		"name": "ejective voiceless alveolar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": true,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
+		"symbol": "tʰ",
+		"name": "aspirated voiceless alveolar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": 0,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": true,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
 		"symbol": "d",
 		"name": "voiced alveolar stop",
 		"features": {
@@ -1711,7 +1769,7 @@
 		}
 	},
 	{
-		"symbol": "e",
+		"symbol": "ɛ",
 		"name": "low-mid front unrounded vowel",
 		"features": {
 			"cons": false,
