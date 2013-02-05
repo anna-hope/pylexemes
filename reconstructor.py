@@ -32,34 +32,26 @@ def main():
 	# forms
 	forms = lp.forms
 
-	# run the reconstruction
-	splitforms = split_forms(forms, polysymbols)
-	maxlength = max_length(splitforms)
-	symbol_groups = assemble_groups(splitforms, maxlength)
-	matched_features = match_p_f(symbol_groups, symbols, features)
-	rearranged_features = rearrange_groups(matched_features)
-	most_prom_f = most_prom_feat(rearranged_features)
-	matched_symbols = match_f_symbols(most_prom_f, symbols, features)
+	polysymbols = get_polysymbols(symbols)
 
 	output = ''
 
 	# verbosity
-	if args.verbose:
-		if args.verbose > 1:
-			if args.verbose > 2:
-				# you probably don't want this much verbosity, but who knows
-				output += """Groups: {}\nFeatures per phoneme per group: {}\nMost prominent features: {}\n
------------------\n
-				""".format(symbol_groups, matched_features, most_prom_f)
-			output += 'Symbol groups: {}\n'.format(symbol_groups)
+# 	if args.verbose:
+# 		if args.verbose > 1:
+# 			if args.verbose > 2:
+# 				# you probably don't want this much verbosity, but who knows
+# 				output += """Groups: {}\nFeatures per phoneme per group: {}\nMost prominent features: {}\n
+# -----------------\n
+# 				""".format(symbol_groups, matched_features, most_prom_f)
+# 			output += 'Symbol groups: {}\n'.format(symbol_groups)
 				
-		if len(unmatched_symbols) != 0:
-			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
-			if matched_symbols[1] != []:
-				output += 'The following features had no match in the database and had to be guess-matched: {}\n'.format(matched_symbols[1])
-			
+# 		if len(unmatched_symbols) != 0:
+# 			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
+# 			if matched_symbols[1] != []:
+# 				output += 'The following features had no match in the database and had to be guess-matched: {}\n'.format(matched_symbols[1])
 	
-	output += 'The reconstructed form is *{0}'.format(matched_symbols[0])
+	output += ('The reconstructed form is *{}'.format(collapse(forms, symbols, polysymbols, features)[0])) 
 
 	# write to log
 	if args.log:
@@ -72,6 +64,70 @@ def main():
 	print(output)
 
 # functions
+
+def reconstruct(forms, symbols, polysymbols, features):
+	splitforms = split_forms(forms, polysymbols)
+	maxlength = max_length(splitforms)
+	symbol_groups = assemble_groups(splitforms, maxlength)
+	matched_features = match_p_f(symbol_groups, symbols, features)
+	rearranged_features = rearrange_groups(matched_features)
+	most_prom_f = most_prom_feat(rearranged_features)
+	matched_symbols = match_f_symbols(most_prom_f, symbols, features)
+	return matched_symbols[0]
+
+def collapse(forms, symbols, polysymbols, features):
+	doc = "Recursively iterates over forms, each time collapsing two most similar forms into one."
+	if len(forms) == 1:
+		return forms
+	else:
+		print(forms)
+		forms_ratios = sim_ratios(forms, symbols, polysymbols, features)
+		max_sim = []
+		for fr in forms_ratios:
+			try:
+				if fr[2] > max_sim[2]:
+					max_sim = fr
+			except:
+				max_sim = fr
+		cur_forms = [max_sim[0], max_sim[1]]
+		reconstructed = reconstruct(cur_forms, symbols, polysymbols, features)
+		forms.remove(max_sim[0])
+		forms.remove(max_sim[1])
+		forms.append(reconstructed)
+		# all of the recursion
+		return collapse(forms, symbols, polysymbols, features)
+
+
+def sim_ratios(forms, symbols, polysymbols, features):
+	doc = "Similarity ratios between forms."
+	sim_ratios = []
+	for x in forms:
+		split_x = split_forms(x, polysymbols)
+		len_x = len(x)
+		# x_symbol_groups = assemble_groups(x, len_x)
+		x_pf = match_p_f(split_x, symbols, features)
+		for y in forms:
+			# no one wants to do extra work
+			if x != y:
+				split_y = split_forms(y, polysymbols)
+				len_y = len(y)
+				y_pf = match_p_f(split_y, symbols, features)
+				pf_ratios = []
+				for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=[]):
+					try:
+						x_f = x_f[0]
+					except:
+						x_f = x_f
+					try:
+						y_f = y_f[0]
+					except:
+						y_f = y_f
+					pf_ratio = difflib.SequenceMatcher(None, x_f, y_f).ratio()
+					pf_ratios.append(pf_ratio)
+				ratio = sum(pf_ratios)/len(pf_ratios)
+				if (y, x, ratio) not in sim_ratios:
+					sim_ratios.append((x, y, ratio))
+	return sim_ratios
 
 def get_polysymbols(symbols):
 	polysymbols = [n for n in symbols if len(n) > 1]
@@ -184,7 +240,10 @@ def rearrange_groups(matched_features):
 	mpf = most_prom_feat(rearranged_features)
 	for n, f in enumerate(rearranged_features):
 		# get the most prominent features of current group
-		mpfn = mpf[n]
+		try:		
+			mpfn = mpf[n]
+		except:
+			return rearranged_features
 		try:
 			# get the most prominent features of the previous group, if it exists
 			mpf0 = mpf[(n - 1)]
@@ -252,7 +311,8 @@ def most_prom_feat(matched_features):
 			# append the current theoretical phoneme to the list of phonemes as features
 			cur_group.append(cur_phon)
 		try:
-			p_features.append(cur_group[0])
+			if list(filter(None, cur_group)) != []:
+				p_features.append(cur_group[0])
 		# hack in case the group is a singleton
 		except:
 			p_features.append(cur_group)
@@ -278,7 +338,7 @@ def match_f_symbols(mcf, symbols, features):
 			# based on the similarity ratio between our theoretical phoneme and the phonemes in our database
 			# so the phoneme which has the highest similarity ratio with our theoretical phoneme gets picked
 			guessed_symbol = guess_phoneme(t_phoneme, symbols, features)
-			matched_symbols.append('(' + guessed_symbol + ')')
+			matched_symbols.append(guessed_symbol)
 			unmatched_features.append((n, t_phoneme))
 	unmatched_features = list(filter(None, unmatched_features))
 	return (''.join(matched_symbols), unmatched_features)

@@ -1,83 +1,22 @@
 [
 	{
-		"lang_name": "anatolian",
-		"lang_code": "???",
-		"form": "panta"
+		"form": "shtate", 
+		"lang_name": "albanian", 
+		"lang_code": "alb"
 	},
 	{
-		"lang_name": "ta",
-		"lang_code": "???",
-		"form": "pən"
+		"form": "saptan",
+		"lang_name": "sanskrit",
+		"lang_code": "san"
 	},
 	{
-		"lang_name": "tb",
-		"lang_code": "???",
-		"form": "piʃ"
+		"form": "septem",
+		"lang_name": "latin",
+		"lang_code": "lat"
 	},
 	{
-		"lang_name": "Lat",
-		"lang_code": "???",
-		"form": "kʷinkʷe"
-	},
-	{
-		"lang_name": "osc",
-		"lang_code": "???",
-		"form":	"pompe"
-	},
-	{
-		"lang_name": "umb",
-		"lang_code": "???",
-		"form": "pumpe"
-	},
-	{
-		"lang_name": "PC",
-		"lang_code": "???",
-		"form": "kʷinkʷe"
-	},
-	{
-		"lang_name": "pg",
-		"lang_code": "???",
-		"form": "ɸimɸ"
-	},
-	{
-		"lang_name": "lith",
-		"lang_code": "???",
-		"form": "pɛnkɪ"
-	},
-	{
-		"lang_name": "opr",
-		"lang_code": "???",
-		"form": "penkjai"
-	},
-	{
-		"lang_name": "slav",
-		"lang_code": "???",
-		"form": "peti"
-	},
-	{
-		"lang_name": "agk",
-		"lang_code": "???",
-		"form": "pente"
-	},
-	{
-		"lang_name": "arm",
-		"lang_code": "???",
-		"form": "hing"
-	},
-	{
-		"lang_name": "phr",
-		"lang_code": "???",
-		"form": "pinke"
-	},
-	{
-		"lang_name": "av",
-		"lang_code": "???",
-		"form": "paɲtʃa"
-	},
-	{
-		"lang_name": "skt",
-		"lang_code": "???",
-		"form": "pɐɲcçɐn"
+		"form": "yot'",
+		"lang_name": "armenian",
+		"lang_code": "arm"
 	}
-
-]
+ ]

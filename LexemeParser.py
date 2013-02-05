@@ -25,6 +25,8 @@ class LexemeParser():
 			except KeyError as ke:
 				self.somethingwrong(ke)
 
+		self.store_lang_info(self._lang_names, self._lang_codes)
+
 	def lexemes():
 	    doc = "Lexemes."
 	    def fget(self):
@@ -74,9 +76,20 @@ class LexemeParser():
 		print("JSON file for lexemes was not found. Creating a dummy.")
 		dummydata = [{"lang_name": "alalalian", "lang_code": "aaa", "form": "dvronts"},
 		 {"lang_name": "boblabian", "lang_code": "bbb", "form": "txovant"}, 
-		 {"lang_name": "cycoclian", "lang_code": "ccc", "form": "-l-wa----"}]
+		 {"lang_name": "cycoclian", "lang_code": "ccc", "form": "lwa"}]
 		json.dump(dummydata, open('lexemes.json', 'w'))
 		self._lexemes = json.load(open('lexemes.json', 'r'))
+
+	def store_lang_info(self, lang_names, lang_codes):
+		doc = "Stores language name and three letter ISO code in a langs.json file for future reference."
+		try:
+			langs = json.load(open('langs.json'))
+		except:
+			langs = json.loads('{}')
+		for lang_name, lang_code in zip(lang_names, lang_codes):
+			if '?' not in lang_code and lang_name not in langs:
+				langs[lang_name] = lang_code
+		json.dump(langs, open('langs.json', 'w'))
 
 	def somethingwrong(self, e):
 		doc = "Invoked when there is something wron in the lexemes.json file."
