@@ -16,6 +16,7 @@ args = argparser.parse_args()
 
 unmatched_symbols = []
 symbol_groups = []
+reconstructions = []
 
 def main():
 	# call the parsers
@@ -37,21 +38,13 @@ def main():
 	output = ''
 
 	# verbosity
-# 	if args.verbose:
-# 		if args.verbose > 1:
-# 			if args.verbose > 2:
-# 				# you probably don't want this much verbosity, but who knows
-# 				output += """Groups: {}\nFeatures per phoneme per group: {}\nMost prominent features: {}\n
-# -----------------\n
-# 				""".format(symbol_groups, matched_features, most_prom_f)
-# 			output += 'Symbol groups: {}\n'.format(symbol_groups)
-				
-# 		if len(unmatched_symbols) != 0:
-# 			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
-# 			if matched_symbols[1] != []:
-# 				output += 'The following features had no match in the database and had to be guess-matched: {}\n'.format(matched_symbols[1])
-	
-	output += ('The reconstructed form is *{}'.format(collapse(forms, symbols, polysymbols, features)[0])) 
+	if args.verbose:
+ 		if args.verbose > 1:
+ 			output += 'Symbol groups: {}\n'.format(symbol_groups)	
+#			if args.verbose > 2:
+
+	output += 'Without branch collapsing *{}\n'.format(reconstruct(forms, symbols, polysymbols, features))
+	output += ('With branch collapsing *{}').format(collapse(forms, symbols, polysymbols, features))
 
 	# write to log
 	if args.log:
@@ -78,28 +71,25 @@ def reconstruct(forms, symbols, polysymbols, features):
 def collapse(forms, symbols, polysymbols, features):
 	doc = "Recursively iterates over forms, each time collapsing two most similar forms into one."
 	if len(forms) == 1:
-		return forms
+		return forms[0]
+	elif len(forms) == 2:
+		# print(forms)
+		return reconstruct(forms, symbols, polysymbols, features)
 	else:
-		print(forms)
+		# print(forms)
 		forms_ratios = sim_ratios(forms, symbols, polysymbols, features)
-		max_sim = []
-		for fr in forms_ratios:
-			try:
-				if fr[2] > max_sim[2]:
-					max_sim = fr
-			except:
-				max_sim = fr
-		cur_forms = [max_sim[0], max_sim[1]]
+		max_sim_forms = sort_form_ratios(forms_ratios)
+		cur_forms = [max_sim_forms[0], max_sim_forms[1]]
 		reconstructed = reconstruct(cur_forms, symbols, polysymbols, features)
-		forms.remove(max_sim[0])
-		forms.remove(max_sim[1])
+		forms.remove(max_sim_forms[0])
+		forms.remove(max_sim_forms[1])
 		forms.append(reconstructed)
 		# all of the recursion
 		return collapse(forms, symbols, polysymbols, features)
 
 
 def sim_ratios(forms, symbols, polysymbols, features):
-	doc = "Similarity ratios between forms."
+	doc = "Returns tuples of two forms with their similarity ratios."
 	sim_ratios = []
 	for x in forms:
 		split_x = split_forms(x, polysymbols)
@@ -116,18 +106,36 @@ def sim_ratios(forms, symbols, polysymbols, features):
 				for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=[]):
 					try:
 						x_f = x_f[0]
-					except:
-						x_f = x_f
-					try:
 						y_f = y_f[0]
+						pf_ratio = difflib.SequenceMatcher(None, x_f, y_f).ratio()
+						pf_ratios.append(pf_ratio)
 					except:
-						y_f = y_f
-					pf_ratio = difflib.SequenceMatcher(None, x_f, y_f).ratio()
-					pf_ratios.append(pf_ratio)
+						pf_ratios.append(0)
 				ratio = sum(pf_ratios)/len(pf_ratios)
 				if (y, x, ratio) not in sim_ratios:
 					sim_ratios.append((x, y, ratio))
 	return sim_ratios
+
+def sort_form_ratios(forms_ratios):
+	doc = "Returns the forms with the maximum similarity ratio."
+	if len(forms_ratios) == 1:
+		return forms_ratios
+	for form_ratio in forms_ratios:
+			try:
+				if form_ratio[2] > max_sim[2]:
+					max_sim = form_ratio
+			except:
+				# if it's empty
+				max_sim = form_ratio
+	return max_sim
+
+def avg_sim_ratio(forms_ratios):
+	doc = "Returns the average similarity ratio."
+	ratios = []
+	for fr in forms_ratios:
+		ratios.append(fr[2])
+	avg = sum(ratios)/len(ratios)
+	return avg
 
 def get_polysymbols(symbols):
 	polysymbols = [n for n in symbols if len(n) > 1]
