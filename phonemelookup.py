@@ -23,13 +23,13 @@ def main():
 	else:
 		query = input("Please enter a phoneme name, symbol, or feature(s). Enter 'list' for a list of queries, 'help' for help,  or 'quit' to quit.\n")
 		while (query != 'quit'):
-			if query == 'l' or query == 'list':
+			if query == 'list':
 				list_query = input("Enter 's' to see all available symbols, 'n' to see all available phoneme names, or 'f' to see all possible feature keys.\n")
 				print(list_opts(list_query))
-			elif re.match('l|list [snf]', query):
+			elif re.match('list [snf]', query):
 				list_query = re.search('(?<= )[snf]', query).group(0)
 				print(list_opts(list_query))
-			elif query == 'help' or query == 'h':
+			elif query == 'help':
 				help()
 			else:
 				print(lookup(query))

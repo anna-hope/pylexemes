@@ -4,6 +4,7 @@
 
 import collections as c
 import itertools as i
+import difflib
 import argparse, datetime
 from phonemeparser import PhonemeParser
 from lexemeparser import LexemeParser
@@ -14,7 +15,7 @@ argparser.add_argument('-log', '-l', action='store_true', help='create a log of 
 args = argparser.parse_args()
 
 unmatched_symbols = []
-repeated_symbols = []
+symbol_groups = []
 
 def main():
 	# call the parsers
@@ -33,16 +34,25 @@ def main():
 
 	# forms
 	forms = lp.forms
-
 	splitforms = split_forms(forms, polysymbols)
 
 	maxlength = max_length(splitforms)
-	groups = assemble_groups(splitforms, maxlength)
-	matched_features = match_p_f(groups, symbols, features)
+	symbol_groups = assemble_groups(splitforms, maxlength)
+	matched_features = match_p_f(symbol_groups, symbols, features)
 
-	most_prom_f = most_prom_feat(matched_features)
+	rearranged_features = rearrange_groups(matched_features)
 
-	matched_symbols = match_f_symbols(most_prom_f, matched_features, symbols, features)
+	most_prom_f = most_prom_feat(rearranged_features)
+
+	matched_symbols = match_f_symbols(most_prom_f, symbols, features)
+
+	rearranged_symbols = []
+
+	for x in rearranged_features:
+		cur_group = []
+		for y in x:
+			cur_group.append(symbols[features.index(y)])
+		rearranged_symbols.append(cur_group)
 
 	output = ''
 
@@ -50,15 +60,16 @@ def main():
 		if args.verbose > 1:
 			if args.verbose > 2:
 				# you probably don't want this much verbosity, but who knows
-				output += """Features: {0}
-				Groups: {1}
-				Features per phoneme per group: {2}
-				Most prominent featurs: {3}
-				-----------------\n
-				""".format(features, groups, matched_features, most_prom_f)
+				output += """
+Groups: {}
+Features per phoneme per group: {}
+Most prominent features: {}
+-----------------\n
+				""".format(symbol_groups, matched_features, most_prom_f)
 			if matched_symbols[1] != []:
-				output += 'Same symbols: {}\n'.format(repeated_symbols)
+				output += 'Symbol groups: {}\n'.format(symbol_groups)
 				output += 'The following features had no match in the database: {}\n'.format(matched_symbols[1])
+			output += 'Rearranged symbols: {}\n'.format(rearranged_symbols)
 
 		if len(unmatched_symbols) != 0:
 			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
@@ -144,25 +155,24 @@ def assemble_groups(forms, maxlength):
 	while p_count < maxlength:
 		cur_group = []
 		# for symbols that have already occured
-		repeated_symbols_group = []
+		sg = []
 		for f in forms:
 			try:
-				if f[p_count] in cur_group:
-					repeated_symbols_group.append(f[p_count])
+				sg.append(f[p_count])
 				cur_group.append(f[p_count])
 			except IndexError:
 				# cur_group.append('-')
 				pass
 		s_groups.append(cur_group)
-		repeated_symbols.append(repeated_symbols_group)
+		symbol_groups.append(sg)
 		p_count += 1
 	return s_groups
 
 # match phonemes to their features
-def match_p_f(p_groups, symbols, features):
+def match_p_f(groups, symbols, features):
 	matched_features = []
 	# iterate over phoneme groups
-	for group in p_groups:
+	for group in groups:
 		# current phoneme feature group
 		cur_feat_g = []
 		# iterate over phonemes in each group
@@ -177,12 +187,48 @@ def match_p_f(p_groups, symbols, features):
 		matched_features.append(cur_feat_g)
 	return matched_features
 
+def rearrange_groups(matched_features):
+	rearranged_features = matched_features
+	for n, f in enumerate(rearranged_features):
+		mpf = most_prom_feat(rearranged_features)[n]
+		try:
+			mpf0 = most_prom_feat(rearranged_features)[(n - 1)]
+		except:
+			mpf0 = 0
+		try:
+			mpf1 = most_prom_feat(rearranged_features)[(n + 1)]
+		except:
+			mpf1 = 0
+		for p in f:
+			r = difflib.SequenceMatcher(None, p, mpf).ratio()
+			if mpf0 and mpf1:
+				r0 = difflib.SequenceMatcher(None, p, mpf0).ratio()
+				r1 = difflib.SequenceMatcher(None, p, mpf1).ratio()
+				b_r = max([r, r0 ,r1])
+				if b_r == r0:
+					f.remove(p)
+					rearranged_features[n-1].append(p)
+				elif b_r == r1:
+					f.remove(p)
+					rearranged_features[n+1].append(p)
+			elif mpf0:
+				r0 = difflib.SequenceMatcher(None, p, mpf0).ratio()
+				if r0 > r:
+					f.remove(p)
+					rearranged_features[n-1].append(p)
+			elif mpf1:
+				r1 = difflib.SequenceMatcher(None, p, mpf1).ratio()
+				if r1 > r:
+					f.remove(p)
+					rearranged_features[n+1].append(p)
+	return rearranged_features
+
 # select most prominent features
-def most_prom_feat(features):
+def most_prom_feat(matched_features):
 	# collections module to get the most common property (see below)
 	p_features = []
 	# iterate over groups of phonemic features
-	for group_n, groups in enumerate(features):
+	for group_n, groups in enumerate(matched_features):
 		# iterate over phonemes in each group
 		cur_group = []
 		for phoneme_n, phonemes in enumerate(groups):
@@ -209,18 +255,27 @@ def most_prom_feat(features):
 
 	return p_features
 
+def guess_phoneme(t_phoneme, symbols, features):
+	doc = "Find the phoneme whose feature set has the highest similarity ratio with the theoretical phoneme."
+	ratios = {}
+	for n, f in enumerate(features):
+		ratios[symbols[n]] = difflib.SequenceMatcher(None, t_phoneme, f).ratio()
+	return max(ratios, key=ratios.get)
+
 # match theoretical phonemes as features to IPA symbols in the database
-def match_f_symbols(mcf, matched_features, symbols, features):
+def match_f_symbols(mcf, symbols, features):
 	matched_symbols = []
 	unmatched_features = []
-	for n, feature in enumerate(mcf):
-		if feature in features:
-			matched_symbols.append(symbols[features.index(feature)])
+	for n, t_phoneme in enumerate(mcf):
+		if t_phoneme in features:
+			matched_symbols.append(symbols[features.index(t_phoneme)])
 		else:
 			# so, if there is no match for the theoretical phoneme that we've assembled, we're going to make an educated guess
-			# based on the most frequent repeated symbols for this position
-			matched_symbols.append('(' + c.Counter(repeated_symbols[n]).most_common(1)[0][0] + ')')
-			unmatched_features.append((n, feature))
+			# based on the similarity ratio between our theoretical phoneme and the phonemes in our database
+			# so the phoneme which has the highest similarity ratio with our theoretical phoneme gets picked
+			guessed_symbol = guess_phoneme(t_phoneme, symbols, features)
+			matched_symbols.append('(' + guessed_symbol + ')')
+			unmatched_features.append((n, t_phoneme))
 	unmatched_features = list(filter(None, unmatched_features))
 	return (''.join(matched_symbols), unmatched_features)
 

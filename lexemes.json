@@ -1,52 +1,67 @@
 [
 	{
-		"lang_name": "Albanian",
-		"lang_code": "alb",
-		"form": "dru"
+		"lang_name": "Finnish",
+		"lang_code": "fin",
+		"form": "kolme"
 	},
 	{
-		"lang_name": "Hittite",
-		"lang_code": "hit",
-		"form": "taru"
+		"lang_name": "Estonian",
+		"lang_code": "est",
+		"form": "kolm"
 	},
 	{
-		"lang_name": "Lithuanian",
-		"lang_code": "lit",
-		"form": "derva"
+		"lang_name": "Voro",
+		"lang_code": "???",
+		"form": "kolm"
 	},
 	{
-		"lang_name": "russian",
-		"lang_code": "rus",
-		"form": "drevo"
+		"lang_name": "Livonian",
+		"lang_code": "liv",
+		"form": "kuolm"
 	},
 	{
-		"lang_name": "Old Irish",
-		"lang_code": "sga",
-		"form": "daur"
+		"lang_name": "Northern Sami",
+		"lang_code": "sme",
+		"form": "golbma"
 	},
 	{
-		"lang_name": "cornish",
-		"lang_code": "cor",
-		"form": "derow"
+		"lang_name": "Inner Sami",
+		"lang_code": "???",
+		"form": "kulma"
 	},
 	{
-		"lang_name": "old english",
-		"lang_code": "ang",
-		"form": "treow"
+		"lang_name": "Erzya",
+		"lang_code": "myv",
+		"form": "kolmo"
 	},
 	{
-		"lang_name": "old norse",
-		"lang_code": "non",
-		"form": "tʰrjɛ"
+		"lang_name": "Moksha",
+		"lang_code": "???",
+		"form": "kolmə"
 	},
 	{
-		"lang_name": "ancient greek",
-		"lang_code": "grc",
-		"form": "dory"
+		"lang_name": "Meadow Mari",
+		"lang_code": "???",
+		"form": "kumət"
 	},
 	{
-		"lang_name": "sanskrit",
-		"lang_code": "san",
-		"form": "daru"
+		"lang_name": "Komi",
+		"lang_code": "???",
+		"form": "kuim"
+	},
+	{
+		"lang_name": "Mansi",
+		"lang_code": "???",
+		"form": "hurum"
+	},
+	{
+		"lang_name": "Khanty",
+		"lang_code": "???",
+		"form": "koləm"
+	},
+	{
+		"lang_name": "Hungarian",
+		"lang_code": "mag",
+		"form": "harom"
 	}
 ]
