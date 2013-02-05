@@ -27,56 +27,41 @@ def main():
 	features = pp.features
 
 	# get polysymbol phonemes
-	polysymbols = []
-	for n in symbols:
-		if len(n) > 1:
-			polysymbols.append(n)
+	polysymbols = get_polysymbols(symbols)
 
 	# forms
 	forms = lp.forms
-	splitforms = split_forms(forms, polysymbols)
 
+	# run the reconstruction
+	splitforms = split_forms(forms, polysymbols)
 	maxlength = max_length(splitforms)
 	symbol_groups = assemble_groups(splitforms, maxlength)
 	matched_features = match_p_f(symbol_groups, symbols, features)
-
 	rearranged_features = rearrange_groups(matched_features)
-
 	most_prom_f = most_prom_feat(rearranged_features)
-
 	matched_symbols = match_f_symbols(most_prom_f, symbols, features)
-
-	rearranged_symbols = []
-
-	for x in rearranged_features:
-		cur_group = []
-		for y in x:
-			cur_group.append(symbols[features.index(y)])
-		rearranged_symbols.append(cur_group)
 
 	output = ''
 
+	# verbosity
 	if args.verbose:
 		if args.verbose > 1:
 			if args.verbose > 2:
 				# you probably don't want this much verbosity, but who knows
-				output += """
-Groups: {}
-Features per phoneme per group: {}
-Most prominent features: {}
+				output += """Groups: {}\nFeatures per phoneme per group: {}\nMost prominent features: {}\n
 -----------------\n
 				""".format(symbol_groups, matched_features, most_prom_f)
-			if matched_symbols[1] != []:
-				output += 'Symbol groups: {}\n'.format(symbol_groups)
-				output += 'The following features had no match in the database: {}\n'.format(matched_symbols[1])
-			output += 'Rearranged symbols: {}\n'.format(rearranged_symbols)
-
+			output += 'Symbol groups: {}\n'.format(symbol_groups)
+				
 		if len(unmatched_symbols) != 0:
 			output += 'The following symbols were not in the database: {0}\n'.format(unmatched_symbols)
+			if matched_symbols[1] != []:
+				output += 'The following features had no match in the database and had to be guess-matched: {}\n'.format(matched_symbols[1])
 			
 	
 	output += 'The reconstructed form is *{0}'.format(matched_symbols[0])
 
+	# write to log
 	if args.log:
 		logfile = open('reconstruction_log.txt', 'a')
 		dt = datetime.datetime
@@ -87,6 +72,10 @@ Most prominent features: {}
 	print(output)
 
 # functions
+
+def get_polysymbols(symbols):
+	polysymbols = [n for n in symbols if len(n) > 1]
+	return polysymbols 
 
 def split_forms(forms, polysymbols):
 	doc = "Splits forms into separate phonemes using split_polysymbols"
@@ -188,35 +177,50 @@ def match_p_f(groups, symbols, features):
 	return matched_features
 
 def rearrange_groups(matched_features):
+	doc = "This function rearranges the phoneme groups so that each phoneme is in the group which it belongs to by running the most_prom_feat functions preliminarily and seeing whether the feature set of each phoneme."
+	# the following is done to ensure safety and is probably redundant
 	rearranged_features = matched_features
+	# get the preliminary most prominent features
+	mpf = most_prom_feat(rearranged_features)
 	for n, f in enumerate(rearranged_features):
-		mpf = most_prom_feat(rearranged_features)[n]
+		# get the most prominent features of current group
+		mpfn = mpf[n]
 		try:
-			mpf0 = most_prom_feat(rearranged_features)[(n - 1)]
+			# get the most prominent features of the previous group, if it exists
+			mpf0 = mpf[(n - 1)]
 		except:
-			mpf0 = 0
+			# if not, then not
+			mpf0 = None
 		try:
-			mpf1 = most_prom_feat(rearranged_features)[(n + 1)]
+			# get the most prominent features of the next group, if it exists
+			mpf1 = mpf[(n + 1)]
 		except:
-			mpf1 = 0
+			mpf1 = None
 		for p in f:
-			r = difflib.SequenceMatcher(None, p, mpf).ratio()
+			# calculate the ratio between this phoneme's features and the preliminary theoretical phoneme in the current group
+			r = difflib.SequenceMatcher(None, p, mpfn).ratio()
 			if mpf0 and mpf1:
+				# if both mpf0 and mpf1 exist, calculate similarity ratios for them and the current phoneme's feature set
 				r0 = difflib.SequenceMatcher(None, p, mpf0).ratio()
 				r1 = difflib.SequenceMatcher(None, p, mpf1).ratio()
+				# the greatest similarity ratio
 				b_r = max([r, r0 ,r1])
 				if b_r == r0:
 					f.remove(p)
+					# if it's more similar to the preceding group, move it there
 					rearranged_features[n-1].append(p)
 				elif b_r == r1:
 					f.remove(p)
+					# likewise, if it's more similar to the following group, move it there
 					rearranged_features[n+1].append(p)
 			elif mpf0:
+				# if the next group doesn't exist, work on the previous
 				r0 = difflib.SequenceMatcher(None, p, mpf0).ratio()
 				if r0 > r:
 					f.remove(p)
 					rearranged_features[n-1].append(p)
 			elif mpf1:
+				# if the previous group doesn't exist, work on the next
 				r1 = difflib.SequenceMatcher(None, p, mpf1).ratio()
 				if r1 > r:
 					f.remove(p)

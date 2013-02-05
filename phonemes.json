@@ -667,6 +667,35 @@
 		}
 	},
 	{
+		"symbol": "kʷ",
+		"name": "labialised voiceless velar stop",
+		"features": {
+			"cons": true,
+			"son": false,
+			"syl": false,
+			"labial": true,
+			"round": 0,
+			"coronal": false,
+			"ant": 0,
+			"dist": 0,
+			"dorsal": true,
+			"high": true,
+			"low": false,
+			"back": true,
+			"tense": false,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": false,
+			"SG": false,
+			"CG": false,
+			"cont": false,
+			"strident": false,
+			"lateral": false,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
 		"symbol": "g",
 		"name": "voiced velar stop",
 		"features": {

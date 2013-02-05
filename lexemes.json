@@ -1,67 +1,83 @@
 [
 	{
-		"lang_name": "Finnish",
-		"lang_code": "fin",
-		"form": "kolme"
-	},
-	{
-		"lang_name": "Estonian",
-		"lang_code": "est",
-		"form": "kolm"
-	},
-	{
-		"lang_name": "Voro",
+		"lang_name": "anatolian",
 		"lang_code": "???",
-		"form": "kolm"
+		"form": "panta"
 	},
 	{
-		"lang_name": "Livonian",
-		"lang_code": "liv",
-		"form": "kuolm"
-	},
-	{
-		"lang_name": "Northern Sami",
-		"lang_code": "sme",
-		"form": "golbma"
-	},
-	{
-		"lang_name": "Inner Sami",
+		"lang_name": "ta",
 		"lang_code": "???",
-		"form": "kulma"
+		"form": "pən"
 	},
 	{
-		"lang_name": "Erzya",
-		"lang_code": "myv",
-		"form": "kolmo"
-	},
-	{
-		"lang_name": "Moksha",
+		"lang_name": "tb",
 		"lang_code": "???",
-		"form": "kolmə"
+		"form": "piʃ"
 	},
 	{
-		"lang_name": "Meadow Mari",
+		"lang_name": "Lat",
 		"lang_code": "???",
-		"form": "kumət"
+		"form": "kʷinkʷe"
 	},
 	{
-		"lang_name": "Komi",
+		"lang_name": "osc",
 		"lang_code": "???",
-		"form": "kuim"
+		"form":	"pompe"
 	},
 	{
-		"lang_name": "Mansi",
+		"lang_name": "umb",
 		"lang_code": "???",
-		"form": "hurum"
+		"form": "pumpe"
 	},
 	{
-		"lang_name": "Khanty",
+		"lang_name": "PC",
 		"lang_code": "???",
-		"form": "koləm"
+		"form": "kʷinkʷe"
 	},
 	{
-		"lang_name": "Hungarian",
-		"lang_code": "mag",
-		"form": "harom"
+		"lang_name": "pg",
+		"lang_code": "???",
+		"form": "ɸimɸ"
+	},
+	{
+		"lang_name": "lith",
+		"lang_code": "???",
+		"form": "pɛnkɪ"
+	},
+	{
+		"lang_name": "opr",
+		"lang_code": "???",
+		"form": "penkjai"
+	},
+	{
+		"lang_name": "slav",
+		"lang_code": "???",
+		"form": "peti"
+	},
+	{
+		"lang_name": "agk",
+		"lang_code": "???",
+		"form": "pente"
+	},
+	{
+		"lang_name": "arm",
+		"lang_code": "???",
+		"form": "hing"
+	},
+	{
+		"lang_name": "phr",
+		"lang_code": "???",
+		"form": "pinke"
+	},
+	{
+		"lang_name": "av",
+		"lang_code": "???",
+		"form": "paɲtʃa"
+	},
+	{
+		"lang_name": "skt",
+		"lang_code": "???",
+		"form": "pɐɲcçɐn"
 	}
+
 ]
