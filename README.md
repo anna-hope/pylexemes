@@ -39,6 +39,13 @@ anton@ostensible.me
 ---------------------------------------------
 # Version history
 
+## v 0.5.5 notes (6 Feb 2013):
+- Structural changes: reconstructor is now a class, Reconstructor. Phonemes are now called **segments,** which they should've been from the start. Thanks to Rafael.
+- Reconstructor now has what I call branch-collapsing, whereby it selects the two most similar branches (based on the deconstructed features of their invididual phonemes) and collapses them into one, and then the next two (but not necessarily the on that was just collapsed), and so on. In theory, this should lead to more accurate results, as it should at simulate going up the tree at least somewhat. In practice, it can lead to all sorts of crazy stuff, which is why the old, non-branch-collapsed result is still provided at the end.
+- It was even worse until I made the deconstruction operate based on average and not maximum form length (because all that extra junk morphology was tacked on at the end), and introduced a similarity threshold between forms, which is currently based on the average similarity of the initial forms.
+- Errors corrected in the segment database.
+- Bugs fixed, bugs created.
+
 ##v 0.5 notes (4 Feb 2013):
 - I skipped 0.4 because I felt like it.
 - reconstructor.py is *even more intelligent* now (which is still not that intelligent). It can try to rearrange the phoneme groups so that each phoneme is in the group that it belongs to, using similarity ratios, and it can also use similarity ratios to make an educated guess for a theoretical phoneme if it can't find an exact match in the database.

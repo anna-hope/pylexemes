@@ -3,41 +3,44 @@
 
 import json
 
-class PhonemeParser:
+class SegmentParser:
 
-	def __init__(self, phonemes_f=None):
+	def __init__(self, segments_f=None):
 
 		try:
-			if phonemes_f == None:
-				phonemes = json.load(open('phonemes.json'))
+			if segments_f == None:
+				segments = json.load(open('segments.json'))
 			else:
-				phonemes = json.load(open(phonemes_f))
+				segments = json.load(open(segments_f))
 		except Exception as e:
 			self.somethingwrong(e)
 
-		self._phonemes = phonemes
+		self._segments = segments
 		self._symbols = []
 		self._names = []
 		self._features = []
 
 		try:
-			for n in phonemes:
+			for n in segments:
 				self._symbols.append(n['symbol'])
 				self._names.append(n['name'])
 				self._features.append(list(n['features'].items()))
 		except Exception as e:
 			self.somethingwrong(e)
 
-	def phonemes():
-	    doc = "Phonemes as a dict."
+		polysymbols = [n for n in self._symbols if len(n) > 1]
+		self._polysymbols = polysymbols
+
+	def segments():
+	    doc = "Segments as a dictionary."
 	    def fget(self):
-	        return self._phonemes
+	        return self.segments
 	    def fset(self, value):
-	        self._phonemes = value
+	        self.segments = value
 	    def fdel(self):
-	        del self._phonemes
+	        del self.segments
 	    return locals()
-	phonemes = property(**phonemes())
+	segments = property(**segments())
 	
 	def symbols():
 	    doc = "Phoneme symbols."
@@ -49,6 +52,17 @@ class PhonemeParser:
 	        del self._symbols
 	    return locals()
 	symbols = property(**symbols())
+
+	def polysymbols():
+	    doc = "Polysymbols."
+	    def fget(self):
+	        return self._polysymbols
+	    def fset(self, value):
+	        self._polysymbols = value
+	    def fdel(self):
+	        del self._polysymbols
+	    return locals()
+	polysymbols = property(**polysymbols())
 
 	def names():
 	    doc = "Phoneme names."
@@ -70,9 +84,9 @@ class PhonemeParser:
 	    def fdel(self):
 	        del self._features
 	    return locals()
-	features = property(**features())
+	features = property(**features()) 
 
 	def somethingwrong(self, e):
-		doc = "Invoked when something goes wrong with the phonemes.json file."
+		doc = "Invoked when something goes wrong with the segments.json file."
 		print(e)
-		quit('It seems that there is something wrong with the json file for phonemes. Check it over and run me again.')
+		quit('It seems that there is something wrong with the json file for segments. Check it over and run me again.')

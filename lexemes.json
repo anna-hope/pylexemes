@@ -1,78 +1,52 @@
 [
 	{
-		"lang_name": "anatolian",
-		"lang_code": "???",
-		"form": "panta"
+		"lang_name": "Albanian",
+		"lang_code": "alb",
+		"form": "dru"
 	},
 	{
-		"lang_name": "ta",
-		"lang_code": "???",
-		"form": "pən"
+		"lang_name": "Hittite",
+		"lang_code": "hit",
+		"form": "taru"
 	},
 	{
-		"lang_name": "tb",
-		"lang_code": "???",
-		"form": "piʃ"
+		"lang_name": "Lithuanian",
+		"lang_code": "lit",
+		"form": "derva"
 	},
 	{
-		"lang_name": "Lat",
-		"lang_code": "???",
-		"form": "kʷiinkʷe"
+		"lang_name": "russian",
+		"lang_code": "rus",
+		"form": "dreevo"
 	},
 	{
-		"lang_name": "osc",
-		"lang_code": "???",
-		"form":	"pompe"
+		"lang_name": "Old Irish",
+		"lang_code": "sga",
+		"form": "daur"
 	},
 	{
-		"lang_name": "umb",
-		"lang_code": "???",
-		"form": "pumpe"
+		"lang_name": "cornish",
+		"lang_code": "cor",
+		"form": "derow"
 	},
 	{
-		"lang_name": "pg",
-		"lang_code": "???",
-		"form": "ɸimɸ"
+		"lang_name": "old english",
+		"lang_code": "ang",
+		"form": "treow"
 	},
 	{
-		"lang_name": "lith",
-		"lang_code": "???",
-		"form": "pɛnkɪ"
+		"lang_name": "old norse",
+		"lang_code": "non",
+		"form": "tʰrjɛ"
 	},
 	{
-		"lang_name": "opr",
-		"lang_code": "???",
-		"form": "penkjaai"
+		"lang_name": "ancient greek",
+		"lang_code": "grc",
+		"form": "dory"
 	},
 	{
-		"lang_name": "slav",
-		"lang_code": "???",
-		"form": "peti"
-	},
-	{
-		"lang_name": "agk",
-		"lang_code": "???",
-		"form": "pente"
-	},
-	{
-		"lang_name": "arm",
-		"lang_code": "???",
-		"form": "hing"
-	},
-	{
-		"lang_name": "phr",
-		"lang_code": "???",
-		"form": "pinke"
-	},
-	{
-		"lang_name": "av",
-		"lang_code": "???",
-		"form": "paɲtʃa"
-	},
-	{
-		"lang_name": "skt",
-		"lang_code": "???",
-		"form": "pɐɲcçɐn"
+		"lang_name": "sanskrit",
+		"lang_code": "san",
+		"form": "daru"
 	}
-
 ]
