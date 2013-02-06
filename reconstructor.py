@@ -45,11 +45,17 @@ class Reconstructor:
 		output = ''
 		self._output = output
 
+		# do the reconstructions
+		reconstruction = self.reconstruct(forms, avglength)
+		bc_reconstruction = self.collapse(forms, avglength)
+
+		# ARGUMENTS
+
 		# verbosity
 		if args.verbose:
-	 		if args.verbose > 1:
-	 			output += 'Symbol groups: {}\n'.format(symbol_groups)	
-	#			if args.verbose > 2:
+	 		# if args.verbose > 1:
+	 		#	output += 'Symbol groups: {}\n'.format(symbol_groups)	
+			self._output += 'Similarity threshold: {}\n'.format(self._threshold)
 
 		self._output += 'Without branch collapsing: *{}\n'.format(self.reconstruct(forms, avglength))
 		self._output += ('With branch collapsing: *{}').format(self.collapse(forms, avglength))
@@ -59,7 +65,7 @@ class Reconstructor:
 			logfile = open('reconstruction_log.txt', 'a')
 			dt = datetime.datetime
 			logfile.write('\n\n{0}\n-----------------\n'.format(dt.isoformat(dt.now())))
-			logfile.write(output)
+			logfile.write(self._output)
 			logfile.close()
 
 	def __str__(self):
@@ -127,7 +133,8 @@ class Reconstructor:
 	    def fget(self):
 	        return self._threshold
 	    def fset(self, value):
-	        self._threshold = value
+	    	if self._threshold == None:
+	        	self._threshold = value
 	    def fdel(self):
 	        del self._threshold
 	    return locals()
@@ -160,10 +167,10 @@ class Reconstructor:
 		if len(cur_forms) == 1:
 			return cur_forms[0]
 		elif len(cur_forms) == 2:
-			self._output += str(cur_forms)
+			# self._output += str(cur_forms)
 			return self.reconstruct(cur_forms, avglength)
 		else:
-			self._output += str(cur_forms)
+			# self._output += str(cur_forms)
 			forms_ratios = self.sim_ratios(cur_forms)
 			self.set_threshold(forms_ratios)
 			max_sim_forms = self.max_sim_ratio(forms_ratios)

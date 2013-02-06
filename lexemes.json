@@ -1,52 +1,42 @@
-[
+[	
 	{
-		"lang_name": "Albanian",
-		"lang_code": "alb",
-		"form": "dru"
+		"form": "septyni",
+		"lang_name": "lithuanian",
+		"lang_code": "lit"
 	},
 	{
-		"lang_name": "Hittite",
-		"lang_code": "hit",
-		"form": "taru"
+		"form": "septini",
+		"lang_name": "latvian",
+		"lang_code": "lav"
 	},
 	{
-		"lang_name": "Lithuanian",
-		"lang_code": "lit",
-		"form": "derva"
-	},
-	{
-		"lang_name": "russian",
-		"lang_code": "rus",
-		"form": "dreevo"
-	},
-	{
-		"lang_name": "Old Irish",
-		"lang_code": "sga",
-		"form": "daur"
-	},
-	{
-		"lang_name": "cornish",
-		"lang_code": "cor",
-		"form": "derow"
-	},
-	{
-		"lang_name": "old english",
-		"lang_code": "ang",
-		"form": "treow"
-	},
-	{
-		"lang_name": "old norse",
-		"lang_code": "non",
-		"form": "tʰrjɛ"
-	},
-	{
+		"form": "hepta",
 		"lang_name": "ancient greek",
-		"lang_code": "grc",
-		"form": "dory"
+		"lang_code": "grc"
 	},
 	{
+		"form": "ʃtate", 
+		"lang_name": "albanian", 
+		"lang_code": "alb"
+	},
+	{
+		"form": "saptan",
 		"lang_name": "sanskrit",
-		"lang_code": "san",
-		"form": "daru"
+		"lang_code": "san"
+	},
+	{
+		"form": "septem",
+		"lang_name": "latin",
+		"lang_code": "lat"
+	},
+	{
+		"form": "hapta",
+		"lang_name": "avestan",
+		"lang_code": "ave"
+	},
+	{
+		"form": "sedam",
+		"lang_name": "serbo-croatian",
+		"lang_code": "scr"
 	}
-]
+ ]
