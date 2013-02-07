@@ -15,15 +15,21 @@ class Reconstructor:
 		argparser = argparse.ArgumentParser()
 		argparser.add_argument('-verbose', '-v', action='count', help='varying levels of output verbosity')
 		argparser.add_argument('-log', '-l', action='store_true', help='create a log of reconstruction')
+		argparser.add_argument('-f', '--lexemesfile', type=str, help='specify a lexemes file')
 		args = argparser.parse_args()
 
 		unmatched_symbols = []
 		self._unmatched_symbols = unmatched_symbols
-		# symbol_groups = []
+		
+		# custom lexemes file
+		if args.lexemesfile:
+			lexemesfile = args.lexemesfile
+		else:
+			lexemesfile = 'lexemes.json'
 
 		# call the parsers
 		sp = SegmentParser()
-		lp = LexemeParser()
+		lp = LexemeParser(lexemesfile)
 
 		# segments
 		self._symbols = sp.symbols

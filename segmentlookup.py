@@ -8,8 +8,8 @@ from segmentparser import SegmentParser
 
 argparser = argparse.ArgumentParser()
 group = argparser.add_mutually_exclusive_group()
-group.add_argument('-s', '--segment', type=str, help='segment symbol, name, or feature(s)')
-group.add_argument('--list', type=str, choices=['s', 'n', 'f'], help='list avaliable symbols (s), names (n), or features')
+group.add_argument('--segment', type=str, help='segment symbol, name, or feature(s)')
+group.add_argument('-ls', '--list', type=str, choices=['s', 'n', 'f'], help='list avaliable symbols (s), names (n), or features')
 args = argparser.parse_args()
 
 sp = SegmentParser()

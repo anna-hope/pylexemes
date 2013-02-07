@@ -1,13 +1,20 @@
+#!/usr/bin/env python3
 # Anton Osten
 # http://ostensible.me
 
 import json
 
-class LexemeParser():
+class LexemeParser:
 
-	def __init__(self):
+	def __init__(self, f=None):
+
+		if f != None:
+			lexemefile = f
+		else:
+			lexemefile = 'lexemes.json'
+
 		try:
-			self._lexemes = json.load(open("lexemes.json"))
+			self._lexemes = json.load(open(lexemefile))
 		except ValueError as ve:
 			self.somethingwrong(e)
 		except FileNotFoundError:
@@ -86,11 +93,10 @@ class LexemeParser():
 			langs = json.load(open('langs.json'))
 		except:
 			langs = json.loads('{}')
-		newlangs = langs
 		for lang_name, lang_code in zip(lang_names, lang_codes):
-			if '?' not in lang_code and lang_name not in newlangs:
-				newlangs[lang_name] = lang_code
-		if newlangs != langs:
+			if '?' not in lang_code and lang_name not in langs:
+				langs[lang_name] = lang_code
+		if langs != json.load(open('langs.json')):
 			json.dump(newlangs, open('langs.json', 'w'))
 
 	def somethingwrong(self, e):
