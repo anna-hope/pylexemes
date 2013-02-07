@@ -1,42 +1,58 @@
-[	
+[
 	{
-		"form": "septyni",
-		"lang_name": "lithuanian",
-		"lang_code": "lit"
+		"lang_name": "anatolian",
+		"lang_code": "???",
+		"form": "panta"
 	},
 	{
-		"form": "septini",
-		"lang_name": "latvian",
-		"lang_code": "lav"
+		"lang_name": "Latin",
+		"lang_code": "lat",
+		"form": "kʷiinkʷe"
 	},
 	{
-		"form": "hepta",
-		"lang_name": "ancient greek",
-		"lang_code": "grc"
+		"lang_name": "osc",
+		"lang_code": "???",
+		"form":	"pompe"
 	},
 	{
-		"form": "ʃtate", 
-		"lang_name": "albanian", 
-		"lang_code": "alb"
+		"lang_name": "pg",
+		"lang_code": "???",
+		"form": "ɸimɸ"
 	},
 	{
-		"form": "saptan",
-		"lang_name": "sanskrit",
-		"lang_code": "san"
+		"lang_name": "lith",
+		"lang_code": "???",
+		"form": "pɛnkɪ"
 	},
 	{
-		"form": "septem",
-		"lang_name": "latin",
-		"lang_code": "lat"
+		"lang_name": "opr",
+		"lang_code": "???",
+		"form": "penkjaai"
 	},
 	{
-		"form": "hapta",
-		"lang_name": "avestan",
-		"lang_code": "ave"
+		"lang_name": "agk",
+		"lang_code": "???",
+		"form": "pente"
 	},
 	{
-		"form": "sedam",
-		"lang_name": "serbo-croatian",
-		"lang_code": "scr"
+		"lang_name": "arm",
+		"lang_code": "???",
+		"form": "hing"
+	},
+	{
+		"lang_name": "phr",
+		"lang_code": "???",
+		"form": "pinke"
+	},
+	{
+		"lang_name": "av",
+		"lang_code": "???",
+		"form": "paɲtʃa"
+	},
+	{
+		"lang_name": "skt",
+		"lang_code": "???",
+		"form": "pɐɲcçɐn"
 	}
- ]
+
+]
