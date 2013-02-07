@@ -1,0 +1,42 @@
+[
+	{
+		"form": "brooðor",
+		"lang_name": "old english",
+		"lang_code": "ang"
+	},
+	{
+		"form": "brooðir",
+		"lang_name": "old norse",
+		"lang_code": "non"
+	},
+	{
+		"form": "brooθar",
+		"lang_name": "gothic",
+		"lang_code": "got"
+	},
+	{
+		"form": "bruur",
+		"lang_name": "saterland frisian",
+		"lang_code": "stq"
+	},
+	{
+		"form": "broer",
+		"lang_name": "west frisian",
+		"lang_code": "fry"
+	},
+	{
+		"form": "brooθar",
+		"lang_name": "old saxon",
+		"lang_code": "osx"
+	},
+	{
+		"form": "bruoθar",
+		"lang_name": "old dutch",
+		"lang_code": "odt"
+	},
+	{
+		"form": "bruodar",
+		"lang_name": "old high german",
+		"lang_code": "goh"
+	}
+]
