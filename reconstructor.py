@@ -44,7 +44,7 @@ class Reconstructor:
 		self._threshold = threshold
 
 		# call methods
-		splitforms = self.split_forms(forms, self._polysymbols)
+		splitforms = self.split_forms(forms)
 		avglength = self.avg_length(splitforms)
 		
 		# deal with output
@@ -160,7 +160,7 @@ class Reconstructor:
 	# functions
 
 	def reconstruct(self, cur_forms, avglength):
-		splitforms = self.split_forms(cur_forms, self._polysymbols)
+		splitforms = self.split_forms(cur_forms)
 		symbol_groups = self.assemble_groups(splitforms, avglength)
 		matched_features = self.match_p_f(symbol_groups, self._symbols, self._features)
 		rearranged_features = self.rearrange_groups(matched_features)
@@ -176,7 +176,6 @@ class Reconstructor:
 			# self._output += str(cur_forms)
 			return self.reconstruct(cur_forms, avglength)
 		else:
-			# self._output += str(cur_forms)
 			forms_ratios = self.sim_ratios(cur_forms)
 			self.set_threshold(forms_ratios)
 			max_sim_forms = self.max_sim_ratio(forms_ratios)
@@ -192,7 +191,6 @@ class Reconstructor:
 
 	def pick_likeliest(self, cur_forms, avglength):
 		reconstruction = self.reconstruct(forms, avglength)
-		print('Reconstruction: {}'.format(reconstruction))
 		s_ratios = []
 		for cf in cur_forms:
 			s_ratio = self.sim_ratios([cf, reconstruction])
@@ -205,18 +203,15 @@ class Reconstructor:
 		doc = "Returns tuples of two forms with their similarity ratios."
 		sim_ratios = []
 		for x in forms:
-			split_x = self.split_forms(x, self._polysymbols)
-			len_x = len(x)
-			# x_symbol_groups = assemble_groups(x, len_x)
+			split_x = self.split_forms(x)
 			x_pf = self.match_p_f(split_x, self._symbols, self._features)
 			for y in forms:
 				# no one wants to do extra work
 				if x != y:
-					split_y = self.split_forms(y, self._polysymbols)
-					len_y = len(y)
+					split_y = self.split_forms(y)
 					y_pf = self.match_p_f(split_y, self._symbols, self._features)
 					pf_ratios = []
-					for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=[]):
+					for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=None):
 						try:
 							x_f = x_f[0]
 							y_f = y_f[0]
@@ -254,22 +249,25 @@ class Reconstructor:
 			for fr in forms_ratios:
 				ratios.append(fr[2])
 			avg = sum(ratios)/len(ratios)
+			# square it so that it's not crazy-high if we have a lot of similar forms
 			self._threshold = avg
 
-	def split_forms(self, forms, polysymbols):
+	def split_forms(self, forms):
 		doc = "Splits forms into separate phonemes using split_polysymbols"
 		new_forms = []
-		# iterate over the forms
-		for form in forms:
-			new_forms.append(self.split_polysymbols(form, polysymbols))
+		# check if it's a list of forms or just one form as a string
+		if type(forms) is list:	
+			new_forms = [self.split_polysymbols(form) for form in forms]
+		else:
+			new_forms = self.split_polysymbols(forms)
 		return new_forms
 
-
-	def split_polysymbols(self, form, polysymbols):
+	def split_polysymbols(self, form):
 		doc = "Splits a form into separate phonemes, detecting polysymbollic phonemes such as affricates."
 		splitform = []
 		# this list will contain the indexes of polysymbollic phonemes in our form
 		indexes = []
+		polysymbols = self._polysymbols
 
 		# iterate over the polysymbols to get the indexes
 		for polysymbol in polysymbols:

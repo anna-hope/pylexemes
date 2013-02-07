@@ -94,10 +94,10 @@ class LexemeParser:
 		except:
 			langs = json.loads('{}')
 		for lang_name, lang_code in zip(lang_names, lang_codes):
-			if '?' not in lang_code and lang_name not in langs:
-				langs[lang_name] = lang_code
+			if '?' not in lang_code and lang_name.casefold() not in langs:
+				langs[lang_name.title()] = lang_code
 		if langs != json.load(open('langs.json')):
-			json.dump(newlangs, open('langs.json', 'w'))
+			json.dump(langs, open('langs.json', 'w'))
 
 	def somethingwrong(self, e):
 		doc = "Invoked when there is something wron in the lexemes.json file."

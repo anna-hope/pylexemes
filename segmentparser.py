@@ -21,7 +21,7 @@ class SegmentParser:
 		self._features = []
 
 		try:
-			for n in segments:
+			for n in self._segments:
 				self._symbols.append(n['symbol'])
 				self._names.append(n['name'])
 				self._features.append(list(n['features'].items()))
@@ -34,11 +34,11 @@ class SegmentParser:
 	def segments():
 	    doc = "Segments as a dictionary."
 	    def fget(self):
-	        return self.segments
+	        return self._segments
 	    def fset(self, value):
-	        self.segments = value
+	        self._segments = value
 	    def fdel(self):
-	        del self.segments
+	        del self._segments
 	    return locals()
 	segments = property(**segments())
 	

@@ -8,7 +8,7 @@ from segmentparser import SegmentParser
 
 argparser = argparse.ArgumentParser()
 group = argparser.add_mutually_exclusive_group()
-group.add_argument('--segment', type=str, help='segment symbol, name, or feature(s)')
+group.add_argument('-s', '--segment', type=str, help='segment symbol, name, or feature(s)')
 group.add_argument('-ls', '--list', type=str, choices=['s', 'n', 'f'], help='list avaliable symbols (s), names (n), or features')
 args = argparser.parse_args()
 
@@ -21,7 +21,7 @@ def main():
 		print(list_opts(args.list))
 	# interactive
 	else:
-		query = input("{} segments in the database.\nPlease enter a segment name, symbol, or feature(s). Enter 'list' for a list of queries, 'help' for help,  or 'quit' to quit.\n".format(len(pp.phonemes)))
+		query = input("{} segments in the database.\nPlease enter a segment name, symbol, or feature(s). Enter 'list' for a list of queries, 'help' for help,  or 'quit' to quit.\n".format(len(sp.segments)))
 		while (query != 'quit'):
 			if query == 'list':
 				list_query = input("Enter 's' to see all available symbols, 'n' to see all available segment names, or 'f' to see all possible feature keys.\n")
@@ -50,9 +50,7 @@ def lookup(query):
 	# if it matches a regexp for feature notation
 	elif re.match("\w+ [\+-0]", query):
 		fs_query = re.findall("\w+ [\+-0]", query)
-		fs = []
-		for f in fs_query:
-			fs.append(parse_feature(f))
+		fs = [fs.append(parse_feature(f) for f in fs_query]
 		indexes = []
 		for segment in sp.features:
 			if all(f in segment for f in fs):

@@ -1450,6 +1450,35 @@
 		}
 	},
 	{
+		"symbol": "lʲ",
+		"name": "palatalised alveolar lateral approximant",
+		"features": {
+			"cons": true,
+			"son": true,
+			"syl": false,
+			"labial": false,
+			"round": 0,
+			"coronal": true,
+			"ant": true,
+			"dist": false,
+			"dorsal": true,
+			"high": true,
+			"low": 0,
+			"back": 0,
+			"tense": 0,
+			"pharyngeal": false,
+			"ATR": 0,
+			"voice": true,
+			"SG": false,
+			"CG": false,
+			"cont": true,
+			"strident": false,
+			"lateral": true,
+			"del rel": false,
+			"nasal": false
+		}
+	},
+	{
 		"symbol": "ʎ",
 		"name": "palatal lateral approximant",
 		"features": {
