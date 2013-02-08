@@ -4,10 +4,11 @@
 
 import collections as c
 import itertools as i
-import difflib
-import argparse, datetime
+import difflib, argparse, datetime
 from segmentparser import SegmentParser
 from lexemeparser import LexemeParser
+
+sp = SegmentParser()
 
 class Reconstructor:
 
@@ -28,13 +29,7 @@ class Reconstructor:
 			lexemesfile = 'lexemes.json'
 
 		# call the parsers
-		sp = SegmentParser()
 		lp = LexemeParser(lexemesfile)
-
-		# segments
-		self._symbols = sp.symbols
-		self._polysymbols = sp.polysymbols
-		self._features = sp.features
 
 		# forms
 		forms = lp.forms
@@ -79,50 +74,6 @@ class Reconstructor:
 
 	# properties
 
-	def symbols():
-	    doc = "The symbols property."
-	    def fget(self):
-	        return self._symbols
-	    def fset(self, value):
-	        self._symbols = value
-	    def fdel(self):
-	        del self._symbols
-	    return locals()
-	symbols = property(**symbols())
-
-	def polysymbols():
-		doc = "Polysymbols."
-		def fget(self):
-			return self._polysymbols
-		def fset(self, value):
-			self._polysymbols = value
-		def fdel(self):
-			del self._polysymbols
-		return locals()
-	polysymbols = property(**polysymbols())
-
-	def features():
-	    doc = "Features."
-	    def fget(self):
-	        return self._features
-	    def fset(self, value):
-	        self._features = value
-	    def fdel(self):
-	        del self._features
-	    return locals()
-	features = property(**features())
-
-	def forms():
-	    doc = "The forms property."
-	    def fget(self):
-	        return self._forms
-	    def fset(self, value):
-	        self._forms = value
-	    def fdel(self):
-	        del self._forms
-	    return locals()
-	forms = property(**forms())
-
 	def unmatched_symbols():
 	    doc = "Symbols that were not found in the segment database."
 	    def fget(self):
@@ -160,12 +111,12 @@ class Reconstructor:
 	# functions
 
 	def reconstruct(self, cur_forms, avglength):
-		splitforms = self.split_forms(cur_forms)
-		symbol_groups = self.assemble_groups(splitforms, avglength)
-		matched_features = self.match_p_f(symbol_groups, self._symbols, self._features)
+		tokens = self.split_forms(cur_forms)
+		symbol_groups = self.assemble_groups(tokens, avglength)
+		matched_features = self.match_p_f(symbol_groups, sp.symbols, sp.features)
 		rearranged_features = self.rearrange_groups(matched_features)
 		most_prom_f = self.most_prom_feat(rearranged_features)
-		matched_symbols = self.match_f_symbols(most_prom_f, self._symbols, self._features)
+		matched_symbols = self.match_f_symbols(most_prom_f, sp.symbols, sp.features)
 		return matched_symbols[0]
 
 	def collapse(self, cur_forms, avglength):
@@ -204,12 +155,12 @@ class Reconstructor:
 		sim_ratios = []
 		for x in forms:
 			split_x = self.split_forms(x)
-			x_pf = self.match_p_f(split_x, self._symbols, self._features)
+			x_pf = self.match_p_f(split_x, sp.symbols, sp.features)
 			for y in forms:
 				# no one wants to do extra work
 				if x != y:
 					split_y = self.split_forms(y)
-					y_pf = self.match_p_f(split_y, self._symbols, self._features)
+					y_pf = self.match_p_f(split_y, sp.symbols, sp.features)
 					pf_ratios = []
 					for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=None):
 						try:
@@ -254,20 +205,20 @@ class Reconstructor:
 
 	def split_forms(self, forms):
 		doc = "Splits forms into separate phonemes using split_polysymbols"
-		new_forms = []
+		tokens = []
 		# check if it's a list of forms or just one form as a string
 		if type(forms) is list:	
-			new_forms = [self.split_polysymbols(form) for form in forms]
+			tokens = [self.split_polysymbols(form) for form in forms]
 		else:
-			new_forms = self.split_polysymbols(forms)
-		return new_forms
+			tokens = self.split_polysymbols(forms)
+		return tokens
 
 	def split_polysymbols(self, form):
 		doc = "Splits a form into separate phonemes, detecting polysymbollic phonemes such as affricates."
 		splitform = []
 		# this list will contain the indexes of polysymbollic phonemes in our form
 		indexes = []
-		polysymbols = self._polysymbols
+		polysymbols = sp.polysymbols
 
 		# iterate over the polysymbols to get the indexes
 		for polysymbol in polysymbols:
@@ -351,7 +302,7 @@ class Reconstructor:
 			# iterate over phonemes in each group
 			for symbol in group:
 				if symbol in symbols:
-					cur_feat_g.append(features[symbols.index(symbol)])
+					cur_feat_g.append(list(features[symbol].items()))
 				else:
 					# append the unidentified symbol to the list of unmatched symbols
 					# (if it isn't already there)
@@ -448,25 +399,31 @@ class Reconstructor:
 
 		return p_features
 
-	def guess_segment(self, t_segment, symbols, features):
+	def guess_segment(self, t_segment):
 		doc = "Find the segment whose feature set has the highest similarity ratio with the theoretical segment."
 		ratios = {}
-		for n, f in enumerate(features):
-			ratios[symbols[n]] = difflib.SequenceMatcher(None, t_segment, f).ratio()
+		tstf = [n[0] for n in t_segment if n[1]]
+		for n, f in enumerate(sp.true_features):
+			ratios[f] = difflib.SequenceMatcher(None, tstf, sp.true_features[f]).ratio()
 		return max(ratios, key=ratios.get)
 
 	# match theoretical phonemes as features to IPA symbols in the database
 	def match_f_symbols(self, mcf, symbols, features):
 		matched_symbols = []
+		symbols = []
+		list_features = []
+		for f in features:
+			symbols.append(f)
+			list_features.append(list(features[f].items()))
 		unmatched_features = []
 		for n, t_segment in enumerate(mcf):
-			if t_segment in features:
-				matched_symbols.append(symbols[features.index(t_segment)])
+			if t_segment in list_features:
+				matched_symbols.append(symbols[list_features.index(t_segment)])
 			else:
 				# so, if there is no match for the theoretical segment that we've assembled, we're going to make an educated guess
 				# based on the similarity ratio between our theoretical segment and the phonemes in our database
 				# so the segment which has the highest similarity ratio with our theoretical segment gets picked
-				guessed_symbol = self.guess_segment(t_segment, symbols, features)
+				guessed_symbol = self.guess_segment(t_segment)
 				matched_symbols.append('(' + guessed_symbol + ')')
 				unmatched_features.append((n, t_segment))
 		unmatched_features = list(filter(None, unmatched_features))
@@ -475,7 +432,6 @@ class Reconstructor:
 def main():
 	r = Reconstructor()
 	print(r.output)
-
 
 if __name__ == "__main__":
 	main()

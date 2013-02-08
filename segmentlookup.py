@@ -21,10 +21,10 @@ def main():
 		print(list_opts(args.list))
 	# interactive
 	else:
-		query = input("{} segments in the database.\nPlease enter a segment name, symbol, or feature(s). Enter 'list' for a list of queries, 'help' for help,  or 'quit' to quit.\n".format(len(sp.segments)))
+		query = input("Please enter a segment name, symbol, or feature(s). Enter 'list' for a list of queries, 'help' for help,  or 'quit' to quit.\n")
 		while (query != 'quit'):
 			if query == 'list':
-				list_query = input("Enter 's' to see all available symbols, 'n' to see all available segment names, or 'f' to see all possible feature keys.\n")
+				list_query = input("Enter 's' to see all available symbols, 'n' to see all available segment names, or 'f' to see all possible feature keys.\n".format(len(sp.segments)))
 				print(list_opts(list_query))
 			elif re.match('list [snf]', query):
 				list_query = re.search('(?<= )[snf]', query).group(0)
@@ -38,31 +38,29 @@ def main():
 
 def lookup(query):
 	if query in sp.symbols:
-		index = sp.symbols.index(query)
-		name = sp.names[index]
-		features = sp.features[index]
+		name = sp.names[query]
+		features = sp.true_features[query]
 		return ('Name: {}\nFeatures: {}'.format(name, features))
-	elif query in sp.names:
-		index = sp.names.index(query)
-		symbol = sp.symbols[index]
-		features = sp.features[index]
+	elif query in list(sp.names.values()):
+		symbol = [n for n in sp.names if sp.names[n] == query][0]
+		features = sp.true_features[symbol]
 		return (('Symbol: {}\nFeatures: {}').format(symbol, features))
 	# if it matches a regexp for feature notation
 	elif re.match("\w+ [\+-0]", query):
 		fs_query = re.findall("\w+ [\+-0]", query)
-		fs = [fs.append(parse_feature(f) for f in fs_query]
-		indexes = []
+		fs = [parse_feature(f) for f in fs_query]
+		symbols = []
 		for segment in sp.features:
-			if all(f in segment for f in fs):
-				indexes.append(sp.features.index(segment))
-		if indexes == []:
+			# print(sp.features[segment])
+			if all(f in list(sp.features[segment].items()) for f in fs):
+				symbols.append(segment)
+		if symbols == []:
 			return ('No match found')
 		output = ''
-		for i in indexes:
-			symbol = sp.symbols[i]
-			name = sp.names[i]
-			features = sp.features[i]
-			output += 'Symbol: {}\nName: {}\nFeatures: {}\n-----\n'.format(symbol, name, features)
+		for s in symbols:
+			name = sp.names[s]
+			features = sp.true_features[s]
+			output += 'Symbol: {}\nName: {}\nFeatures: {}\n-----\n'.format(s, name, features)
 		return output
 	else:
 		return ('No match found')
@@ -79,18 +77,30 @@ def parse_feature(feature):
 	return (prop, value)
 
 def list_opts(query):
+	output = ''
 	if query == 's':
-		return sp.symbols
+		output += '\n'
+		for s in sp.symbols:
+			output += '{} '.format(s)
 	elif query == 'n':
-		return sp.names
+		output += '\n'
+		for n in sp.names.values():
+			output += '{}\n'.format(n)
 	elif query == 'f':
-		return list(sp.phonemes[0]['features'].keys())
+		output += '\n'
+		for f in sp.segments[0]['features'].keys():
+			output += '{}\n'.format(f)
+	elif query == 'num':
+		output += '{}\n'.format(len(sp.segments))
+	else:
+		output = 'Invalid query.'
+	return output
 
 def help():
 	os.system('cls' if os.name == 'nt' else 'clear')
 	print("""This is an interface for the segment database used in pylexemes.
 You can search for an IPA symbol of a segment (for example, 's'), its name (like 'voiced dental fricative'), or features (like 'cons +' or 'cont -').
-Features can be combined to see all the phonemes who share all the features listed (like 'cons +, cont -').
+Features can be combined to see all the segments who share all the features listed (like 'cons +, cont -').
 You can enter 'l' or 'list' to see all the available options for each query.\n""")
 	input('press any key to return to main menu\n')
 
