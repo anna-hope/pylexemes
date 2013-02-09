@@ -84,8 +84,8 @@ class LexemeParser:
 		dummydata = [{"lang_name": "alalalian", "lang_code": "aaa", "form": "dvronts"},
 		 {"lang_name": "boblabian", "lang_code": "bbb", "form": "txovant"}, 
 		 {"lang_name": "cycoclian", "lang_code": "ccc", "form": "lwa"}]
-		json.dump(dummydata, open('lexemes.json', 'w'))
-		self._lexemes = json.load(open('lexemes.json', 'r'))
+		json.dump(dummydata, open('dummydata.json', 'w'))
+		self._lexemes = json.load(open('dummydata.json', 'r'))
 
 	def store_lang_info(self, lang_names, lang_codes):
 		doc = "Stores language name and three letter ISO code in a langs.json file for future reference."
