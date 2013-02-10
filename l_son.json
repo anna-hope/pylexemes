@@ -1,0 +1,62 @@
+[
+	{
+		"form": "sunu",
+		"lang_name": "old english",
+		"lang_code": "ang"
+	},
+	{
+		"form": "sonr",
+		"lang_name": "old norse",
+		"lang_code": "non"
+	},
+	{
+		"form": "sunus",
+		"lang_name": "gothic",
+		"lang_code": "got"
+	},
+	{
+		"form": "sunu",
+		"lang_name": "old frisian",
+		"lang_code": "ofs"
+	},
+	{
+		"form": "sunu",
+		"lang_name": "old saxon",
+		"lang_code": "osx"
+	},
+	{
+		"form": "sunu",
+		"lang_name": "old dutch",
+		"lang_code": "odt"
+	},
+	{
+		"form": "sunu",
+		"lang_name": "old high german",
+		"lang_code": "goh"
+	},
+	{
+		"form": "sonɕke",
+		"lang_name": "tocharian b",
+		"lang_code": "txb"
+	},	
+	{
+		"form": "suunu",
+		"lang_name": "sanskrit",
+		"lang_code": "san"
+	},	
+	{
+		"form": "hunu",
+		"lang_name": "avestan",
+		"lang_code": "ave"
+	},	
+	{
+		"form": "sɨnu",
+		"lang_name": "old church slavonic",
+		"lang_code": "chu"
+	},
+	{
+		"form": "suunʊs",
+		"lang_name": "lithuanian",
+		"lang_code": "lit"
+	}		
+]
