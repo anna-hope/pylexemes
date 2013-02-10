@@ -1,0 +1,77 @@
+[	
+	{
+		"form": "dustɹ",
+		"lang_name": "old armenian",
+		"lang_code": "xcl"
+	},
+	{
+		"form": "dʊʃti",
+		"lang_name": "old church slavonic",
+		"lang_code": "chu"
+	},
+	{
+		"form": "tʰyɡatɛɛr",
+		"lang_name": "ancient greek",
+		"lang_code": "grc"
+	},
+	{
+		"form": "duhitr",
+		"lang_name": "sanskrit",
+		"lang_code": "san"
+	},
+	{
+		"form": "futer",
+		"lang_name": "oscan",
+		"lang_code": "osc"
+	},
+	{
+		"form": "dugǝdar",
+		"lang_name": "avestan",
+		"lang_code": "ave"
+	},
+	{
+		"form": "tuwatara",
+		"lang_name": "hittite",
+		"lang_code": "hit"
+	},
+	{
+		"form": "tɕkatɕər",
+		"lang_name": "tocharian a",
+		"lang_code": "xto"
+	},
+	{
+		"form": "tkatɕer",
+		"lang_name": "tocharian b",
+		"lang_code": "txb"
+	},
+	{
+		"form": "doxtor",
+		"lang_name": "old english",
+		"lang_code": "ang"
+	},
+	{
+		"form": "doottir",
+		"lang_name": "old norse",
+		"lang_code": "non"
+	},
+	{
+		"form": "dɔhtar",
+		"lang_name": "gothic",
+		"lang_code": "got"
+	},
+	{
+		"form": "duxtiir",
+		"lang_name": "transalpine gaulish",
+		"lang_code": "xtg"
+	},
+	{
+		"form": "dukti",
+		"lang_name": "old prussian",
+		"lang_code": "prg"
+	},
+	{
+		"form": "duttarijatis",
+		"lang_name": "luwian",
+		"lang_code": "xlu"
+	}
+ ]
