@@ -266,8 +266,6 @@ class Reconstructor:
 					ratio = 0
 				forms_ratios.append((form, ratio))
 				used_forms.append(form)
-				print('And the winner is {}'.format(form))
-		print('And the winners are {}'.format(forms_ratios))
 		return forms_ratios
 
 	def sim_ratios(self, forms):
@@ -301,10 +299,10 @@ class Reconstructor:
 						sim_ratios.append((x, y, ratio))
 						used_forms.append(x)
 						used_forms.append(y)
-					else:
-						while x in forms:
-							forms.remove(x)
-						sim_ratios.append((x, x, 1.0))
+					# else:
+					# 	while x in forms:
+					# 		forms.remove(x)
+					# 	sim_ratios.append((x, x, 1.0))
 						# used_forms.append(x)
 		return sim_ratios
 
