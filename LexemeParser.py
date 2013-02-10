@@ -81,9 +81,9 @@ class LexemeParser:
 	def create_dummy(self):
 		doc = "Creates a dummy lexemes.json file if one isn't found."
 		print("JSON file for lexemes was not found. Creating a dummy.")
-		dummydata = [{"lang_name": "alalalian", "lang_code": "aaa", "form": "dvronts"},
-		 {"lang_name": "boblabian", "lang_code": "bbb", "form": "txovant"}, 
-		 {"lang_name": "cycoclian", "lang_code": "ccc", "form": "lwa"}]
+		dummydata = [{"lang_name": "alalalian", "lang_code": "???", "form": "dvronts"},
+		 {"lang_name": "boblabian", "lang_code": "???", "form": "txovant"}, 
+		 {"lang_name": "cycoclian", "lang_code": "???", "form": "lwa"}]
 		json.dump(dummydata, open('dummydata.json', 'w'))
 		self._lexemes = json.load(open('dummydata.json', 'r'))
 
