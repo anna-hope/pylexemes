@@ -251,8 +251,6 @@ class Reconstructor:
 				sf_ratios = []
 				for form_f, reconstructed_f in i.zip_longest(form_pf, reconstructed_pf, fillvalue=None):
 					try:
-						# this blows up if there is an unrecognised symbol
-						# FIXME
 						form_f = form_f[0]
 						reconstructed_f = reconstructed_f[0]
 						sf_ratio = difflib.SequenceMatcher(None, form_f, reconstructed_f).ratio()
