@@ -232,31 +232,34 @@ class Reconstructor:
 	def sim_ratios(self, forms):
 		doc = "Returns tuples of two forms with their similarity ratios."
 		sim_ratios = []
+		used_forms = []
 		for x in forms:
 			split_x = self.split_forms(x)
 			x_pf = self.match_p_f(split_x)
 			# x_pf = self.match_true_features(split_x)
 			for y in forms:
 				# no one wants to do extra work
-				if x != y:
-					split_y = self.split_forms(y)
-					y_pf = self.match_p_f(split_y)
-					# y_pf = self.match_true_features(split_y)
-					pf_ratios = []
-					for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=None):
+				if x not in used_forms and y not in used_forms:
+					if x != y:
+						split_y = self.split_forms(y)
+						y_pf = self.match_p_f(split_y)
+						# y_pf = self.match_true_features(split_y)
+						pf_ratios = []
+						for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=None):
+							try:
+								x_f = x_f[0]
+								y_f = y_f[0]
+								pf_ratio = difflib.SequenceMatcher(None, x_f, y_f).ratio()
+								pf_ratios.append(pf_ratio)
+							except:
+								pf_ratios.append(sum(pf_ratios)/len(pf_ratios))
 						try:
-							x_f = x_f[0]
-							y_f = y_f[0]
-							pf_ratio = difflib.SequenceMatcher(None, x_f, y_f).ratio()
-							pf_ratios.append(pf_ratio)
-						except:
-							pf_ratios.append(sum(pf_ratios)/len(pf_ratios))
-					try:
-						ratio = sum(pf_ratios)/len(pf_ratios)
-					except ZeroDivisionError:
-						ratio = 0
-					if (y, x, ratio) not in sim_ratios:
+							ratio = sum(pf_ratios)/len(pf_ratios)
+						except ZeroDivisionError:
+							ratio = 0
 						sim_ratios.append((x, y, ratio))
+						used_forms.append(x)
+						used_forms.append(y)
 		return sim_ratios
 
 	def max_sim_ratio(self, forms_ratios):
@@ -525,8 +528,8 @@ class Reconstructor:
 	def guess_segment(self, t_segment):
 		doc = "Find the segment whose feature set has the highest similarity ratio with the theoretical segment."
 		ratios = {}
-		for n, f in enumerate(sp.true_features):
-			ratios[f] = difflib.SequenceMatcher(None, t_segment, list(sp.features[f].values())).ratio()
+		for n, f in enumerate(sp.features):
+			ratios[f] = difflib.SequenceMatcher(None, t_segment, list(sp.features[f].items())).ratio()
 		return max(ratios, key=ratios.get)
 
 	# match theoretical phonemes as features to IPA symbols in the database
@@ -546,7 +549,7 @@ class Reconstructor:
 				# based on the similarity ratio between our theoretical segment and the phonemes in our database
 				# so the segment which has the highest similarity ratio with our theoretical segment gets picked
 				guessed_symbol = self.guess_segment(t_segment)
-				matched_symbols.append('(' + guessed_symbol + ')')
+				matched_symbols.append('(' + guessed_symbol + ')') 
 				unmatched_features.append((n, t_segment))
 		unmatched_features = list(filter(None, unmatched_features))
 		return (''.join(matched_symbols), unmatched_features)
