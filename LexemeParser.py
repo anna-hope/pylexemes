@@ -97,7 +97,7 @@ class LexemeParser:
 			if '?' not in lang_code and lang_name.title() not in langs:
 				# check if this language isn't named differently in the database
 				match_code = [lang for lang in langs if langs[lang] == lang_code.casefold()]
-				if code == []:
+				if match_code == []:
 					# if there isn't  a language with that code, we'll add it
 					langs[lang_name.title()] = lang_code.casefold()
 				else:
