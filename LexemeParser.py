@@ -94,8 +94,16 @@ class LexemeParser:
 		except:
 			langs = json.loads('{}')
 		for lang_name, lang_code in zip(lang_names, lang_codes):
-			if '?' not in lang_code and lang_name.casefold() not in langs:
-				langs[lang_name.title()] = lang_code
+			if '?' not in lang_code and lang_name.title() not in langs:
+				# check if this language isn't named differently in the database
+				match_code = [lang for lang in langs if langs[lang] == lang_code.casefold()]
+				if code == []:
+					# if there isn't  a language with that code, we'll add it
+					langs[lang_name.title()] = lang_code.casefold()
+				else:
+					# if there is a language with that code, but it's named differently, we could change the current instance of it
+					# but I'm sure I want to do that
+					pass
 		if langs != json.load(open('langs.json')):
 			json.dump(langs, open('langs.json', 'w'))
 

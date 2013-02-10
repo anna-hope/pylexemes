@@ -22,7 +22,7 @@ def main():
 		interactive(langs)
 
 def interactive(langs):
-	query = input('Please enter a language name or its three letter ISO code. Type list for a list of languages or quit to quit.\n')
+	query = input('Please enter a language name or its three letter ISO code. Type list for a list of languages or quit to quit.\n> ')
 	while query != 'quit':
 		if query == 'list':
 			print(list_langs(langs))
@@ -32,13 +32,26 @@ def interactive(langs):
 	quit('Bye now!')
 
 def lookup(langs, query):
+	# if there is an exact match for name
 	if query.title() in langs:
 		output = 'ISO code: {}'.format(langs[query.title()])
+	# if there is a (partial) match for iso code
+	elif [lang for lang in langs if query in langs[lang]] != []:
+		results = [lang for lang in langs if query in langs[lang]]
+		if len(results) > 1:
+			output = 'Multiple matches found:\n'
+			for result in results:
+				output += '{}, {}\n'.format(result, langs[result])
+		else:
+			output = [lang for lang in langs if query in langs[lang]][0]
+	# if there is a partial match for name
+	elif [lang for lang in langs if (query.title() in lang or query in lang)] != []:
+		output = 'No exact match found. Perhaps you meant one of these?\n'
+		matching_langs = [lang for lang in langs if (query.title() in lang or query in lang)]
+		for ml in matching_langs:
+			output += '{}, {}\n'.format(ml, langs[ml])
 	else:
-		try:
-			output = [lang for lang in langs if langs[lang] == query][0]
-		except IndexError:
-			output = 'No language with that ISO code found.'
+		output = 'No match found.'
 	return output
 
 def list_langs(langs):
