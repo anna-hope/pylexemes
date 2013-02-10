@@ -182,14 +182,16 @@ class Reconstructor:
 	def collapse(self, cur_forms):
 		doc = "Recursively iterates over forms, each time collapsing two most similar forms into one."
 		if len(cur_forms) == 1:
+			print('Current forms: {}\n'.format(cur_forms))
 			return cur_forms[0]
 		elif len(cur_forms) == 2:
+			print('Current forms: {}\n'.format(cur_forms))
 			return self.reconstruct(cur_forms)
 		else:
+			print('Current forms: {}\n'.format(cur_forms))
 			forms_ratios = self.sim_ratios(cur_forms)
 			self.set_threshold(forms_ratios)
 			ms = self.merge_similar(forms_ratios)
-			print(ms)
 			if ms == []:
 				return self.pick_likeliest(cur_forms)
 			elif(len(ms) >= self._form_cap):
@@ -217,17 +219,58 @@ class Reconstructor:
 						ms.append(reconstruction)
 					else:
 						print('Unlikely: {}'.format(reconstruction))
+		print(ms)
 		return ms
 
 	def is_likely(self, form):
 		try:
-			ratio = (self.sim_ratios([form, self._temp_reconstruction]))[0][2]
+			ratio = (self.temp_rec_sim_ratio(form))[0][1]
+			print('Ratio: {}'.format(ratio))
 		except:
 			return False
 		if ratio >= self._threshold:
 			return True
 		else:
 			return False
+
+	def temp_rec_sim_ratio(self, forms):
+		forms_ratios = []
+		used_forms = []
+		split_reconstructed = self.split_forms(self._temp_reconstruction)
+		reconstructed_pf = self.match_p_f(split_reconstructed)
+		if type(forms) == str:
+			forms = [forms]
+		for form in forms:
+			if form == self._temp_reconstruction:
+				sim_ratios.append(form, form, 1.0)
+				used_forms.append(form)
+				forms.remove(form)
+			else:
+				split_form = self.split_forms(form)
+				form_pf = self.match_p_f(split_form)
+				sf_ratios = []
+				for form_f, reconstructed_f in i.zip_longest(form_pf, reconstructed_pf, fillvalue=None):
+					try:
+						# this blows up if there is an unrecognised symbol
+						# FIXME
+						form_f = form_f[0]
+						reconstructed_f = reconstructed_f[0]
+						sf_ratio = difflib.SequenceMatcher(None, form_f, reconstructed_f).ratio()
+						sf_ratios.append(sf_ratio)
+					except:
+						if len(sf_ratios) != 0:
+							sf_ratios.append(sum(sf_ratios)/len(sf_ratios))
+						else:
+							sim_ratios.append(0)
+				try:
+					ratio = sum(sf_ratios)/len(sf_ratios)
+				except ZeroDivisionError:
+					ratio = 0
+				forms_ratios.append((form, ratio))
+				used_forms.append(form)
+				print('And the winner is {}'.format(form))
+		print('And the winners are {}'.format(forms_ratios))
+		return forms_ratios
 
 	def sim_ratios(self, forms):
 		doc = "Returns tuples of two forms with their similarity ratios."
@@ -260,6 +303,11 @@ class Reconstructor:
 						sim_ratios.append((x, y, ratio))
 						used_forms.append(x)
 						used_forms.append(y)
+					else:
+						while x in forms:
+							forms.remove(x)
+						sim_ratios.append((x, x, 1.0))
+						# used_forms.append(x)
 		return sim_ratios
 
 	def max_sim_ratio(self, forms_ratios):
