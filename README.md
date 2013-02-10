@@ -39,6 +39,10 @@ anton@ostensible.me
 ---------------------------------------------
 # Version history
 
+## v 0.6
+- Branch collapsing didn't work out. In some cases it led to better results, but actually because of its bugs. Yeah. I'll keep in a separate branch, and will come back to it if I have an epiphany, but otherwise it's a failed experiment :(
+- On a happier note, I am not giving up totally, and will try to implement some amount of self-learning. We'll see how that works out.
+
 ## v 0.5.5 notes (6 Feb 2013):
 - Structural changes: reconstructor is now a class, Reconstructor. Phonemes are now called **segments,** which they should've been from the start. Thanks to Rafael.
 - Reconstructor now has what I call branch-collapsing, whereby it selects the two most similar branches (based on the deconstructed features of their invididual phonemes) and collapses them into one, and then the next two (but not necessarily the on that was just collapsed), and so on. In theory, this should lead to more accurate results, as it should at simulate going up the tree at least somewhat. In practice, it can lead to all sorts of crazy stuff, which is why the old, non-branch-collapsed result is still provided at the end.

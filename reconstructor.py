@@ -52,27 +52,18 @@ class Reconstructor:
 		output = ''
 		self._output = output
 
-		# temporary reconstruction
-		forms_ratios = self.sim_ratios(self._starting_forms)
-		max_sim = self.max_sim_ratio(forms_ratios)
-		temp_reconstruction = self.reconstruct([max_sim[0], max_sim[1]])
-		self._temp_reconstruction = temp_reconstruction
-		self._output += 'Temporary reconstruction: {}\n'.format(self._temp_reconstruction)
-
 		# do the reconstructions
 		reconstruction = self.reconstruct(forms)
-		bc_reconstruction = self.collapse(forms)
 
 		# ARGUMENTS
 
 		# verbosity
 		if args.verbose:
+			pass
 	 		# if args.verbose > 1:
-	 		#	output += 'Symbol groups: {}\n'.format(symbol_groups)	
-			self._output += 'Similarity threshold: {}\n'.format(self._threshold)
+	 		#	output += 'Symbol groups: {}\n'.format(symbol_groups)
 
-		self._output += 'Without branch collapsing: *{}\n'.format(reconstruction)
-		self._output += ('With branch collapsing: *{}').format(bc_reconstruction)
+		self._output += 'Reconstruction: *{}'.format(reconstruction)
 
 		# write to log
 		if args.log:
@@ -86,17 +77,6 @@ class Reconstructor:
 		return self._output
 
 	# properties
-
-	def starting_forms():
-	    doc = "Forms given at the beginning."
-	    def fget(self):
-	        return self._starting_forms
-	    def fset(self, value):
-	        self._starting_forms = value
-	    def fdel(self):
-	        del self._starting_forms
-	    return locals()
-	starting_forms = property(**starting_forms())
 
 	def avglength():
 	    doc = "Average length of starting forms."
@@ -120,40 +100,6 @@ class Reconstructor:
 	    return locals()
 	unmatched_symbols = property(**unmatched_symbols())
 
-	def temp_reconstruction():
-	    doc = "The temp_reconstruction property."
-	    def fget(self):
-	        return self._temp_reconstruction
-	    def fset(self, value):
-	        self._temp_reconstruction = value
-	    def fdel(self):
-	        del self._temp_reconstruction
-	    return locals()
-	temp_reconstruction = property(**temp_reconstruction())
-
-	def threshold():
-	    doc = "Form similarity threshold."
-	    def fget(self):
-	        return self._threshold
-	    def fset(self, value):
-	    	if self._threshold == None:
-	        	self._threshold = value
-	    def fdel(self):
-	        del self._threshold
-	    return locals()
-	threshold = property(**threshold())
-
-	def form_cap():
-	    doc = "The form_cap property."
-	    def fget(self):
-	        return self._form_cap
-	    def fset(self, value):
-	        self._form_cap = value
-	    def fdel(self):
-	        del self._form_cap
-	    return locals()
-	form_cap = property(**form_cap())
-
 	def output():
 	    doc = "The output of the reconstruction."
 	    def fget(self):
@@ -168,168 +114,13 @@ class Reconstructor:
 	# functions
 
 	def reconstruct(self, cur_forms):
-		print('Current reconstruction: {}'.format(cur_forms))
 		tokens = self.split_forms(cur_forms)
 		symbol_groups = self.assemble_groups(tokens, self._avglength)
 		matched_features = self.match_p_f(symbol_groups)
-		# matched_features = self.match_true_features(symbol_groups)
 		rearranged_features = self.rearrange_groups(matched_features)
 		most_prom_f = self.most_prom_feat(rearranged_features)
-		# most_prom_f = self.push_features(rearranged_features)
 		matched_symbols = self.match_f_symbols(most_prom_f, sp.symbols, sp.features)
 		return matched_symbols[0]
-
-	def collapse(self, cur_forms):
-		doc = "Recursively iterates over forms, each time collapsing two most similar forms into one."
-		if len(cur_forms) == 1:
-			print('Current forms: {}\n'.format(cur_forms))
-			return cur_forms[0]
-		elif len(cur_forms) == 2:
-			print('Current forms: {}\n'.format(cur_forms))
-			return self.reconstruct(cur_forms)
-		else:
-			print('Current forms: {}\n'.format(cur_forms))
-			forms_ratios = self.sim_ratios(cur_forms)
-			self.set_threshold(forms_ratios)
-			ms = self.merge_similar(forms_ratios)
-			if ms == []:
-				return self.pick_likeliest(cur_forms)
-			elif(len(ms) >= self._form_cap):
-				return self.reconstruct(ms)
-			else:
-				return self.collapse(ms)
-
-	def pick_likeliest(self, cur_forms):
-		s_ratios = []
-		for cf in cur_forms:
-			s_ratio = self.sim_ratios([cf, self._temp_reconstruction])
-			if s_ratio != []:
-				s_ratios.append(s_ratio)
-		likeliest = list(self.max_sim_ratio(s_ratios))
-		return likeliest[0][0]
-
-	def merge_similar(self, forms_ratios):
-		ms = []
-		for fr in forms_ratios:
-			if fr[2] >= self._threshold and self.is_likely(fr[0]) and self.is_likely(fr[1]):
-				if fr[0] not in ms and fr[1] not in ms:
-					reconstruction = self.reconstruct([fr[0], fr[1]])
-					if self.is_likely(reconstruction):
-						print('Likely: {}'.format(reconstruction))
-						ms.append(reconstruction)
-					else:
-						print('Unlikely: {}'.format(reconstruction))
-		print(ms)
-		return ms
-
-	def is_likely(self, form):
-		try:
-			ratio = (self.temp_rec_sim_ratio(form))[0][1]
-			print('Ratio: {}'.format(ratio))
-		except:
-			return False
-		if ratio >= self._threshold:
-			return True
-		else:
-			return False
-
-	def temp_rec_sim_ratio(self, forms):
-		forms_ratios = []
-		used_forms = []
-		split_reconstructed = self.split_forms(self._temp_reconstruction)
-		reconstructed_pf = self.match_p_f(split_reconstructed)
-		if type(forms) == str:
-			forms = [forms]
-		for form in forms:
-			if form == self._temp_reconstruction:
-				sim_ratios.append(form, form, 1.0)
-				used_forms.append(form)
-				forms.remove(form)
-			else:
-				split_form = self.split_forms(form)
-				form_pf = self.match_p_f(split_form)
-				sf_ratios = []
-				for form_f, reconstructed_f in i.zip_longest(form_pf, reconstructed_pf, fillvalue=None):
-					try:
-						form_f = form_f[0]
-						reconstructed_f = reconstructed_f[0]
-						sf_ratio = difflib.SequenceMatcher(None, form_f, reconstructed_f).ratio()
-						sf_ratios.append(sf_ratio)
-					except:
-						if len(sf_ratios) != 0:
-							sf_ratios.append(sum(sf_ratios)/len(sf_ratios))
-						else:
-							sim_ratios.append(0)
-				try:
-					ratio = sum(sf_ratios)/len(sf_ratios)
-				except ZeroDivisionError:
-					ratio = 0
-				forms_ratios.append((form, ratio))
-				used_forms.append(form)
-		return forms_ratios
-
-	def sim_ratios(self, forms):
-		doc = "Returns tuples of two forms with their similarity ratios."
-		sim_ratios = []
-		used_forms = []
-		for x in forms:
-			split_x = self.split_forms(x)
-			x_pf = self.match_p_f(split_x)
-			# x_pf = self.match_true_features(split_x)
-			for y in forms:
-				# no one wants to do extra work
-				if x not in used_forms and y not in used_forms:
-					if x != y:
-						split_y = self.split_forms(y)
-						y_pf = self.match_p_f(split_y)
-						# y_pf = self.match_true_features(split_y)
-						pf_ratios = []
-						for x_f, y_f in i.zip_longest(x_pf, y_pf, fillvalue=None):
-							try:
-								x_f = x_f[0]
-								y_f = y_f[0]
-								pf_ratio = difflib.SequenceMatcher(None, x_f, y_f).ratio()
-								pf_ratios.append(pf_ratio)
-							except:
-								pf_ratios.append(sum(pf_ratios)/len(pf_ratios))
-						try:
-							ratio = sum(pf_ratios)/len(pf_ratios)
-						except ZeroDivisionError:
-							ratio = 0
-						sim_ratios.append((x, y, ratio))
-						used_forms.append(x)
-						used_forms.append(y)
-					# else:
-					# 	while x in forms:
-					# 		forms.remove(x)
-					# 	sim_ratios.append((x, x, 1.0))
-						# used_forms.append(x)
-		return sim_ratios
-
-	def max_sim_ratio(self, forms_ratios):
-		doc = "Returns the forms with the maximum similarity ratio."
-		if len(forms_ratios) == 0:
-			return []
-		if len(forms_ratios) == 1:
-			return forms_ratios
-		for form_ratio in forms_ratios:
-			try:
-				if form_ratio[2] > max_sim[2]:
-					max_sim = form_ratio
-			except:
-				# if it's empty
-				max_sim = form_ratio
-		return max_sim
-
-	def set_threshold(self, forms_ratios):
-		doc = "Sets the similarity threshold for forms."
-		if self._threshold == None:
-			ratios = []
-			for fr in forms_ratios:
-				ratios.append(fr[2])
-			avg = sum(ratios)/len(ratios)
-			# square it so that it's not crazy-high if we have a lot of similar forms
-			self._threshold = avg
 
 	def split_forms(self, forms):
 		doc = "Splits forms into separate phonemes using split_polysymbols"
@@ -394,14 +185,14 @@ class Reconstructor:
 		return len(forms[0])
 
 	def avg_length(self, forms):
-		doc = "Returns average length of lexemes."
+		doc = "Returns the average length of forms."
 		lengths = []
 		for f in forms:
 			lengths.append(len(f))
 		return round(sum(lengths)/len(lengths))
 
-	# assembles phoneme groups
 	def assemble_groups(self, forms, avglength):
+		doc = "Assembles segment groups."
 		s_groups = []
 		p_count = 0
 		while p_count < avglength:
@@ -439,26 +230,6 @@ class Reconstructor:
 			if cur_feat_g != []:
 				matched_features.append(cur_feat_g)
 		return matched_features
-
-	# def match_true_features(self, groups):
-	# 	matched_features = []
-	# 	# iterate over phoneme groups
-	# 	for group in groups:
-	# 		# current phoneme feature group
-	# 		cur_feat_g = []
-	# 		# iterate over phonemes in each group
-	# 		for symbol in group:
-	# 			if symbol in sp.symbols:
-	# 				cur_feat_g.append(sp.true_features[symbol])
-	# 			else:
-	# 				# append the unidentified symbol to the list of unmatched symbols
-	# 				# (if it isn't already there)
-	# 				if symbol not in self._unmatched_symbols:
-	# 					self._unmatched_symbols.append(symbol)
-	# 		if cur_feat_g != []:
-	# 			matched_features.append(cur_feat_g)
-	# 	return matched_features
-
 
 	def rearrange_groups(self, matched_features):
 		doc = "This function rearranges the phoneme groups so that each phoneme is in the group which it belongs to by running the most_prom_feat functions preliminarily and seeing whether the feature set of each phoneme."
@@ -547,26 +318,6 @@ class Reconstructor:
 				p_features.append(cur_group)
 
 		return p_features
-
-	# er, this didn't work out
-	# def push_features(self, matched_features):
-	# 	p_features = []
-	# 	for groups in matched_features:
-	# 		cur_g = []
-	# 		for group in groups:
-	# 			cur_phon = []
-	# 			for n_seg, segment in enumerate(group):
-	# 				cur_segment = []
-	# 				for n, x in enumerate(groups):
-	# 					try:
-	# 						feature = groups[n][n_seg]
-	# 						if feature not in cur_segment:
-	# 							cur_segment.append(feature)
-	# 					except:
-	# 						continue
-	# 				cur_phon += cur_segment
-	# 		p_features.append(cur_phon)
-	# 	return p_features
 
 
 	def guess_segment(self, t_segment):
