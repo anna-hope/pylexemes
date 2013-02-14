@@ -106,6 +106,32 @@ class SegmentParser:
 	    return locals()
 	true_features = property(**true_features())
 
+	def duplicates(self):
+		doc = "Returns segments with the same features."
+		# the two lists are needed to keep indexes in sync
+		done_symbols = []
+		done_features = []
+		duplicate_groups = []
+		for s in self._features:
+			# features of the current segment
+			cur_features = self._features[s]
+			if cur_features in done_features:
+				for duplicate_group in duplicate_groups:
+					# if there is already more than a pair of segments with the same features
+					# we'll do this to add the current segment to the list of those duplicates
+					if done_symbols[done_features.index(cur_features)] in duplicate_group:
+						duplicate_group.append(done_symbols[done_features.index(cur_features)])
+						break
+				else:
+					# otherwise just append it as a list 
+					duplicate_groups.append([done_symbols[done_features.index(cur_features)], s])
+			else:
+				done_symbols.append(s)
+				done_features.append(self._features[s])
+		return duplicate_groups
+
+
+
 	def somethingwrong(self, e):
 		doc = "Invoked when something goes wrong with the segments.json file."
 		print(e)

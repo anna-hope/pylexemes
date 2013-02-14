@@ -5,6 +5,8 @@
 import collections as c
 import itertools as i
 import difflib, argparse, datetime
+from datetime import datetime
+from operator import itemgetter
 from segmentparser import SegmentParser
 from lexemeparser import LexemeParser
 
@@ -30,45 +32,62 @@ class Reconstructor:
 
 		# call the parsers
 		lp = LexemeParser(lexemesfile)
-
-		# forms
+		
 		forms = lp.forms
-		self._starting_forms = forms
+		lang_codes = lp.lang_codes
 
-		# set the threshold to none
-		threshold = None
-		self._threshold = threshold
+		# assemble just the forms
 
-		# set the cap
-		cap = len(forms) * 3
-		self._form_cap = cap
+		prov_recs = []
 
-		# call methods
-		splitforms = self.split_forms(forms)
-		avglength = self.avg_length(splitforms)
-		self._avglength = avglength
+		# run unbiased reconstruction for each root
+		for root in forms:
+			splitforms = self.split_forms(root)
+			avglength = self.avg_length(splitforms)
+			self._avglength = avglength
+			reconstruction = self.reconstruct(root)
+			prov_recs.append(reconstruction)
 		
 		# deal with output
 		output = ''
 		self._output = output
 
 		# do the reconstructions
-		reconstruction = self.reconstruct(forms)
+		self._output += 'Unbiased reconstructions: {}\n'.format(prov_recs)
 
+		# calculate the similarity ratios of each form to the provisional reconstruction
+		ratios = []
+		for prov_rec, root in zip(prov_recs, forms):
+			cur_root_ratios = []
+			for lexeme in root:
+				cur_root_ratios.append(self.sim_ratio(lexeme, prov_rec))
+			ratios.append(cur_root_ratios)
+
+		avg_ratio_lang = {}
+
+		for lang in lang_codes:
+			lang_ratios = [root[lang_codes.index(lang)][2] for root in ratios if root[lang_codes.index(lang)][2] != 0]
+			avg_ratio_lang[lang] = sum(lang_ratios)/len(lang_ratios)
+
+		lang_ratios = [avg_ratio_lang[lang] for lang in avg_ratio_lang]
+
+		b_recs = self.biased_reconstruct(forms, prov_recs)
+		
 		# ARGUMENTS
 
 		# verbosity
 		if args.verbose:
-			pass
-	 		# if args.verbose > 1:
-	 		#	output += 'Symbol groups: {}\n'.format(symbol_groups)
-
-		self._output += 'Reconstruction: *{}'.format(reconstruction)
+			self._output += 'Forms: {}\n'.format(forms)
+			self._output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
+			if args.verbose > 1:
+				self._output += 'Similarity ratios: {}\n'.format(ratios)
+	 	
+		self._output += 'Biased reconstructions: {}\n'.format(b_recs)
 
 		# write to log
 		if args.log:
 			logfile = open('reconstruction_log.txt', 'a')
-			dt = datetime.datetime
+			dt = datetime
 			logfile.write('\n\n{0}\n-----------------\n'.format(dt.isoformat(dt.now())))
 			logfile.write(self._output)
 			logfile.close()
@@ -88,6 +107,17 @@ class Reconstructor:
 	        del self._avglength
 	    return locals()
 	avglength = property(**avglength())
+
+	def threshold():
+	    doc = "Similarity threshold."
+	    def fget(self):
+	        return self._threshold
+	    def fset(self, value):
+	        self._threshold = value
+	    def fdel(self):
+	        del self._threshold
+	    return locals()
+	threshold = property(**threshold())
 
 	def unmatched_symbols():
 	    doc = "Symbols that were not found in the segment database."
@@ -114,13 +144,32 @@ class Reconstructor:
 	# functions
 
 	def reconstruct(self, cur_forms):
+		doc = "Reconstructs multiple forms of a single root based on frequency of each feature in each segment of the root."
 		tokens = self.split_forms(cur_forms)
 		symbol_groups = self.assemble_groups(tokens, self._avglength)
-		matched_features = self.match_p_f(symbol_groups)
-		rearranged_features = self.rearrange_groups(matched_features)
-		most_prom_f = self.most_prom_feat(rearranged_features)
-		matched_symbols = self.match_f_symbols(most_prom_f, sp.symbols, sp.features)
-		return matched_symbols[0]
+		matched_features = self.symbols_to_features(symbol_groups)
+		features = self.rearrange_groups(matched_features)
+		most_prom_f = self.most_prom_feat(features)
+		symbols = self.features_to_symbols(most_prom_f, sp.symbols, sp.features)
+		return symbols[0]
+
+	def biased_reconstruct(self, forms, prov_recs):
+		doc = "Reconstructs every form provided in the data according to how similar each feature of a form is to the feature of the provisional reconstruction"
+		cut_forms = []
+		thresholds = []
+		b_recs = []
+		for root, prov_rec in zip(forms, prov_recs):
+			ratio_pairs = [self.sim_ratio(form, prov_rec) for form in root if form != '-']
+			ratios = [rp[2] for rp in ratio_pairs]
+			threshold = sum(ratios)/len(ratios)
+			thresholds.append(threshold)
+			cut_root = [rp[0] for rp in ratio_pairs if rp[2] >= threshold]
+			cut_forms.append(cut_root)
+		for root, prov_rec in zip(cut_forms, prov_recs):
+			self._avglength = self.avg_length(root)
+			b_rec = self.reconstruct(root + [prov_rec])
+			b_recs.append(b_rec)
+		return b_recs
 
 	def split_forms(self, forms):
 		doc = "Splits forms into separate phonemes using split_polysymbols"
@@ -175,20 +224,12 @@ class Reconstructor:
 				ls.insert((index[0] - adjust), form[index[0]:index[1]])
 				# adjust the next indexes according to the length of the polysymbol that we've just concatenated
 				adjust += ((index[1] - index[0]) - 1)
-
 			splitform = ls
 			return splitform
 
-	# get the length of the longest form
-	def max_length(self, forms):
-		forms.sort(key=len, reverse=True)
-		return len(forms[0])
-
 	def avg_length(self, forms):
 		doc = "Returns the average length of forms."
-		lengths = []
-		for f in forms:
-			lengths.append(len(f))
+		lengths = [len(f) for f in forms]
 		return round(sum(lengths)/len(lengths))
 
 	def assemble_groups(self, forms, avglength):
@@ -212,7 +253,7 @@ class Reconstructor:
 		return s_groups
 
 	# match phonemes to their features
-	def match_p_f(self, groups):
+	def symbols_to_features(self, groups):
 		matched_features = []
 		# iterate over phoneme groups
 		for group in groups:
@@ -319,7 +360,6 @@ class Reconstructor:
 
 		return p_features
 
-
 	def guess_segment(self, t_segment):
 		doc = "Find the segment whose feature set has the highest similarity ratio with the theoretical segment."
 		ratios = {}
@@ -328,7 +368,7 @@ class Reconstructor:
 		return max(ratios, key=ratios.get)
 
 	# match theoretical phonemes as features to IPA symbols in the database
-	def match_f_symbols(self, mcf, symbols, features):
+	def features_to_symbols(self, mcf, symbols, features):
 		matched_symbols = []
 		symbols = []
 		list_features = []
@@ -349,6 +389,37 @@ class Reconstructor:
 		unmatched_features = list(filter(None, unmatched_features))
 		return (''.join(matched_symbols), unmatched_features)
 
+	def sim_ratio(self, form1, form2):
+		# it's unlikely, but whatevs
+		if form1 == form2:
+			return (form1, form2, 1.0)
+
+		f1_tokens = self.split_forms(form1)
+		f1_features = self.symbols_to_features([f1_tokens]) 
+		# this needs to be passed as a list cuz otherwise symbols_to_features thinks that every token is a group
+
+		f2_tokens = self.split_forms(form2)
+		f2_features = self.symbols_to_features([f2_tokens])
+
+		ratios = []
+		for segment1, segment2 in i.zip_longest(f1_features, f2_features, fillvalue=[]):
+			if segment1 == segment2:
+				ratios.append(1.0)
+			else:
+				try:
+					ratios.append(difflib.SequenceMatcher(None, segment1[0], segment2[0]).ratio())
+				except IndexError:
+					# still need to figure out what to do when the iteration falls off the end of one of the forms
+					# if ratios != []:
+					# 	ratios.append(sum(ratios)/len(ratios))
+					break
+		try:
+			ratio = sum(ratios)/len(ratios)
+		except ZeroDivisionError:
+			ratio = 0.0
+			# this looks like an owl in my font
+		return (form1, form2, ratio)
+			
 def main():
 	r = Reconstructor()
 	print(r.output)
