@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 @author Anton Osten
+pylexemes project
 """
 
 import argparse, re, os
@@ -10,26 +11,32 @@ argparser = argparse.ArgumentParser()
 group = argparser.add_mutually_exclusive_group()
 group.add_argument('-s', '--segment', type=str, help='segment symbol, name, or feature(s)')
 group.add_argument('-ls', '--list', type=str, choices=['s', 'n', 'f'], help='list avaliable symbols (s), names (n), or features')
+group.add_argument('-d', '--duplicates', action='store_true', help='displays duplicates (segments with the same feature sets) in the database')
 args = argparser.parse_args()
 
 sp = SegmentParser()
 
 def main():
 	if args.segment:
-		print(lookup(args.segment))
+		print(lookup(args.segment.casefold()))
 	elif args.list:
 		print(list_opts(args.list))
+	elif args.duplicates:
+		print(lookup('duplicates'))
 	# interactive
 	else:
-		query = input("Please enter a segment name, symbol, or feature(s). Enter 'list' for a list of queries, 'help' for help,  or 'quit' to quit.\n")
-		while (query != 'quit'):
-			if query == 'list':
-				list_query = input("Enter 's' to see all available symbols, 'n' to see all available segment names, or 'f' to see all possible feature keys.\n".format(len(sp.segments)))
+		print("Please enter a segment name, symbol, feature(s), or a command. Enter 'help' to see all available commands.")
+		query = input("> ").casefold()
+		while ('quit' not in query):
+			if 'list' in query:
+				print("{} segments in the database".format(len(sp.segments)))
+				print("Enter 's' to see all available symbols, 'n' to see all available segment names, or 'f' to see all possible feature keys.")
+				list_query = input("> ")
 				print(list_opts(list_query))
 			elif re.match('list [snf]', query):
 				list_query = re.search('(?<= )[snf]', query).group(0)
 				print(list_opts(list_query))
-			elif query == 'help':
+			elif 'help' in query:
 				help()
 			else:
 				print(lookup(query))
@@ -37,14 +44,26 @@ def main():
 		quit('Have a nice day!')
 
 def lookup(query):
+	output = ''
+	# just one symbol
 	if query in sp.symbols:
-		name = sp.names[query]
-		features = sp.true_features[query]
-		return ('Name: {}\nFeatures: {}'.format(name, features))
+		output += 'Name: {}\nFeatures: {}'.format(sp.names[query], sp.true_features[query])
+	# multiple symbols
+	elif re.match('\w \w', query):
+		symbols = re.findall('\w', query)
+		features = []
+		for symbol in symbols:
+			output += 'Symbol: {}\n'.format(symbol)
+			output += 'Name: {}\n'.format(sp.names[symbol])
+			s_features = sp.true_features[symbol]
+			output += 'Features: {}\n-----\n'.format(s_features)
+			features.append(s_features)
+		output += shared_features(symbols, features)
+	# exact match for a name
 	elif query in list(sp.names.values()):
 		symbol = [n for n in sp.names if sp.names[n] == query][0]
 		features = sp.true_features[symbol]
-		return (('Symbol: {}\nFeatures: {}').format(symbol, features))
+		output =  'Symbol: {}\nFeatures: {}'.format(symbol, features)
 	# if it matches a regexp for feature notation
 	elif re.match("\w+ [\+-0]", query):
 		fs_query = re.findall("\w+ [\+-0]", query)
@@ -57,13 +76,31 @@ def lookup(query):
 		if symbols == []:
 			return ('No match found')
 		output = ''
+		features = []
 		for s in symbols:
 			name = sp.names[s]
-			features = sp.true_features[s]
-			output += 'Symbol: {}\nName: {}\nFeatures: {}\n-----\n'.format(s, name, features)
-		return output
+			s_features = sp.true_features[s]
+			features.append(s_features)
+			output += 'Symbol: {}\nName: {}\nFeatures: {}\n-----'.format(s, name, s_features)
+		features = [f for s in features for f in s]
+		output += shared_features(symbols, features)
+	# partial name matching
+	elif [segment for segment in sp.names if query in sp.names[segment]] != []:
+		matches = [segment for segment in sp.names if query.casefold() in sp.names[segment]]
+		features = []
+		for m in matches:
+			output += 'Symbol: {}\n'.format(m)
+			output += 'Name: {}\n'.format(sp.names[m])
+			output += 'Features: {}\n'.format(sp.true_features[m])
+			features.append(sp.true_features[m])
+			output += '-----\n'
+		output += shared_features(matches, features)
+	# duplicates
+	elif query == 'duplicates':
+		output = sp.duplicates()
 	else:
-		return ('No match found')
+		output = 'No match found'
+	return output
 
 def parse_feature(feature):
 	prop = re.search('\w+', feature).group(0)
@@ -76,7 +113,19 @@ def parse_feature(feature):
 		value = 0
 	return (prop, value)
 
+def shared_features(segments, features):
+	doc = "Finds features shared between all segments"
+	if len(segments) == 1:
+		return ''
+	features = [f for s in features for f in s]
+	shared_features = [f for f in features if features.count(f) == len(segments)]
+	if shared_features != []:
+		return 'Shared features: {}'.format(set(shared_features))
+	else:
+		return 'No shared features'
+
 def list_opts(query):
+	doc = "List options"
 	output = ''
 	if query == 's':
 		output += '\n'
@@ -101,7 +150,8 @@ def help():
 	print("""This is an interface for the segment database used in pylexemes.
 You can search for an IPA symbol of a segment (for example, 's'), its name (like 'voiced dental fricative'), or features (like 'cons +' or 'cont -').
 Features can be combined to see all the segments who share all the features listed (like 'cons +, cont -').
-You can enter 'l' or 'list' to see all the available options for each query.\n""")
+You can enter 'list' to see all the available options for each query.
+If you want to see duplicates (segments with the same feature sets) currently in the database, enter 'duplicates'.\n""")
 	input('press any key to return to main menu\n')
 
 if __name__ == '__main__':

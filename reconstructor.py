@@ -19,6 +19,7 @@ class Reconstructor:
 		argparser.add_argument('-verbose', '-v', action='count', help='varying levels of output verbosity')
 		argparser.add_argument('-log', '-l', action='store_true', help='create a log of reconstruction')
 		argparser.add_argument('-f', '--lexemesfile', type=str, help='specify a lexemes file')
+		argparser.add_argument('-t','--times', type=int, default=1, help='the number of times to run the reconstruction')
 		args = argparser.parse_args()
 
 		unmatched_symbols = []
@@ -71,7 +72,7 @@ class Reconstructor:
 
 		lang_ratios = [avg_ratio_lang[lang] for lang in avg_ratio_lang]
 
-		b_recs = self.biased_reconstruct(forms, prov_recs)
+		self._reconstruction = self.run_biased(forms, prov_recs, args.times)
 		
 		# ARGUMENTS
 
@@ -82,7 +83,7 @@ class Reconstructor:
 			if args.verbose > 1:
 				self._output += 'Similarity ratios: {}\n'.format(ratios)
 	 	
-		self._output += 'Biased reconstructions: {}\n'.format(b_recs)
+		self._output += 'Biased reconstructions: {}\n'.format(self._reconstruction)
 
 		# write to log
 		if args.log:
@@ -91,9 +92,6 @@ class Reconstructor:
 			logfile.write('\n\n{0}\n-----------------\n'.format(dt.isoformat(dt.now())))
 			logfile.write(self._output)
 			logfile.close()
-
-	def __str__(self):
-		return self._output
 
 	# properties
 
@@ -141,6 +139,17 @@ class Reconstructor:
 	    return locals()
 	output = property(**output())
 
+	def reconstructions():
+	    doc = "Reconstructions."
+	    def fget(self):
+	        return self._reconstructions
+	    def fset(self, value):
+	        self._reconstructions = value
+	    def fdel(self):
+	        del self._reconstructions
+	    return locals()
+	reconstructions = property(**reconstructions())
+
 	# functions
 
 	def reconstruct(self, cur_forms):
@@ -169,7 +178,12 @@ class Reconstructor:
 			self._avglength = self.avg_length(root)
 			b_rec = self.reconstruct(root + [prov_rec])
 			b_recs.append(b_rec)
-		return b_recs
+		return (cut_forms, b_recs)
+
+	def run_biased(self, forms, prov_recs, times):
+		for n in range(times):
+			(forms, prov_recs) = self.biased_reconstruct(forms, prov_recs)
+		return prov_recs
 
 	def split_forms(self, forms):
 		doc = "Splits forms into separate phonemes using split_polysymbols"
@@ -260,7 +274,7 @@ class Reconstructor:
 			# current phoneme feature group
 			cur_feat_g = []
 			# iterate over phonemes in each group
-			for symbol in group:
+			for n, symbol in enumerate(group):
 				if symbol in sp.symbols:
 					cur_feat_g.append(list(sp.features[symbol].items()))
 				else:
