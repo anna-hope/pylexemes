@@ -22,16 +22,21 @@ class LexemeParser:
 			
 		self._lang_names = []
 		self._lang_codes = []
+		self._true_recs = None
 		raw_forms = []
 
 		for n in self._lexemes:
 			try:
-				self._lang_names.append(n['lang_name'])
-				self._lang_codes.append(n['lang_code'])
-				lang_forms = re.findall('[\w-]+', n['forms'])
-				raw_forms.append((lang_forms, n['lang_code']))
+				if n['lang_name'].casefold() == 'key':
+					self._true_recs = re.findall('[\w-]+', n['forms'])
+				else:
+					self._lang_names.append(n['lang_name'])
+					self._lang_codes.append(n['lang_code'])
+					lang_forms = re.findall('[\w-]+', n['forms'])
+					raw_forms.append((lang_forms, n['lang_code']))
 			except KeyError as ke:
 				self.somethingwrong(ke)
+
 
 		self._forms = self.sort_forms(raw_forms)
 		self.store_lang_info(self._lang_names, self._lang_codes)
@@ -79,6 +84,17 @@ class LexemeParser:
 	        del self._forms
 	    return locals()
 	forms = property(**forms())
+
+	def true_recs():
+	    doc = "Real reconstructions, used for testing."
+	    def fget(self):
+	        return self._true_recs
+	    def fset(self, value):
+	        self._true_recs = value
+	    def fdel(self):
+	        del self._true_recs
+	    return locals()
+	true_recs = property(**true_recs())
 
 	def sort_forms(self, raw_forms):
 		numlangs = len(raw_forms)

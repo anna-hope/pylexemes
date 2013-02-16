@@ -73,15 +73,19 @@ class Reconstructor:
 		lang_ratios = [avg_ratio_lang[lang] for lang in avg_ratio_lang]
 
 		self._reconstruction = self.run_biased(forms, prov_recs, args.times)
+		tests = self.test_recs(self._reconstruction, lp.true_recs, lang_ratios)
 		
 		# ARGUMENTS
 
 		# verbosity
 		if args.verbose:
-			self._output += 'Forms: {}\n'.format(forms)
 			self._output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
+			for test in tests:
+				self._output += '{}, {}, {}\n'.format(test[0], test[1], test[2])
 			if args.verbose > 1:
 				self._output += 'Similarity ratios: {}\n'.format(ratios)
+				self._output += 'Forms: {}\n'.format(forms)
+				self._output += 'Language ratios: {}\n'.format(avg_ratio_lang)
 	 	
 		self._output += 'Biased reconstructions: {}\n'.format(self._reconstruction)
 
@@ -427,30 +431,41 @@ class Reconstructor:
 			return (form1, form2, 1.0)
 
 		f1_tokens = self.split_forms(form1)
-		f1_features = self.symbols_to_features([f1_tokens]) 
-		# this needs to be passed as a list cuz otherwise symbols_to_features thinks that every token is a group
-
 		f2_tokens = self.split_forms(form2)
-		f2_features = self.symbols_to_features([f2_tokens])
+
+		# this needs to be passed as a list cuz otherwise symbols_to_features thinks that every token is a group
+		try:
+			f1_features = (self.symbols_to_features([f1_tokens]))[0] 
+			f2_features = (self.symbols_to_features([f2_tokens]))[0]
+		except IndexError:
+			return (form1, form2, 0.0)
 
 		ratios = []
 		for segment1, segment2 in i.zip_longest(f1_features, f2_features, fillvalue=[]):
 			if segment1 == segment2:
 				ratios.append(1.0)
+			elif segment1 == [] or segment2 == []:
+				# still don't really know what to do in this case
+				break
 			else:
-				try:
-					ratios.append(difflib.SequenceMatcher(None, segment1[0], segment2[0]).ratio())
-				except IndexError:
-					# still need to figure out what to do when the iteration falls off the end of one of the forms
-					# if ratios != []:
-					# 	ratios.append(sum(ratios)/len(ratios))
-					break
+				ratios.append(difflib.SequenceMatcher(None, segment1, segment2).ratio())
 		try:
 			ratio = sum(ratios)/len(ratios)
 		except ZeroDivisionError:
 			ratio = 0.0
 			# this looks like an owl in my font
 		return (form1, form2, ratio)
+
+	def test_recs(self, recs, true_recs, lang_ratios):
+		threshold = sum(lang_ratios)/len(lang_ratios)
+		tests = []
+		for rec, true_rec in zip(recs, true_recs):
+			ratio = (self.sim_ratio(rec, true_rec))
+			if ratio[2] >= threshold:
+				tests.append((rec, ratio[2], 'passed'))
+			else:
+				tests.append((rec, ratio[2], 'failed'))
+		return tests
 			
 def main():
 	r = Reconstructor()

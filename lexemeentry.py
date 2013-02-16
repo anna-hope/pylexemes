@@ -36,6 +36,7 @@ def main():
 	try:
 		lang_code = langs[lang_name]
 	except KeyError:
+		print('Please enter ')
 		lang_code = input('Please enter its three letter ISO code:\n> ').casefold()
 	forms = input('Please enter forms separated by a comma (a,b,c,etc.):\n> ').casefold()
 
@@ -48,7 +49,12 @@ def main():
 		quit('Okay. See you later then!')
 
 def add_entry(lexemesfile, entry, lexemes):
-	lexemes.append(entry)
+	if entry['lang_name'] in [lexeme['lang_name'] for lexeme in lexemes]:
+		match = [lexeme for lexeme in lexemes if lexeme['lang_name'] == entry['lang_name']][0]
+		lexemes.remove(match)
+		lexemes.append(entry)
+	else:
+		lexemes.append(entry)
 	json.dump(lexemes, open(lexemesfile, 'w'))
 
 if __name__ == "__main__":
