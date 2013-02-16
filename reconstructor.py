@@ -293,7 +293,7 @@ class Reconstructor:
 		# get the preliminary most prominent features
 		# mpf = self.push_features(rearranged_features)
 		mpf = self.most_prom_feat(rearranged_features)
-		for n, f in enumerate(rearranged_features):
+		for n, g in enumerate(rearranged_features):
 			# get the most prominent features of current group
 			try:		
 				mpfn = mpf[n]
@@ -310,36 +310,54 @@ class Reconstructor:
 				mpf1 = mpf[(n + 1)]
 			except:
 				mpf1 = None
-			for p in f:
+			for s in g:
 				# calculate the ratio between this phoneme's features and the preliminary theoretical phoneme in the current group
-				r = difflib.SequenceMatcher(None, p, mpfn).ratio()
+				r = difflib.SequenceMatcher(None, s, mpfn).ratio()
 				if mpf0 and mpf1:
 					# if both mpf0 and mpf1 exist, calculate similarity ratios for them and the current phoneme's feature set
-					r0 = difflib.SequenceMatcher(None, p, mpf0).ratio()
-					r1 = difflib.SequenceMatcher(None, p, mpf1).ratio()
+					r0 = difflib.SequenceMatcher(None, s, mpf0).ratio()
+					r1 = difflib.SequenceMatcher(None, s, mpf1).ratio()
 					# the greatest similarity ratio
 					b_r = max([r, r0 ,r1])
 					if b_r == r0:
-						f.remove(p)
+						g.remove(s)
 						# if it's more similar to the preceding group, move it there
-						rearranged_features[n-1].append(p)
+						rearranged_features[n-1].append(s)
 					elif b_r == r1:
-						f.remove(p)
+						g.remove(s)
 						# likewise, if it's more similar to the following group, move it there
-						rearranged_features[n+1].append(p)
+						rearranged_features[n+1].append(s)
 				elif mpf0:
 					# if the next group doesn't exist, work on the previous
-					r0 = difflib.SequenceMatcher(None, p, mpf0).ratio()
+					r0 = difflib.SequenceMatcher(None, s, mpf0).ratio()
 					if r0 > r:
-						f.remove(p)
-						rearranged_features[n-1].append(p)
+						g.remove(s)
+						rearranged_features[n-1].append(s)
 				elif mpf1:
 					# if the previous group doesn't exist, work on the next
-					r1 = difflib.SequenceMatcher(None, p, mpf1).ratio()
+					r1 = difflib.SequenceMatcher(None, s, mpf1).ratio()
 					if r1 > r:
-						f.remove(p)
-						rearranged_features[n+1].append(p)
+						g.remove(s)
+						rearranged_features[n+1].append(s)
+		# if there are still extraneous segments, let's just kill them
+		rearranged_features = self.drop_segments(rearranged_features)
 		return rearranged_features
+
+	def drop_segments(self, s_features):
+		doc = "Drops segments which are extraneous based on their similarity to the most prominent segment features in their group"
+		mpf = self.most_prom_feat(s_features)
+		new_groups = []
+		for n, g in enumerate(s_features):
+			mpfn = mpf[n]
+			threshold = self.avg_sg_ratio(g)
+			cut_segments = [segment for segment in g if difflib.SequenceMatcher(None, segment, mpfn).ratio() >= threshold]
+			new_groups.append(cut_segments)
+		return new_groups
+
+	def avg_sg_ratio(self, s_features):
+		doc = "Returns the average similarity ratio for that segment group, used for thresholding"
+		ratios = [difflib.SequenceMatcher(None, x, y).ratio() for x in s_features for y in s_features]
+		return sum(ratios)/len(ratios)
 
 	# select most prominent features
 	def most_prom_feat(self, matched_features):

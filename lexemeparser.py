@@ -28,7 +28,7 @@ class LexemeParser:
 			try:
 				self._lang_names.append(n['lang_name'])
 				self._lang_codes.append(n['lang_code'])
-				lang_forms = re.findall('\w+', n['forms'])
+				lang_forms = re.findall('[\w-]+', n['forms'])
 				raw_forms.append((lang_forms, n['lang_code']))
 			except KeyError as ke:
 				self.somethingwrong(ke)
