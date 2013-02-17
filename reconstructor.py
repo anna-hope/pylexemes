@@ -402,7 +402,7 @@ class Reconstructor:
 	def guess_segment(self, t_segment):
 		doc = "Find the segment whose feature set has the highest similarity ratio with the theoretical segment."
 		ratios = {}
-		for n, f in enumerate(sp.features):
+		for f in sp.features:
 			ratios[f] = difflib.SequenceMatcher(None, t_segment, list(sp.features[f].items())).ratio()
 		return max(ratios, key=ratios.get)
 

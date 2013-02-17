@@ -29,16 +29,19 @@ def main():
 	except FileNotFoundError:
 		lexemes = []
 
-	lang_name = input('Please enter a language name:\n> ').title()
+	print('Please enter a language name:')
+	lang_name = input('> ').title()
 	if lang_name == 'quit' or lang_name == '':
 		quit()
 
 	try:
 		lang_code = langs[lang_name]
 	except KeyError:
-		print('Please enter ')
-		lang_code = input('Please enter its three letter ISO code:\n> ').casefold()
-	forms = input('Please enter forms separated by a comma (a,b,c,etc.):\n> ').casefold()
+		print('Please enter its three letter ISO code:')
+		lang_code = input('> ').casefold()
+
+	print('Please enter forms separated by a comma (a, b, c, etc.) or dash (-) if there is no form:')
+	forms = input('> ').casefold()
 
 	entry = {"lang_name": lang_name, "lang_code": lang_code, "forms": forms}
 	add_entry(lexemesfile, entry, lexemes)
