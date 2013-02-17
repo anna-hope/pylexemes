@@ -79,15 +79,15 @@ class Reconstructor:
 
 		# verbosity
 		if args.verbose:
-			self._output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
-			for test in tests:
-				self._output += '{}, {}, {}\n'.format(test[0], test[1], test[2])
 			if args.verbose > 1:
 				self._output += 'Similarity ratios: {}\n'.format(ratios)
 				self._output += 'Forms: {}\n'.format(forms)
 				self._output += 'Language ratios: {}\n'.format(avg_ratio_lang)
+			self._output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
+			for test in tests:
+				self._output += '{}, {}%, {}\n'.format(test[0], test[1], test[2])
 	 	
-		self._output += 'Biased reconstructions: {}\n'.format(self._reconstruction)
+		self._output += 'Biased reconstructions: {}'.format(self._reconstruction)
 
 		# write to log
 		if args.log:
@@ -169,14 +169,17 @@ class Reconstructor:
 	def biased_reconstruct(self, forms, prov_recs):
 		doc = "Reconstructs every form provided in the data according to how similar each feature of a form is to the feature of the provisional reconstruction"
 		cut_forms = []
-		thresholds = []
 		b_recs = []
 		for root, prov_rec in zip(forms, prov_recs):
 			ratio_pairs = [self.sim_ratio(form, prov_rec) for form in root if form != '-']
 			ratios = [rp[2] for rp in ratio_pairs]
 			threshold = sum(ratios)/len(ratios)
-			thresholds.append(threshold)
-			cut_root = [rp[0] for rp in ratio_pairs if rp[2] >= threshold]
+			# cut_root = [rp[0] for rp in ratio_pairs if rp[2] >= threshold]
+			cut_root = []
+			for rp in ratio_pairs:
+				if rp[2] >= threshold:
+					for n in range(round(rp[2] * 10)):
+						cut_root.append(rp[0])
 			cut_forms.append(cut_root)
 		for root, prov_rec in zip(cut_forms, prov_recs):
 			self._avglength = self.avg_length(root)
@@ -462,9 +465,9 @@ class Reconstructor:
 		for rec, true_rec in zip(recs, true_recs):
 			ratio = (self.sim_ratio(rec, true_rec))
 			if ratio[2] >= threshold:
-				tests.append((rec, ratio[2], 'passed'))
+				tests.append((rec, (round(ratio[2] * 100)), 'passed'))
 			else:
-				tests.append((rec, ratio[2], 'failed'))
+				tests.append((rec, (round(ratio[2] * 100)), 'failed'))
 		return tests
 			
 def main():
