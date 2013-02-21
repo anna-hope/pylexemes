@@ -97,7 +97,7 @@ def lookup(query):
 		output += shared_features(matches, features)
 	# duplicates
 	elif query == 'duplicates':
-		output = sp.duplicates()
+		output = sp.duplicates
 	else:
 		output = 'No match found'
 	return output

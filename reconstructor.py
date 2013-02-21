@@ -84,9 +84,13 @@ class Reconstructor:
 				self._output += 'Forms: {}\n'.format(forms)
 				self._output += 'Language ratios: {}\n'.format(avg_ratio_lang)
 			self._output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
-			for test in tests:
-				self._output += '{}, {}%, {}\n'.format(test[0], test[1], test[2])
-	 	
+			try:
+				for test in tests[0]:
+					self._output += '{}, real reconstruction: {}, similarity: {}%, {}\n'.format(test[0], test[1], test[2], test[3])
+				self._output += 'average accuracy: {}%, {}\n'.format(tests[1][0], tests[1][1])
+			except TypeError:
+				pass
+
 		self._output += 'Biased reconstructions: {}'.format(self._reconstruction)
 
 		# write to log
@@ -449,6 +453,12 @@ class Reconstructor:
 				ratios.append(1.0)
 			elif segment1 == [] or segment2 == []:
 				# still don't really know what to do in this case
+				# because any clever trick I try leads to worse reconstructions
+				# like the one below, for instance
+				# try:
+				# 	ratios.append((sum(ratios)/len(ratios)) ** (len(f1_features) - len(f2_features)))
+				# except ZeroDivisionError:
+				# 	pass
 				break
 			else:
 				ratios.append(difflib.SequenceMatcher(None, segment1, segment2).ratio())
@@ -460,15 +470,23 @@ class Reconstructor:
 		return (form1, form2, ratio)
 
 	def test_recs(self, recs, true_recs, lang_ratios):
+		if true_recs == None:
+			return
 		threshold = sum(lang_ratios)/len(lang_ratios)
 		tests = []
 		for rec, true_rec in zip(recs, true_recs):
 			ratio = (self.sim_ratio(rec, true_rec))
 			if ratio[2] >= threshold:
-				tests.append((rec, (round(ratio[2] * 100)), 'passed'))
+				tests.append((rec, true_rec, (round((ratio[2] * 100), 1)), 'passed'))
 			else:
-				tests.append((rec, (round(ratio[2] * 100)), 'failed'))
-		return tests
+				tests.append((rec, true_rec, (round((ratio[2] * 100), 1)), 'failed'))
+		ratios = [test[2] for test in tests]
+		avg = sum(ratios)/len(ratios)
+		if avg >= threshold:
+			result = (round(avg, 1), 'success :)')
+		else:
+			result = (round(avg, 1), 'failure :(')
+		return (tests, result)
 			
 def main():
 	r = Reconstructor()

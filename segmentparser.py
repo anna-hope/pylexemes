@@ -39,6 +39,7 @@ class SegmentParser:
 		 	segment_true_features = [f for f in self._features[s] if self._features[s][f]]
 		 	true_features[s] = segment_true_features
 		self._true_features = true_features
+		self._duplicates = self.find_duplicates()
 
 	def segments():
 	    doc = "Segments as a dictionary."
@@ -106,7 +107,18 @@ class SegmentParser:
 	    return locals()
 	true_features = property(**true_features())
 
-	def duplicates(self):
+	def duplicates():
+	    doc = "The duplicates property."
+	    def fget(self):
+	        return self._duplicates
+	    def fset(self, value):
+	        self._duplicates = value
+	    def fdel(self):
+	        del self._duplicates
+	    return locals()
+	duplicates = property(**duplicates())
+
+	def find_duplicates(self):
 		doc = "Returns segments with the same features."
 		# the two lists are needed to keep indexes in sync
 		done_symbols = []
@@ -119,8 +131,10 @@ class SegmentParser:
 				for duplicate_group in duplicate_groups:
 					# if there is already more than a pair of segments with the same features
 					# we'll do this to add the current segment to the list of those duplicates
+					# first checking that we're not adding a duplicate (ha!) symbol
 					if done_symbols[done_features.index(cur_features)] in duplicate_group:
-						duplicate_group.append(done_symbols[done_features.index(cur_features)])
+						symbol = [s for s in self._features if (s not in duplicate_group and self._features[s] == cur_features)][0]
+						duplicate_group.append(symbol)
 						break
 				else:
 					# otherwise just append it as a list 
