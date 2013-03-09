@@ -144,8 +144,6 @@ class SegmentParser:
 				done_features.append(self._features[s])
 		return duplicate_groups
 
-
-
 	def somethingwrong(self, e):
 		doc = "Invoked when something goes wrong with the segments.json file."
 		print(e)

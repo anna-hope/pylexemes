@@ -14,21 +14,13 @@ sp = SegmentParser()
 
 class Reconstructor:
 
-	def __init__(self):
-		argparser = argparse.ArgumentParser()
-		argparser.add_argument('-verbose', '-v', action='count', help='varying levels of output verbosity')
-		argparser.add_argument('-log', '-l', action='store_true', help='create a log of reconstruction')
-		argparser.add_argument('-f', '--lexemesfile', type=str, help='specify a lexemes file')
-		argparser.add_argument('-t','--times', type=int, default=1, help='the number of times to run the reconstruction')
-		args = argparser.parse_args()
+	def __init__(self, lexemesfile=None, times=1, verbose=0, log=False):
 
 		unmatched_symbols = []
 		self._unmatched_symbols = unmatched_symbols
 		
 		# custom lexemes file
-		if args.lexemesfile:
-			lexemesfile = args.lexemesfile
-		else:
+		if lexemesfile is None:
 			lexemesfile = 'lexemes.json'
 
 		# call the parsers
@@ -51,10 +43,10 @@ class Reconstructor:
 		
 		# deal with output
 		output = ''
-		self._output = output
+		self.output = output
 
 		# do the reconstructions
-		self._output += 'Unbiased reconstructions: {}\n'.format(prov_recs)
+		self.output += 'Unbiased reconstructions: {}\n'.format(prov_recs)
 
 		# calculate the similarity ratios of each form to the provisional reconstruction
 		ratios = []
@@ -72,91 +64,34 @@ class Reconstructor:
 
 		lang_ratios = [avg_ratio_lang[lang] for lang in avg_ratio_lang]
 
-		self._reconstruction = self.run_biased(forms, prov_recs, args.times)
-		tests = self.test_recs(self._reconstruction, lp.true_recs, lang_ratios)
+		self._reconstructions = self.run_biased(forms, prov_recs, times)
+		tests = self.test_recs(self._reconstructions, lp.true_recs, lang_ratios)
 		
 		# ARGUMENTS
 
 		# verbosity
-		if args.verbose:
-			if args.verbose > 1:
-				self._output += 'Similarity ratios: {}\n'.format(ratios)
-				self._output += 'Forms: {}\n'.format(forms)
-				self._output += 'Language ratios: {}\n'.format(avg_ratio_lang)
-			self._output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
+		if verbose:
+			if verbose > 1:
+				self.output += 'Similarity ratios: {}\n'.format(ratios)
+				self.output += 'Forms: {}\n'.format(forms)
+				self.output += 'Language ratios: {}\n'.format(avg_ratio_lang)
+			self.output += 'Symbols not found in the database: {}\n'.format(self._unmatched_symbols)
 			try:
 				for test in tests[0]:
-					self._output += '{}, real reconstruction: {}, similarity: {}%, {}\n'.format(test[0], test[1], test[2], test[3])
-				self._output += 'average accuracy: {}%, {}\n'.format(tests[1][0], tests[1][1])
+					self.output += '{}, real reconstruction: {}, similarity: {}%, {}\n'.format(test[0], test[1], test[2], test[3])
+				self.output += 'average accuracy: {}%, {}\n'.format(tests[1][0], tests[1][1])
 			except TypeError:
 				pass
 
-		self._output += 'Biased reconstructions: {}'.format(self._reconstruction)
+		self.output += 'Biased reconstructions: {}'.format(self._reconstructions)
 
 		# write to log
-		if args.log:
+		if log:
 			logfile = open('reconstruction_log.txt', 'a')
 			dt = datetime
 			logfile.write('\n\n{0}\n-----------------\n'.format(dt.isoformat(dt.now())))
-			logfile.write(self._output)
+			logfile.write(self.output)
 			logfile.close()
-
-	# properties
-
-	def avglength():
-	    doc = "Average length of starting forms."
-	    def fget(self):
-	        return self._avglength
-	    def fset(self, value):
-	        self._avglength = value
-	    def fdel(self):
-	        del self._avglength
-	    return locals()
-	avglength = property(**avglength())
-
-	def threshold():
-	    doc = "Similarity threshold."
-	    def fget(self):
-	        return self._threshold
-	    def fset(self, value):
-	        self._threshold = value
-	    def fdel(self):
-	        del self._threshold
-	    return locals()
-	threshold = property(**threshold())
-
-	def unmatched_symbols():
-	    doc = "Symbols that were not found in the segment database."
-	    def fget(self):
-	        return self._unmatched_symbols
-	    def fset(self, value):
-	        self._unmatched_symbols = value
-	    def fdel(self):
-	        del self._unmatched_symbols
-	    return locals()
-	unmatched_symbols = property(**unmatched_symbols())
-
-	def output():
-	    doc = "The output of the reconstruction."
-	    def fget(self):
-	        return self._output
-	    def fset(self, value):
-	        self._output = value
-	    def fdel(self):
-	        del self._output
-	    return locals()
-	output = property(**output())
-
-	def reconstructions():
-	    doc = "Reconstructions."
-	    def fget(self):
-	        return self._reconstructions
-	    def fset(self, value):
-	        self._reconstructions = value
-	    def fdel(self):
-	        del self._reconstructions
-	    return locals()
-	reconstructions = property(**reconstructions())
 
 	# functions
 
@@ -489,8 +424,16 @@ class Reconstructor:
 		return (tests, result)
 			
 def main():
-	r = Reconstructor()
+	print('Working...')
+	r = Reconstructor(args.lexemesfile, args.times, args.verbose, args.log)
 	print(r.output)
 
 if __name__ == "__main__":
+	# arguments
+	argparser = argparse.ArgumentParser()
+	argparser.add_argument('-v', '--verbose', action='count', help='varying levels of output verbosity')
+	argparser.add_argument('-l', '--log', action='store_true', help='create a log of reconstruction')
+	argparser.add_argument('-f', '--lexemesfile', type=str, help='specify a lexemes file')
+	argparser.add_argument('-t','--times', type=int, default=1, help='the number of times to run the reconstruction')
+	args = argparser.parse_args()
 	main()
