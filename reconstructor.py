@@ -4,7 +4,7 @@
 
 import collections as c
 import itertools as i
-import difflib, argparse, datetime
+import difflib, argparse, datetime, pprint
 from datetime import datetime
 from operator import itemgetter
 from segmentparser import SegmentParser
@@ -64,8 +64,8 @@ class Reconstructor:
 
 		lang_ratios = [avg_ratio_lang[lang] for lang in avg_ratio_lang]
 
-		self._reconstructions = self.run_biased(forms, prov_recs, times)
-		tests = self.test_recs(self._reconstructions, lp.true_recs, lang_ratios)
+		self.reconstruction = self.run_biased(forms, prov_recs, times)
+		tests = self.test_recs(self.reconstruction, lp.true_recs, lang_ratios)
 		
 		# ARGUMENTS
 
@@ -83,7 +83,7 @@ class Reconstructor:
 			except TypeError:
 				pass
 
-		self.output += 'Biased reconstructions: {}'.format(self._reconstructions)
+		# self.output += 'Biased reconstructions: {}'.format(self.reconstruction)
 
 		# write to log
 		if log:
@@ -123,6 +123,7 @@ class Reconstructor:
 		for root, prov_rec in zip(cut_forms, prov_recs):
 			self._avglength = self.avg_length(root)
 			b_rec = self.reconstruct(root + [prov_rec])
+			print(b_rec)
 			b_recs.append(b_rec)
 		return (cut_forms, b_recs)
 
@@ -426,7 +427,9 @@ class Reconstructor:
 def main():
 	print('Working...')
 	r = Reconstructor(args.lexemesfile, args.times, args.verbose, args.log)
+	pp = pprint.PrettyPrinter()
 	print(r.output)
+	pp.pprint(r.reconstruction)
 
 if __name__ == "__main__":
 	# arguments
