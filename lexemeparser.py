@@ -14,87 +14,32 @@ class LexemeParser:
 			lexemefile = 'lexemes.json'
 
 		try:
-			self._lexemes = json.load(open(lexemefile))
+			self.lexemes = json.load(open(lexemefile))
 		except ValueError as ve:
 			self.somethingwrong(e)
 		except FileNotFoundError:
 			self.create_dummy()
 			
-		self._lang_names = []
-		self._lang_codes = []
-		self._true_recs = None
+		self.lang_names = []
+		self.lang_codes = []
+		self.true_recs = None
 		raw_forms = []
 
-		for n in self._lexemes:
+		for n in self.lexemes:
 			try:
 				if n['lang_name'].casefold() == 'key':
-					self._true_recs = re.findall('[\w-]+', n['forms'])
+					self.true_recs = re.findall('[\w-]+', n['forms'])
 				else:
-					self._lang_names.append(n['lang_name'])
-					self._lang_codes.append(n['lang_code'])
+					self.lang_names.append(n['lang_name'])
+					self.lang_codes.append(n['lang_code'])
 					lang_forms = re.findall('[\w-]+', n['forms'])
 					raw_forms.append((lang_forms, n['lang_code']))
 			except KeyError as ke:
 				self.somethingwrong(ke)
 
 
-		self._forms = self.sort_forms(raw_forms)
-		self.store_lang_info(self._lang_names, self._lang_codes)
-
-	def lexemes():
-	    doc = "Lexemes."
-	    def fget(self):
-	        return self._lexemes
-	    def fset(self, value):
-	        self._lexemes = value
-	    def fdel(self):
-	        del self._lexemes
-	    return locals()
-	lexemes = property(**lexemes())
-
-	def lang_names():
-	    doc = "Language names."
-	    def fget(self):
-	        return self._lang_names
-	    def fset(self, value):
-	        self._lang_names = value
-	    def fdel(self):
-	        del self._lang_names
-	    return locals()
-	lang_names = property(**lang_names())
-
-	def lang_codes():
-	    doc = "ISO codes for languages"
-	    def fget(self):
-	        return self._lang_codes
-	    def fset(self, value):
-	        self._lang_codes = value
-	    def fdel(self):
-	        del self._lang_codes
-	    return locals()
-	lang_codes = property(**lang_codes())
-
-	def forms():
-	    doc = "Forms."
-	    def fget(self):
-	        return self._forms
-	    def fset(self, value):
-	        self._forms = value
-	    def fdel(self):
-	        del self._forms
-	    return locals()
-	forms = property(**forms())
-
-	def true_recs():
-	    doc = "Real reconstructions, used for testing."
-	    def fget(self):
-	        return self._true_recs
-	    def fset(self, value):
-	        self._true_recs = value
-	    def fdel(self):
-	        del self._true_recs
-	    return locals()
-	true_recs = property(**true_recs())
+		self.forms = self.sort_forms(raw_forms)
+		self.store_lang_info(self.lang_names, self.lang_codes)
 
 	def sort_forms(self, raw_forms):
 		numlangs = len(raw_forms)
@@ -114,7 +59,7 @@ class LexemeParser:
 		 {"lang_name": "boblabian", "lang_code": "???", "forms": "txovant"}, 
 		 {"lang_name": "cycoclian", "lang_code": "???", "forms": "lwa"}]
 		json.dump(dummydata, open('dummydata.json', 'w'))
-		self._lexemes = json.load(open('dummydata.json', 'r'))
+		self.lexemes = json.load(open('dummydata.json', 'r'))
 
 	def store_lang_info(self, lang_names, lang_codes):
 		doc = "Stores language name and three letter ISO code in a langs.json file for future reference."
