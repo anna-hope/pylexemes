@@ -7,8 +7,11 @@ import itertools as i
 import difflib, argparse, pprint
 from operator import itemgetter
 from multiprocessing import Pool
+# segment and form parsing imports
 from segmentparser import SegmentParser
 from lexemeparser import LexemeParser
+# numpy
+from numpy import matrix
     
 def calculate_reconstruction_ratios(reconstructions):
     # calculate the similarity ratios of each form to the provisional reconstruction
@@ -109,7 +112,7 @@ def run_biased(forms, prov_recs, times):
     return prov_recs
     
 def tokenise(forms):
-    doc = "Splits forms into separate phonemes using split_polysymbols"
+    '''Splits forms into separate phonemes using split_polysymbols'''
     tokens = []
     # check if it's a list of forms or just one form as a string
     if type(forms) is list:
@@ -171,23 +174,22 @@ def avg_length(forms):
     
 def assemble_groups(forms, avglength):
     """Assembles segment groups."""
-    s_groups = []
-    p_count = 0
-    while p_count < avglength:
-        cur_group = []
+    segment_groups = []
+    segment_count = 0
+    for i in range(avglength):
+        current_group = []
         # for symbols that have already occured
-        sg = []
+        # sg = []
         for f in forms:
             try:
-                sg.append(f[p_count])
-                cur_group.append(f[p_count])
+                # sg.append(f[p_count])
+                current_group.append(f[i])
             except IndexError:
                 # cur_group.append('-')
                 continue
-        s_groups.append(cur_group)
+        segment_groups.append(current_group)
         # symbol_groups.append(sg)
-        p_count += 1
-    return s_groups
+    return segment_groups
     
 def form_to_features(form):
     '''Converts a form as IPA symbols into its feature representation'''
