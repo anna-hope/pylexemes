@@ -2,7 +2,13 @@
 # Anton Osten
 # http://ostensible.me
 
-import json, re
+import re
+try:
+    import simplejson as json
+except ImportError:
+    from warnings import warn
+    warn(UserWarning('simplejson not found. Using site-provided json, parsing may be slower.'))
+    import json
 
 class LexemeParser:
 

@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.3
 # Anton Osten
 # http://ostensible.me
 
 import collections as c
 import itertools as i
-import difflib, argparse, datetime, pprint
-from datetime import datetime
+import difflib, argparse, pprint
 from operator import itemgetter
 from multiprocessing import Pool
 from segmentparser import SegmentParser
@@ -31,7 +30,7 @@ def calculate_reconstruction_ratios(reconstructions):
     return lang_ratios
 
 # functions
-def run_reconstruct():
+def run_reconstruct(forms):
     
     # a pool for asynchronous reconstructions
     pool = Pool(processes=len(forms))
@@ -39,11 +38,9 @@ def run_reconstruct():
     # asynchronously reconstruct the forms
     prov_recs = pool.map(reconstruct, forms)
     
-    # deal with output
-    output = ''
-    
     # do the reconstructions
-    output += 'Unbiased reconstructions: {}\n'.format(prov_recs)
+    if args.verbose:
+        print('Unbiased reconstructions: {}'.format(prov_recs))
     
     cut_forms = drop_bad_forms(forms, prov_recs)
     
@@ -59,28 +56,34 @@ def reconstruct(root):
     """Reconstructs multiple forms of a single root
     based on frequency of each feature in each segment of the root."""
     # get the tokens
-    tokens = split_forms(root)
+    tokens = tokenise(root)
+    if args.verbose > 1:
+        pp.pprint(('Tokens:\n', tokens))
     # get the average length
     avglength = avg_length(tokens)
+    if args.verbose > 2:
+        print('Average length for root:',avglength)
     
     symbol_groups = assemble_groups(tokens, avglength)
     matched_features = symbols_to_features(symbol_groups)
+    if args.verbose > 2:
+        pp.pprint(matched_features)
     features = rearrange_groups(matched_features)
     most_prom_f = most_prom_feat(features)
     symbols = features_to_symbols(most_prom_f, sp.symbols, sp.features)
     return symbols[0]
     
-def biased_reconstruct(forms, prov_recs):
-    """Reconstructs every form provided in the data
-    according to how similar each feature of a form
-    is to the feature of the provisional reconstruction"""
-    cut_forms = drop_bad_forms(forms, prov_recs)
-    b_recs = []
-    for root, prov_rec in zip(cut_forms, prov_recs):
-        b_rec = reconstruct(root + [prov_rec])
-        print(b_rec)
-        b_recs.append(b_rec)
-    return (cut_forms, b_recs)
+# def biased_reconstruct(forms, prov_recs):
+#     """Reconstructs every form provided in the data
+#     according to how similar each feature of a form
+#     is to the feature of the provisional reconstruction"""
+#     cut_forms = drop_bad_forms(forms, prov_recs)
+#     b_recs = []
+#     for root, prov_rec in zip(cut_forms, prov_recs):
+#         b_rec = reconstruct(root + [prov_rec])
+#         print(b_rec)
+#         b_recs.append(b_rec)
+#     return (cut_forms, b_recs)
 
 def drop_bad_forms(forms, prov_recs):
     cut_forms = []
@@ -105,7 +108,7 @@ def run_biased(forms, prov_recs, times):
         (forms, prov_recs) = biased_reconstruct(forms, prov_recs)
     return prov_recs
     
-def split_forms(forms):
+def tokenise(forms):
     doc = "Splits forms into separate phonemes using split_polysymbols"
     tokens = []
     # check if it's a list of forms or just one form as a string
@@ -167,7 +170,7 @@ def avg_length(forms):
     return round(sum(lengths)/len(lengths))
     
 def assemble_groups(forms, avglength):
-    doc = "Assembles segment groups."
+    """Assembles segment groups."""
     s_groups = []
     p_count = 0
     while p_count < avglength:
@@ -186,25 +189,39 @@ def assemble_groups(forms, avglength):
         p_count += 1
     return s_groups
     
+def form_to_features(form):
+    '''Converts a form as IPA symbols into its feature representation'''
+    features = list(map(symbol_to_features, form))
+    return features
+    
 # match phonemes to their features
 def symbols_to_features(groups):
     matched_features = []
-    # iterate over phoneme groups
+    # iterate over symbol groups
     for group in groups:
-        # current phoneme feature group
+        # current symbol feature group
         cur_feat_g = []
-        # iterate over phonemes in each group
-        for n, symbol in enumerate(group):
-            if symbol in sp.symbols:
-                cur_feat_g.append(list(sp.features[symbol].items()))
-            else:
-                # append the unidentified symbol to the list of unmatched symbols
-                # (if it isn't already there)
-                if symbol not in unmatched_symbols:
-                    unmatched_symbols.append(symbol)
+        # keep only the good symbols
+        good_symbols = [symbol for symbol in group if symbol in sp.symbols]
+        # map symbols to features
+        cur_feat_g = list(map(symbol_to_features, good_symbols))
         if cur_feat_g != []:
             matched_features.append(cur_feat_g)
     return matched_features
+    
+def symbol_to_features(symbol, as_dict=False, true_only=False):
+    """Retrieves features for a given IPA symbol"""
+    features = sp.features.get(symbol)
+    if features is None:
+        return features
+    if as_dict:
+        return features
+    else:
+        features = features.items()
+    if true_only:
+        features = [feature for feature in features if feature[1]]
+    
+    return list(features)
     
 def rearrange_groups(matched_features):
     doc = "This function rearranges the phoneme groups so that each phoneme is in the group which it belongs to by running the most_prom_feat functions preliminarily and seeing whether the feature set of each phoneme."
@@ -264,7 +281,7 @@ def rearrange_groups(matched_features):
     return rearranged_features
     
 def drop_segments(s_features):
-    doc = "Drops segments which are extraneous based on their similarity to the most prominent segment features in their group"
+    """Drops segments which are extraneous based on their similarity to the most prominent segment features in their group"""
     mpf = most_prom_feat(s_features)
     new_groups = []
     for n, g in enumerate(s_features):
@@ -275,7 +292,7 @@ def drop_segments(s_features):
     return new_groups
 
 def avg_sg_ratio(s_features):
-    doc = "Returns the average similarity ratio for that segment group, used for thresholding"
+    """Returns the average similarity ratio for that segment group, used for thresholding"""
     ratios = [difflib.SequenceMatcher(None, x, y).ratio() for x in s_features for y in s_features]
     return sum(ratios)/len(ratios)
     
@@ -313,11 +330,12 @@ def most_prom_feat(matched_features):
     return p_features
     
 def guess_segment(t_segment):
-    doc = "Find the segment whose feature set has the highest similarity ratio with the theoretical segment."
-    ratios = {}
-    for f in sp.features:
-        ratios[f] = difflib.SequenceMatcher(None, t_segment, list(sp.features[f].items())).ratio()
-    return max(ratios, key=ratios.get)
+   """Find the segment whose feature set has the highest similarity ratio with the theoretical 
+   segment."""
+   ratios = {}
+   for f in sp.features:
+      ratios[f] = difflib.SequenceMatcher(None, t_segment, list(sp.features[f].items())).ratio()
+   return max(ratios, key=ratios.get)
     
 # match theoretical phonemes as features to IPA symbols in the database
 def features_to_symbols(mcf, symbols, features):
@@ -346,8 +364,8 @@ def sim_ratio(form1, form2):
     if form1 == form2:
         return (form1, form2, 1.0)
     
-    f1_tokens = split_forms(form1)
-    f2_tokens = split_forms(form2)
+    f1_tokens = tokenise(form1)
+    f2_tokens = tokenise(form2)
     
     # this needs to be passed as a list cuz otherwise symbols_to_features thinks that every token is a group
     try:
@@ -377,6 +395,19 @@ def sim_ratio(form1, form2):
         ratio = 0.0
         # this looks like an owl in my font
     return (form1, form2, ratio)
+
+def main():
+    print('Working...')
+    
+    reconstructions = run_reconstruct(forms)
+    for r in reconstructions:
+        print(r)
+    
+    # do the tests
+    if args.test:
+        ratios = calculate_reconstruction_ratios(reconstructions)
+        test_result = test_recs(reconstructions, lp.true_recs, ratios)
+        pp.pprint(test_result)
     
 def test_recs(recs, true_recs, lang_ratios):
     if true_recs == None:
@@ -397,22 +428,6 @@ def test_recs(recs, true_recs, lang_ratios):
         result = (round(avg, 1), 'failure :(')
     return (tests, result)
 
-def main():
-    print('Working...')
-    pp = pprint.PrettyPrinter()
-    
-    reconstructions = run_reconstruct()
-    for r in reconstructions:
-        print(r)
-    
-    # do the tests
-    if args.test:
-        ratios = calculate_reconstruction_ratios(reconstructions)
-        test_result = test_recs(reconstructions, lp.true_recs, ratios)
-        pp.pprint(test_result)
-    
-
-
 if __name__ == "__main__":
     # arguments
     argparser = argparse.ArgumentParser()
@@ -432,5 +447,7 @@ if __name__ == "__main__":
     unmatched_symbols = []
     times = args.times
     verbose = args.verbose
+    
+    pp = pprint.PrettyPrinter()
 
     main()

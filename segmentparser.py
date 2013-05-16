@@ -2,7 +2,12 @@
 # http://ostensible.me
 # pylexemes project
 
-import json
+try:
+    import simplejson as json
+except ImportError:
+    from warnings import warn
+    warn(UserWarning('simplejson not found. Using site-provided json, parsing may be slower.'))
+    import json
 
 class SegmentParser:
 
