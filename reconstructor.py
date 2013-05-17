@@ -7,84 +7,8 @@ import itertools as i
 import difflib, argparse, pprint
 from operator import itemgetter
 from multiprocessing import Pool
-# segment and form parsing imports
-from segmentparser import SegmentParser
-from lexemeparser import LexemeParser
-# numpy
-from numpy import matrix
-    
-class Form:
-    
-    def __init__(self, form):
-        sp = SegmentParser()
-        if isinstance(form, str):
-            self.str = form
-            self.segments = self._tokenise(sp.polysymbols)
-            self.features = self._to_features(sp.features)
-        elif isinstance(form, list) and form != []:
-            self.segments = self._to_symbols(form, sp.features)
-            self.str = ''.join(self.segments)
-        else:
-            raise TypeError('Must be str or list of features')
-    
-    def __str__(self):
-        return self.str
-    
-    def _tokenise(self, polysymbols):
-        '''Splits a form into separate symbols.
-        Detects polysymbollic segments such as affricates.'''
-        segments = []
-        i = 0
-        while i < len(self.str):
-            cur_segment = self.str[i]
-            next_segment = self.str[(i + 1) % len(self.str)]
-            if cur_segment + next_segment in polysymbols:
-                segments.append(cur_segment + next_segment)
-                i += 2
-            else:
-                segments.append(cur_segment)
-                i += 1
-        return segments
-    
-    def _to_features(self, features):
-        """Retrieves features for a given IPA symbol"""
-        form_features = []
-        for segment in self.segments:
-            segment_features = features.get(segment)
-            if segment_features is None:
-                return None
-            form_features.append(list(segment_features.items()))
-        return form_features
-    
-    def _to_symbols(self, form, features):
-        '''Returns symbols for a given set of features.
-        Is most porbably slow and not very efficient, as well as potentially unstable.'''
-        def process_segment(segment):
-            # leave only the features which are true for this segmetn
-            segment = [feature[0] for feature in segment if feature[1]]
-            # we need to sort it so that the order is not random
-            # it's quite a bit ugly
-            segment = tuple(sorted(segment))
-            return segment
-        def guess_symbol(segment):
-            ratios = {true_segments[true_segment]: difflib.SequenceMatcher(None,
-                                segment, 
-                                true_segment).ratio()
-                                for true_segment in true_segments}
-            return max(ratios, key=ratios.get)
-        # phew
-        flipped_features = {tuple(features[segment].items()): segment for segment in features}
-        true_segments = {process_segment(segment): flipped_features[segment] for segment in flipped_features}
-        # then let's process the features we are given
-        given_segments = [process_segment(segment) for segment in form]
-        symbols = []
-        for segment in given_segments:
-            if segment in true_segments:
-                symbols.append(true_segments[segment])
-            else:
-                symbols.append('(' + guess_symbol(segment) + ')')
-        return symbols
-    
+# imports of helper classes
+from helpers import SegmentParser, FormParser, Form, CognateSet
 
 def calculate_reconstruction_ratios(reconstructions):
     # calculate the similarity ratios of each form to the provisional reconstruction
@@ -259,18 +183,6 @@ def form_to_features(form):
     '''Converts a form as IPA symbols into its feature representation'''
     features = list(map(symbol_to_features, form))
     return features
-
-def get_common_structure(root):
-    root_features = list(map(form_to_features, root))
-    a = matrix(root_features)
-    a.transpose()
-    def common(feature, row):
-        for segment in row:
-            if feature not in segment:
-                return False
-        else:
-            return True
-    common_features = []
     
 # match phonemes to their features
 def symbols_to_features(groups):
@@ -520,7 +432,7 @@ if __name__ == "__main__":
     # globals
     sp = SegmentParser()
     lexemesfile = args.lexemesfile
-    lp = LexemeParser(lexemesfile)
+    lp = FormParser(lexemesfile)
     forms = lp.forms
     lang_codes = lp.lang_codes
     unmatched_symbols = []
