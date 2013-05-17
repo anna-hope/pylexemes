@@ -13,6 +13,79 @@ from lexemeparser import LexemeParser
 # numpy
 from numpy import matrix
     
+class Form:
+    
+    def __init__(self, form):
+        sp = SegmentParser()
+        if isinstance(form, str):
+            self.str = form
+            self.segments = self._tokenise(sp.polysymbols)
+            self.features = self._to_features(sp.features)
+        elif isinstance(form, list) and form != []:
+            self.segments = self._to_symbols(form, sp.features)
+            self.str = ''.join(self.segments)
+        else:
+            raise TypeError('Must be str or list of features')
+    
+    def __str__(self):
+        return self.str
+    
+    def _tokenise(self, polysymbols):
+        '''Splits a form into separate symbols.
+        Detects polysymbollic segments such as affricates.'''
+        segments = []
+        i = 0
+        while i < len(self.str):
+            cur_segment = self.str[i]
+            next_segment = self.str[(i + 1) % len(self.str)]
+            if cur_segment + next_segment in polysymbols:
+                segments.append(cur_segment + next_segment)
+                i += 2
+            else:
+                segments.append(cur_segment)
+                i += 1
+        return segments
+    
+    def _to_features(self, features):
+        """Retrieves features for a given IPA symbol"""
+        form_features = []
+        for segment in self.segments:
+            segment_features = features.get(segment)
+            if segment_features is None:
+                return None
+            form_features.append(list(segment_features.items()))
+        return form_features
+    
+    def _to_symbols(self, form, features):
+        '''Returns symbols for a given set of features.
+        Is most porbably slow and not very efficient, as well as potentially unstable.'''
+        def process_segment(segment):
+            # leave only the features which are true for this segmetn
+            segment = [feature[0] for feature in segment if feature[1]]
+            # we need to sort it so that the order is not random
+            # it's quite a bit ugly
+            segment = tuple(sorted(segment))
+            return segment
+        def guess_symbol(segment):
+            ratios = {true_segments[true_segment]: difflib.SequenceMatcher(None,
+                                segment, 
+                                true_segment).ratio()
+                                for true_segment in true_segments}
+            return max(ratios, key=ratios.get)
+        # phew
+        flipped_features = {tuple(features[segment].items()): segment for segment in features}
+        true_segments = {process_segment(segment): flipped_features[segment] for segment in flipped_features}
+        # then let's process the features we are given
+        given_segments = [process_segment(segment) for segment in form]
+        symbols = []
+        for segment in given_segments:
+            if segment in true_segments:
+                symbols.append(true_segments[segment])
+            else:
+                symbols.append('(' + guess_symbol(segment) + ')')
+        return symbols
+    
+
 def calculate_reconstruction_ratios(reconstructions):
     # calculate the similarity ratios of each form to the provisional reconstruction
     ratios = []
@@ -66,7 +139,6 @@ def reconstruct(root):
     avglength = avg_length(tokens)
     if args.verbose > 2:
         print('Average length for root:',avglength)
-    
     symbol_groups = assemble_groups(tokens, avglength)
     matched_features = symbols_to_features(symbol_groups)
     if args.verbose > 2:
@@ -75,18 +147,6 @@ def reconstruct(root):
     most_prom_f = most_prom_feat(features)
     symbols = features_to_symbols(most_prom_f, sp.symbols, sp.features)
     return symbols[0]
-    
-# def biased_reconstruct(forms, prov_recs):
-#     """Reconstructs every form provided in the data
-#     according to how similar each feature of a form
-#     is to the feature of the provisional reconstruction"""
-#     cut_forms = drop_bad_forms(forms, prov_recs)
-#     b_recs = []
-#     for root, prov_rec in zip(cut_forms, prov_recs):
-#         b_rec = reconstruct(root + [prov_rec])
-#         print(b_rec)
-#         b_recs.append(b_rec)
-#     return (cut_forms, b_recs)
 
 def drop_bad_forms(forms, prov_recs):
     cut_forms = []
@@ -100,8 +160,8 @@ def drop_bad_forms(forms, prov_recs):
         for rp in ratio_pairs:
             if rp[2] >= threshold:
                 # increase the number of roots for greater accuracy (ha-ha)
-                for n in range(round(rp[2] * 10)):
-                    cut_root.append(rp[0])
+                #for n in range(round(rp[2] * 10)):
+                cut_root.append(rp[0])
         cut_forms.append(cut_root)
     
     return cut_forms
@@ -172,29 +232,45 @@ def avg_length(forms):
     lengths = [len(f) for f in forms]
     return round(sum(lengths)/len(lengths))
     
-def assemble_groups(forms, avglength):
+def create_form_matrix(root, avglength):
+    '''Creates a matrix for each form'''
+    # trim each form to average length
+    root = [form[:avglength] for form in root]
+    print(root)
+    return matrix(root)
+    
+def assemble_groups(root, avglength):
     """Assembles segment groups."""
     segment_groups = []
     segment_count = 0
-    for i in range(avglength):
+    for i in range(avglength):    
         current_group = []
         # for symbols that have already occured
-        # sg = []
-        for f in forms:
+        for f in root:
             try:
-                # sg.append(f[p_count])
                 current_group.append(f[i])
             except IndexError:
                 # cur_group.append('-')
                 continue
         segment_groups.append(current_group)
-        # symbol_groups.append(sg)
     return segment_groups
     
 def form_to_features(form):
     '''Converts a form as IPA symbols into its feature representation'''
     features = list(map(symbol_to_features, form))
     return features
+
+def get_common_structure(root):
+    root_features = list(map(form_to_features, root))
+    a = matrix(root_features)
+    a.transpose()
+    def common(feature, row):
+        for segment in row:
+            if feature not in segment:
+                return False
+        else:
+            return True
+    common_features = []
     
 # match phonemes to their features
 def symbols_to_features(groups):
@@ -401,7 +477,7 @@ def sim_ratio(form1, form2):
 def main():
     print('Working...')
     
-    reconstructions = run_reconstruct(forms)
+    reconstructions = run_reconstruct(lp.forms)
     for r in reconstructions:
         print(r)
     
@@ -414,7 +490,8 @@ def main():
 def test_recs(recs, true_recs, lang_ratios):
     if true_recs == None:
         return None
-    threshold = sum(lang_ratios)/len(lang_ratios)
+    # threshold = sum(lang_ratios)/len(lang_ratios)
+    threshold = 0.85
     tests = []
     for rec, true_rec in zip(recs, true_recs):
         ratio = (sim_ratio(rec, true_rec))
@@ -433,7 +510,7 @@ def test_recs(recs, true_recs, lang_ratios):
 if __name__ == "__main__":
     # arguments
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('-v', '--verbose', action='count', help='varying levels of output verbosity')
+    argparser.add_argument('-v', '--verbose', action='count', default=0, help='varying levels of output verbosity')
     argparser.add_argument('-l', '--log', action='store_true', help='create a log of reconstruction')
     argparser.add_argument('-f', '--lexemesfile', type=str, help='specify a lexemes file')
     argparser.add_argument('-t','--times', type=int, default=1, help='the number of times to run the reconstruction')
