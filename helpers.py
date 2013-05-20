@@ -207,7 +207,7 @@ class Form:
     @property
     def structure(self):
         struct = []
-        for segment in self.features:
+        for segment in self.segments:
             if segment.features.syl:
                 struct.append('V')
             elif segment.features.cons:
