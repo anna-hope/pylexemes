@@ -238,7 +238,7 @@ class CognateSet:
     def __len__(self):
         return len(self.segmentss)
     
-    def __contains__(self, form):
+    def __contains__(self, form, lang_code=None):
         if form is not None:
             if isinstance(form, Form):
                 return form in self.segmentss
