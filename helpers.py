@@ -9,7 +9,7 @@ try:
     import simplejson as json
 except ImportError:
     from warnings import warn
-    warn(UserWarning('simplejson not found. Using site-provided json, parsing may be slower.'))
+    warn('simplejson not found. Using site-provided json, parsing may be slower.')
     import json
     
 # custom errors
@@ -95,9 +95,10 @@ class SegmentParser:
             cur_features = self.features[s]
             if cur_features in done_features:
                 for duplicate_group in duplicate_groups:
-                    # if there is already more than a pair of segments with the same features
-                    # we'll do this to add the current segment to the list of those duplicates
-                    # first checking that we're not adding a duplicate (ha!) symbol
+                    '''if there is already more than a pair of segments with the same features
+                    we'll do this to add the current segment to the list of those duplicates
+                    first checking that we're not adding a duplicate (ha!) symbol'''
+                    
                     if done_symbols[done_features.index(cur_features)] in duplicate_group:
                         symbol = [s for s in self.features if (
                                             s not in duplicate_group
@@ -139,7 +140,7 @@ class SegmentParser:
         return segments
 
 class Form:
-    '''A form'''
+    '''A form is a list of segments'''
     
     sp = SegmentParser()
     
@@ -152,10 +153,12 @@ class Form:
                     self.str += segment.symbol
                 else:
                     raise TypeError('Must be a list of Segment objects')
+                    
             # the form is a list of segments
             self.segments = form
             self.lang_code = lang_code
             self.gloss = gloss
+            
         else:
             raise TypeError('Must be a list of Segment objects')               
     
@@ -167,6 +170,12 @@ class Form:
         
     def __iter__(self):
         return iter(self.segments)
+
+    def __len__(self):
+        return len(self.segments)
+
+    def __getitem__(self, key):
+        return self.segments[key]
     
     def __contains__(self, segment):
         if isinstance(segment, Segment):
@@ -194,6 +203,7 @@ class Form:
         for segment in form:
             if segment.features in self.sp.flipped_features:
                 symbols.append(self.sp.flipped_features[segment])
+                
             # if it's not in there, get the closest one
             else:
                 sim_ratios = {symbol: SequenceMatcher(None,
@@ -207,6 +217,7 @@ class Form:
     @property
     def structure(self):
         struct = []
+        
         for segment in self.segments:
             if segment.features.syl:
                 struct.append('V')
@@ -214,6 +225,7 @@ class Form:
                 struct.append('C')
             else:
                 struct.append('S')
+                
         return struct
 
 class CognateSet:
@@ -221,29 +233,29 @@ class CognateSet:
     
     def __init__(self, forms=None):
         if forms is None:
-            self.segmentss = set()
+            self.forms = set()
         else:
             if isinstance(forms, Form):
-                self.segmentss = {forms}
+                self.forms = {forms}
             elif isinstance(forms, set):
                 for x in forms:
                     if not isinstance(x, Form):
                         raise TypeError('Must be a list of Form objects')
                 else:
-                    self.segmentss = forms
+                    self.forms = forms
     
     def __iter__(self):
-        return iter(self.segmentss)
+        return iter(self.forms)
     
     def __len__(self):
-        return len(self.segmentss)
+        return len(self.forms)
     
     def __contains__(self, form, lang_code=None):
         if form is not None:
             if isinstance(form, Form):
-                return form in self.segmentss
+                return form in self.forms
             elif isinstance(form, str):
-                for f in self.segmentss:
+                for f in self.forms:
                     if f.str == form:
                         return True
                 else:
@@ -258,15 +270,15 @@ class CognateSet:
         return self.__repr__()
     
     def __repr__(self):
-        if len(self.segmentss) == 0:
+        if len(self.forms) == 0:
             return 'CognateSet()'
         else:
-            return 'CognateSet({})'.format(str(self.segmentss))
+            return 'CognateSet({})'.format(str(self.forms))
     
     def add(self, form):
         '''Add a Form object to the cognate set'''
         if isinstance(form, Form):
-            self.segmentss.add(form)
+            self.forms.add(form)
         else:
             raise TypeError('Must be a Form object')
     
@@ -276,12 +288,12 @@ class CognateSet:
             return None
             
         if form_as_str is not None:
-            for form in self.segmentss:
+            for form in self.forms:
                 if form.str == form_as_str:
                     return form
                     
         elif lang_code is not None:
-            for form in self.segmentss:
+            for form in self.forms:
                 if form.lang_code == lang_code:
                     return form
         
@@ -294,16 +306,16 @@ class CognateSet:
         or ISO language code'''
         if form is not None:
             if isinstance(form, Form):
-                self.segmentss.remove(form)
+                self.forms.remove(form)
             elif isinstance(form, str):
                 form_to_kill = self.get(form)
-                self.segmentss.remove(form_to_kill)
+                self.forms.remove(form_to_kill)
             else:
                 raise BadFormQueryError('Need a Form object or str')
         
         elif lang_code is not None:
             form_to_kill = self.get(lang_code=lang_code)
-            self.segmentss.remove(form_to_kill)
+            self.forms.remove(form_to_kill)
         
         else:
             raise BadFormQueryError(
@@ -316,7 +328,13 @@ class CognateSet:
     @property
     def langs(self):
         '''A set of ISO language codes present in the cognate set'''
-        return {form.lang_code for form in self.segmentss}
+        return {form.lang_code for form in self.forms}
+    
+    @property
+    def average_len(self):
+        '''Returns the rounded average length of all forms in the cognate set'''
+        lengths = [len(form) for form in self.forms]
+        return round(sum(lengths) / len(lengths))
                         
                         
 class FormParser:
