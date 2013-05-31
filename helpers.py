@@ -77,12 +77,20 @@ class SegmentParser:
         self.polysymbols = polysymbols
 
         true_features = {}
+
         for s in self.features:
             segment_features = vars(self.features[s])
             segment_true_features = [f for f in segment_features if segment_features[f]]
             true_features[s] = segment_true_features
+
         self.true_features = true_features
         self.duplicates = self.find_duplicates()
+
+
+        # the number of all possible features for a segment
+        self.num_features = len(self.features['a'])
+
+    # METHODS
 
     def find_duplicates(self):
         doc = "Returns segments with the same features."

@@ -30,19 +30,19 @@ def calculate_reconstruction_ratios(reconstructions):
     return lang_ratios
 
 # functions
-def run_reconstruct(forms):
+def run_reconstruct(cognate_sets):
     
     # a pool for asynchronous reconstructions
-    pool = Pool(processes=len(forms))
+    pool = Pool(processes=len(cognate_sets))
     
     # asynchronously reconstruct the forms
-    prov_recs = pool.map(reconstruct, forms)
+    prov_recs = pool.map(reconstruct, cognate_sets)
     
     # do the reconstructions
     if args.verbose:
         print('Unbiased reconstructions: {}'.format(prov_recs))
     
-    cut_forms = drop_bad_forms(forms, prov_recs)
+    cut_forms = drop_bad_forms(cognate_sets, prov_recs)
     
     for n, (cut_form, prov_rec) in enumerate(zip(cut_forms, prov_recs)):
         cut_forms[n] = cut_form + [prov_rec]
@@ -52,18 +52,11 @@ def run_reconstruct(forms):
     return reconstruction
 
     
-def reconstruct(root):
-    """Reconstructs multiple forms of a single root
-    based on frequency of each feature in each segment of the root."""
-    # get the tokens
-    tokens = tokenise(root)
-    if args.verbose > 1:
-        pp.pprint(('Tokens:\n', tokens))
-    # get the average length
-    avglength = avg_length(tokens)
-    if args.verbose > 2:
-        print('Average length for root:',avglength)
-    symbol_groups = assemble_groups(tokens, avglength)
+def reconstruct(cognate_set):
+    """Reconstructs multiple forms of a single cognate set
+    based on frequency of each feature in each segment of the cognate set."""
+
+    symbol_groups = assemble_groups(cognate_set)
     matched_features = symbols_to_features(symbol_groups)
     if args.verbose > 2:
         pp.pprint(matched_features)
@@ -95,130 +88,174 @@ def run_biased(forms, prov_recs, times):
         (forms, prov_recs) = biased_reconstruct(forms, prov_recs)
     return prov_recs
     
-def tokenise(forms):
-    '''Splits forms into separate phonemes using split_polysymbols'''
-    tokens = []
-    # check if it's a list of forms or just one form as a string
-    if type(forms) is list:
-        tokens = [split_polysymbols(form) for form in forms]
-    else:
-        tokens = split_polysymbols(forms)
-    return tokens
+# def tokenise(forms):
+#     '''Splits forms into separate phonemes using split_polysymbols'''
+#     tokens = []
+#     # check if it's a list of forms or just one form as a string
+#     if type(forms) is list:
+#         tokens = [split_polysymbols(form) for form in forms]
+#     else:
+#         tokens = split_polysymbols(forms)
+#     return tokens
     
-def split_polysymbols(form):
-    doc = "Splits a form into separate phonemes, detecting polysymbollic phonemes such as affricates."
-    splitform = []
-    # this list will contain the indexes of polysymbollic phonemes in our form
-    indexes = []
-    polysymbols = sp.polysymbols
+# def split_polysymbols(form):
+#     doc = "Splits a form into separate phonemes, detecting polysymbollic phonemes such as affricates."
+#     splitform = []
+#     # this list will contain the indexes of polysymbollic phonemes in our form
+#     indexes = []
+#     polysymbols = sp.polysymbols
     
-    # iterate over the polysymbols to get the indexes
-    for polysymbol in polysymbols:
-        # temporary form variable to remove polysymbols already accounted for
-        t_form = form
-        count = 0
-        mc = form.count(polysymbol)
-        while count < mc:
-            # the start index in the temporary form
-            t_form_index = t_form.find(polysymbol)
-            # difference in lengths between the t_form and the real form
-            diff = (len(form) - len(t_form))
-            # actual start index
-            real_start_index = t_form_index + diff
-            endindex = real_start_index + len(polysymbol)
+#     # iterate over the polysymbols to get the indexes
+#     for polysymbol in polysymbols:
+#         # temporary form variable to remove polysymbols already accounted for
+#         t_form = form
+#         count = 0
+#         mc = form.count(polysymbol)
+#         while count < mc:
+#             # the start index in the temporary form
+#             t_form_index = t_form.find(polysymbol)
+#             # difference in lengths between the t_form and the real form
+#             diff = (len(form) - len(t_form))
+#             # actual start index
+#             real_start_index = t_form_index + diff
+#             endindex = real_start_index + len(polysymbol)
             
-            indexes.append((real_start_index, endindex))
-            # slice the t_form so that the part up to which the polysymbol is in is no longer there
-            t_form = t_form[(endindex - diff):]
-            count += 1
+#             indexes.append((real_start_index, endindex))
+#             # slice the t_form so that the part up to which the polysymbol is in is no longer there
+#             t_form = t_form[(endindex - diff):]
+#             count += 1
     
-    # if there are no polysymbollic phonemes in this form, then just split it as a list
-    if indexes == []:
-        return list(form)
-    # otherwise split it according to the indexes of polysymbols
-    else:
-        ls = list(form)
+#     # if there are no polysymbollic phonemes in this form, then just split it as a list
+#     if indexes == []:
+#         return list(form)
+#     # otherwise split it according to the indexes of polysymbols
+#     else:
+#         ls = list(form)
         
-        # the value by which we'll adjust the indexing calls
-        # because the length of the list is going to decrease as we go through
-        adjust = 0
+#         # the value by which we'll adjust the indexing calls
+#         # because the length of the list is going to decrease as we go through
+#         adjust = 0
         
-        for index in indexes:
-            del ls[(index[0] - adjust):(index[1] - adjust)]
-            ls.insert((index[0] - adjust), form[index[0]:index[1]])
-            # adjust the next indexes according to the length of the polysymbol that we've just concatenated
-            adjust += ((index[1] - index[0]) - 1)
-        splitform = ls
-        return splitform
+#         for index in indexes:
+#             del ls[(index[0] - adjust):(index[1] - adjust)]
+#             ls.insert((index[0] - adjust), form[index[0]:index[1]])
+#             # adjust the next indexes according to the length of the polysymbol that we've just concatenated
+#             adjust += ((index[1] - index[0]) - 1)
+#         splitform = ls
+#         return splitform
     
-def avg_length(forms):
-    doc = "Returns the average length of forms."
-    lengths = [len(f) for f in forms]
-    return round(sum(lengths)/len(lengths))
+# def avg_length(forms):
+#     doc = "Returns the average length of forms."
+#     lengths = [len(f) for f in forms]
+#     return round(sum(lengths)/len(lengths))
     
-def create_form_matrix(root, avglength):
-    '''Creates a matrix for each form'''
-    # trim each form to average length
-    root = [form[:avglength] for form in root]
-    print(root)
-    return matrix(root)
+# def create_form_matrix(root, avglength):
+#     '''Creates a matrix for each form'''
+#     # trim each form to average length
+#     root = [form[:avglength] for form in root]
+#     print(root)
+#     return matrix(root)
     
-def assemble_groups(root, avglength):
+def assemble_groups(cognate_set):
     """Assembles segment groups."""
     segment_groups = []
-    segment_count = 0
-    for i in range(avglength):    
+
+    for i in range(cognate_set.average_len):    
         current_group = []
         # for symbols that have already occured
-        for f in root:
+        for form in cognate_set:
             try:
-                current_group.append(f[i])
+                current_group.append(form[i])
             except IndexError:
-                # cur_group.append('-')
+                # when the length of a particular form is less than the average length
                 continue
         segment_groups.append(current_group)
     return segment_groups
     
-def form_to_features(form):
-    '''Converts a form as IPA symbols into its feature representation'''
-    features = list(map(symbol_to_features, form))
-    return features
+# def form_to_features(form):
+#     '''Converts a form as IPA symbols into its feature representation'''
+#     features = list(map(symbol_to_features, form))
+#     return features
     
 # match phonemes to their features
-def symbols_to_features(groups):
-    matched_features = []
-    # iterate over symbol groups
-    for group in groups:
-        # current symbol feature group
-        cur_feat_g = []
-        # keep only the good symbols
-        good_symbols = [symbol for symbol in group if symbol in sp.symbols]
-        # map symbols to features
-        cur_feat_g = list(map(symbol_to_features, good_symbols))
-        if cur_feat_g != []:
-            matched_features.append(cur_feat_g)
-    return matched_features
+# def symbols_to_features(groups):
+#     matched_features = []
+#     # iterate over symbol groups
+#     for group in groups:
+#         # current symbol feature group
+#         cur_feat_g = []
+#         # keep only the good symbols
+#         good_symbols = [symbol for symbol in group if symbol in sp.symbols]
+#         # map symbols to features
+#         cur_feat_g = list(map(symbol_to_features, good_symbols))
+#         if cur_feat_g != []:
+#             matched_features.append(cur_feat_g)
+#     return matched_features
     
-def symbol_to_features(symbol, as_dict=False, true_only=False):
-    """Retrieves features for a given IPA symbol"""
-    features = sp.features.get(symbol)
-    if features is None:
-        return features
-    if as_dict:
-        return features
-    else:
-        features = features.items()
-    if true_only:
-        features = [feature for feature in features if feature[1]]
+# def symbol_to_features(symbol, as_dict=False, true_only=False):
+#     """Retrieves features for a given IPA symbol"""
+#     features = sp.features.get(symbol)
+#     if features is None:
+#         return features
+#     if as_dict:
+#         return features
+#     else:
+#         features = features.items()
+#     if true_only:
+#         features = [feature for feature in features if feature[1]]
     
-    return list(features)
+#     return list(features)
+
+# select most prominent features
+def most_prom_feat(segment_groups):
+    # collections module to get the most common property (see below)
+    p_features = []
+    # iterate over groups of phonemic features
+    for group_n, groups in enumerate(matched_features):
+        # iterate over phonemes in each group
+        cur_group = []
+        for phoneme_n, phonemes in enumerate(groups):
+            cur_phon = []
+            # iterate over each feature (cons, son, round, etc.) in each phoneme
+            for prop_n, props in enumerate(phonemes):
+                cur_prop = []
+                # iterate over phonemes in each group again to get the feature at the same place
+                for n, x in enumerate(groups):
+                    # append the feature at that place to the list of properties at that place
+                    try:
+                        cur_prop.append(groups[n][prop_n])
+                    except Exception as e:
+                        continue
+                # append the most common feature at that place to list of features for current segment
+                cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
+            # append the current theoretical segment to the list of phonemes as features
+            cur_group.append(cur_phon)
+        try:
+            if list(filter(None, cur_group)) != []:
+                p_features.append(cur_group[0])
+        # hack in case the group is a singleton
+        except:
+            p_features.append(cur_group)
+    
+    return p_features
+
+def most_frequent_features(segment_groups):
+
+    for segment_group in segment_groups:
+
+        for segment in segment_group:
+
+            features_at_cur_position = []
+
+            for n, feature in enumerate(sp.features):
+                features_at_cur_position = [segment.features]
+        
     
 def rearrange_groups(matched_features):
-    doc = "This function rearranges the phoneme groups so that each phoneme is in the group which it belongs to by running the most_prom_feat functions preliminarily and seeing whether the feature set of each phoneme."
-    # the following is done to ensure safety and is probably redundant
-    rearranged_features = matched_features
-    # get the preliminary most prominent features
-    # mpf = push_features(rearranged_features)
+    '''This function rearranges the phoneme groups
+    so that each phoneme is in the group which it belongs to by running the most_prom_feat functions preliminarily
+    and seeing whether the feature set of each phoneme.'''
+
     mpf = most_prom_feat(rearranged_features)
     for n, g in enumerate(rearranged_features):
         # get the most prominent features of current group
@@ -286,38 +323,7 @@ def avg_sg_ratio(s_features):
     ratios = [difflib.SequenceMatcher(None, x, y).ratio() for x in s_features for y in s_features]
     return sum(ratios)/len(ratios)
     
-# select most prominent features
-def most_prom_feat(matched_features):
-    # collections module to get the most common property (see below)
-    p_features = []
-    # iterate over groups of phonemic features
-    for group_n, groups in enumerate(matched_features):
-        # iterate over phonemes in each group
-        cur_group = []
-        for phoneme_n, phonemes in enumerate(groups):
-            cur_phon = []
-            # iterate over each feature (cons, son, round, etc.) in each phoneme
-            for prop_n, props in enumerate(phonemes):
-                cur_prop = []
-                # iterate over phonemes in each group again to get the feature at the same place
-                for n, x in enumerate(groups):
-                    # append the feature at that place to the list of properties at that place
-                    try:
-                        cur_prop.append(groups[n][prop_n])
-                    except Exception as e:
-                        continue
-                # append the most common feature at that place to list of features for current segment
-                cur_phon.append(c.Counter(cur_prop).most_common(1)[0][0])
-            # append the current theoretical segment to the list of phonemes as features
-            cur_group.append(cur_phon)
-        try:
-            if list(filter(None, cur_group)) != []:
-                p_features.append(cur_group[0])
-        # hack in case the group is a singleton
-        except:
-            p_features.append(cur_group)
-    
-    return p_features
+
     
 def guess_segment(t_segment):
    """Find the segment whose feature set has the highest similarity ratio with the theoretical 
@@ -385,19 +391,6 @@ def sim_ratio(form1, form2):
         ratio = 0.0
         # this looks like an owl in my font
     return (form1, form2, ratio)
-
-def main():
-    print('Working...')
-    
-    reconstructions = run_reconstruct(lp.forms)
-    for r in reconstructions:
-        print(r)
-    
-    # do the tests
-    if args.test:
-        ratios = calculate_reconstruction_ratios(reconstructions)
-        test_result = test_recs(reconstructions, lp.true_recs, ratios)
-        pp.pprint(test_result)
     
 def test_recs(recs, true_recs, lang_ratios):
     if true_recs == None:
@@ -418,6 +411,19 @@ def test_recs(recs, true_recs, lang_ratios):
     else:
         result = (round(avg, 1), 'failure :(')
     return (tests, result)
+
+def main():
+    print('Working...')
+    
+    reconstructions = run_reconstruct(lp.forms)
+    for r in reconstructions:
+        print(r)
+    
+    # do the tests
+    if args.test:
+        ratios = calculate_reconstruction_ratios(reconstructions)
+        test_result = test_recs(reconstructions, lp.true_recs, ratios)
+        pp.pprint(test_result)
 
 if __name__ == "__main__":
     # arguments
